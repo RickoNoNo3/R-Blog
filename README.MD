@@ -41,22 +41,12 @@ Linux环境下, 使用Chromium替换Chrome时, 需要手动将Chromium链接到`
 
 ### 核心依赖
 
-go-sqlite3
-
-sqlx
+[go-sqlite3](https://github.com/mattn/go-sqlite3), [sqlx](https://github.com/jmoiron/sqlx)
 
 ### Markdown静态渲染
 
-blackfriday.v2
+[blackfriday.v2](https://github.com/russross/blackfriday)
 
-### Markdown高级渲染(基于浏览器的动态渲染)
+### Markdown动态渲染(基于浏览器的JS高级渲染)
 
-chromedp
-
-highlight.js
-
-katex.js
-
-mathjax.js
-
-viz.js
+[chromedp](https://github.com/chromedp/chromedp), [highlight.js](https://github.com/highlightjs/highlight.js), [mathjax.js](https://github.com/mathjax/MathJax), [katex.js](https://github.com/KaTeX/KaTeX), [viz.js](https://github.com/mdaines/viz.js)
