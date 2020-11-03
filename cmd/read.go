@@ -19,6 +19,9 @@ type articleResult struct {
 }
 
 type dirResult struct {
+	Title     string `json:"title"`
+	CreatedT  string `json:"createdT"`
+	ModifiedT string `json:"modifiedT"`
 	List []dirResultContent `json:"list"`
 }
 
@@ -69,6 +72,19 @@ func readArticle(entity *data.Entity) (res articleResult) {
 }
 
 func readDir(entity *data.Entity) (res dirResult) {
+	if entity.Id == 0 {
+		res.Title = "博客"
+	} else {
+		dir, err := data.GetDir(entity.Id)
+		if err == nil {
+			res.Title = dir.Name
+			createdT, modifiedT, err := data.GetDirTime(entity.Id)
+			if err == nil {
+				res.CreatedT = createdT
+				res.ModifiedT = modifiedT
+			}
+		}
+	}
 	res.List = make([]dirResultContent, 0)
 	contents, err := data.GetLayer(entity.Id)
 	if err == nil {

@@ -43,6 +43,9 @@
                           }
                         - 若type=1, 则是以下Json数据:
                           {
+                            title      string
+                            createdT   datetime
+                            modifiedT  datetime
                             list []{
                               id         int
                               type       int
