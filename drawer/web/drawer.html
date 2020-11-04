@@ -38,9 +38,16 @@
 		loadText(document.getElementsByTagName('p'));
 		loadText(document.getElementsByTagName('li'));
 		LoadScript("./mathjax/tex-mml-chtml.js", function () {
-			// setTimeout(() => {
-			MathLoad = true;
-			// }, 1000);
+			setTimeout(() => {
+				if (document.querySelectorAll("body #MJX-CHTML-styles").length === 0) {
+					let mjstyleNode = document.getElementById("MJX-CHTML-styles");
+					mjstyleNode.innerHTML += ".CtxtMenu_MenuFrame{display:none;}"; // 禁用菜单
+					mjstyleNode.innerHTML = mjstyleNode.innerHTML.replace(/"[^"]*(woff-v2\/[^"]*)"/g, '"/fonts/$1"'); // 把依赖字体替换路径
+					document.getElementsByTagName('head').item(0).removeChild(mjstyleNode);
+					document.body.appendChild(mjstyleNode);
+				}
+				MathLoad = true;
+			}, 100);
 		});
 	}
 
@@ -106,14 +113,6 @@
 		if (!VizHave && typeof callback === "function") {
 			callback();
 		}
-	}
-
-	function MakeMJStyle() {
-		if (document.querySelectorAll("body #MJX-CHTML-styles").length !== 0)
-			return;
-		var mjstyleNode = document.getElementById("MJX-CHTML-styles");
-		mjstyleNode.innerHTML += ".CtxtMenu_MenuFrame{display:none;}"; // 禁用菜单
-		document.body.appendChild(mjstyleNode);
 	}
 
 	setInterval(() => {
