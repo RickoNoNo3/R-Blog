@@ -18,10 +18,14 @@ func Parse(md string) (title, htmlres string) {
 
 // 对md进行最简单的格式处理
 func makeMd(md string) string {
+	var reg *regexp.Regexp
 	md = strings.ReplaceAll(md, "\r\n", "\n")
 	// 将md内的html标签全转换成小写
-	reg, _ := regexp.Compile(`<[\S\s]+?>`)
+	reg, _ = regexp.Compile(`<[\S\s]+?>`)
 	md = reg.ReplaceAllStringFunc(md, strings.ToLower)
+	// latex便于mathjax识别
+	reg, _ = regexp.Compile(`<latex>(([\n\r]|.)*?)</latex>`)
+	md = reg.ReplaceAllString(md, "<latex>$$$$\n$1\n$$$$</latex>")
 	// trim
 	md = strings.Trim(md, "\n 　\t")
 	// fmt.Println(md)
