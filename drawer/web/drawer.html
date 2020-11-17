@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh">
 
 <head>
 	<meta charset="utf-8">
@@ -27,16 +27,16 @@
 	}
 
 	function LoadMathJax() {
-		function loadText(textsDOM) {
-			for (var i = 0; i < textsDOM.length; ++i) {
-				if (textsDOM[i].innerHTML == null)
-					continue;
-				textsDOM[i].innerHTML = textsDOM[i].innerHTML.replace(/([^\\])\$(.+?)\$/g, '$1\\($2\\)');
-				textsDOM[i].innerHTML = textsDOM[i].innerHTML.replace(/\\\$/, '\$');
-			}
-		}
-		loadText(document.getElementsByTagName('p'));
-		loadText(document.getElementsByTagName('li'));
+		//function loadText(textsDOM) {
+		//	//for (var i = 0; i < textsDOM.length; ++i) {
+		//	//	if (textsDOM[i].innerHTML == null)
+		//	//		continue;
+		//	//	//textsDOM[i].innerHTML = textsDOM[i].innerHTML.replace(/([^\\])\$(.+?)\$/g, '$1\\($2\\)');
+		//	//	//textsDOM[i].innerHTML = textsDOM[i].innerHTML.replace(/\\\$/, '\$');
+		//	//}
+		//}
+		//loadText(document.getElementsByTagName('p'));
+		//loadText(document.getElementsByTagName('li'));
 		LoadScript("./mathjax/tex-mml-chtml.js", function () {
 			setTimeout(() => {
 				if (document.querySelectorAll("body #MJX-CHTML-styles").length === 0) {
@@ -57,7 +57,7 @@
 				if (textsDOM[i].innerHTML == null)
 					continue;
 				textsDOM[i].innerHTML = textsDOM[i].innerHTML.replace(/\\\[/g, '\$\\begin{aligned}');
-				textsDOM[i].innerHTML = textsDOM[i].innerHTML.replace(/\\\]/g, '\\end{aligned}\$');
+				textsDOM[i].innerHTML = textsDOM[i].innerHTML.replace(/\\]/g, '\\end{aligned}\$');
 				textsDOM[i].innerHTML = textsDOM[i].innerHTML.replace('\\begin{align}', '');
 				textsDOM[i].innerHTML = textsDOM[i].innerHTML.replace('\\end{align}', '');
 			}
@@ -73,14 +73,18 @@
 	}
 
 	function LoadViz(callback) {
-		function drawViz(graphDOM, engine, vizId) {
+		function drawViz(graphDOM, engine) {
 			function loadEnd() {
 				VizLoad++;
-				if (VizLoad == VizHave && typeof callback === "function") {
+				if (VizLoad === VizHave && typeof callback === "function") {
 					callback();
 				}
 			}
-			if (typeof engine === "undefined" || engine === null) engine = 3;
+			if (typeof engine === "undefined" || engine === null) {
+                engine = 3;
+			} else {
+			    engine = parseInt(engine);
+			}
 			var engines = ["circo", "dot", "fdp", "neato", "osage", "twopi"];
 			LoadScript("./jquery-3.4.1.min.js", function () {
 				LoadScript("./viz/viz.js", function () {
@@ -106,7 +110,7 @@
 		VizHave = graphs.length;
 		for (var i = 0; i < graphs.length; ++i) {
 			if (!graphs[i].hasAttribute('drawn')) {
-				drawViz(graphs[i], parseInt(graphs[i].getAttribute('engine')));
+				drawViz(graphs[i], graphs[i].getAttribute('engine'));
 				graphs[i].setAttribute('drawn', '1');
 			}
 		}
@@ -116,7 +120,7 @@
 	}
 
 	setInterval(() => {
-		if (!AllLoad && HLJSLoad && VizHave == VizLoad && MathLoad) {
+		if (!AllLoad && HLJSLoad && VizHave === VizLoad && MathLoad) {
 			// MakeMJStyle();
 			document.body.removeAttribute("style");
 			document.body.innerHTML += "<done></done>";
