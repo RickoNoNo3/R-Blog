@@ -20,15 +20,12 @@ func Parse(md string) (title, htmlres string) {
 func makeMd(md string) string {
 	var reg *regexp.Regexp
 	md = strings.ReplaceAll(md, "\r\n", "\n")
-	// 将md内的html标签全转换成小写
-	reg, _ = regexp.Compile(`<[\S\s]+?>`)
-	md = reg.ReplaceAllStringFunc(md, strings.ToLower)
 	// $$...$$ => <latex>\[...\]</latex>
-	reg, _ = regexp.Compile(`(^|[^\\$])\${2}(([\n\r]|.)+?)([^\\$])\${2}`)
+	reg, _ = regexp.Compile(`(^|[^\\$])\${2}(([\n\r]|.)*?)([^\\$])\${2}`)
 	md = reg.ReplaceAllString(md, "$1<latex>\\[$2$4\\]</latex>\n")
 	// $...$ => <latex-inner>\(...\)</latex-inner>
-	reg, _ = regexp.Compile(`(^|[^\\$])\$(([\n\r]|.)+?)([^\\$])\$`)
-	md = reg.ReplaceAllString(md, "$1<latex-inner>\\($2$4\\)</latex-inner>\n")
+	reg, _ = regexp.Compile(`(^|[^\\$])\$(([\n\r]|.)*?)([^\\$])\$`)
+	md = reg.ReplaceAllString(md, "$1<latex-inner>\\($2$4\\)</latex-inner>")
 	// trim
 	md = strings.Trim(md, "\n\r 　\t")
 	// fmt.Println(md)
