@@ -1,0 +1,79 @@
+/* from "highlight/darcula.css" */
+.hljs {
+    border-left: 10px solid #959500 !important;
+    /*border-left: 10px solid rgb(50,150,80);*/
+    margin: 5px 20px 5px 20px;
+    display: block;
+    overflow-x: auto;
+    padding: 0.5em;
+    background: rgba(10, 10, 10, 0.7);
+    /*border-radius: 10px;*/
+    /*clip-path: polygon(10px 0, 0 10px, 0 calc(100% - 10px), 10px 100%, 100% 100%, 100% 0);
+    -webkit-clip-path: polygon(10px 0, 0 10px, 0 calc(100% - 10px), 10px 100%, 100% 100%, 100% 0);*/
+    clip-path: polygon(0 0, 0 calc(100% - 10px), 10px 100%, 100% 100%, 100% 0);
+    -webkit-clip-path: polygon(0 0, 0 calc(100% - 10px), 10px 100%, 100% 100%, 100% 0);
+}
+
+.hljs {
+    color: #bababa;
+}
+
+.hljs-strong,
+.hljs-emphasis {
+    color: #a8a8a2;
+}
+
+.hljs-bullet,
+.hljs-quote,
+.hljs-link,
+.hljs-number,
+.hljs-regexp,
+.hljs-literal {
+    color: #6896ba;
+}
+
+.hljs-code,
+.hljs-selector-class {
+    color: #a6e22e;
+}
+
+.hljs-emphasis {
+    font-style: italic;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-section,
+.hljs-attribute,
+.hljs-name,
+.hljs-variable {
+    color: #cb7832;
+}
+
+.hljs-params {
+    color: #b9b9b9;
+}
+
+.hljs-string {
+    color: #6a8759;
+}
+
+.hljs-subst,
+.hljs-type,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-symbol,
+.hljs-selector-id,
+.hljs-selector-attr,
+.hljs-selector-pseudo,
+.hljs-template-tag,
+.hljs-template-variable,
+.hljs-addition {
+    color: #e0c46c;
+}
+
+.hljs-comment,
+.hljs-deletion,
+.hljs-meta {
+    color: #7f7f7f;
+}

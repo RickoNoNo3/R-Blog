@@ -1,6 +1,23 @@
+node_modules/
 built/
+logs/
 
+# Unused files
+*.pid*
+*.test
+*.out
+*.log
+*.exe
+*.exe~
+*.dll
+*.so
 .*.swp
+_.swp
 
+# IDE
+*.iml
+*.ipr
+*.iws
 .idea/
 .vscode/
+

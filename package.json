@@ -1,0 +1,27 @@
+{
+  "name": "r-blog",
+  "description": "r-blog",
+  "version": "0.5.0",
+  "scripts": {
+    "build": "./build.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rickonono3/r-blog.git"
+  },
+  "keywords": [],
+  "author": {
+    "email": "rickonono3@rickonono3.top",
+    "name": "RickoNoNo3"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rickonono3/r-blog/issues"
+  },
+  "homepage": "http://blog.rickonono3.top",
+  "dependencies": {
+    "csso": "^4.2.0",
+    "csso-cli": "^3.0.0",
+    "terser": "^5.6.0"
+  }
+}
