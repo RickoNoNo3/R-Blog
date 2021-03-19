@@ -57,7 +57,7 @@ $intro 开屏介绍博文
   {{template "global_body_0" .}}
 	<div class="welcome-title">欢迎来到R崽的博客</div>
 	<div class="mybox {{- if not .Global.IsMobile}} welcome-box1 {{- end}}">
-		<div class="mycontent undisplay">
+		<div class="mycontent {{- if not .Global.IsSpacial}} undisplay {{- end}}">
         {{- html .Intro -}}
 		</div>
 	</div>

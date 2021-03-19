@@ -1,0 +1,62 @@
+{{define "admin_global_head_0"}}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=0.5,maximum-scale=3.0, user-scalable=yes">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="renderer" content="webkit">
+  <meta name="author" content="RickoNoNo3,RickoNoNo3@163.com">
+  <meta name="copyright" content="RickoNoNo3">
+  <title>{{.Title}}(管理员)</title>
+  {{$useMinStr := ""}}
+  {{if not .Global.Config.IsInDebug}}
+      {{$useMinStr = "min."}}
+  {{end}}
+  {{$useMinStr = ""}}
+  <script>
+    var CDN = '{{.Global.Config.Blog.CDN}}';
+    var USE_MIN_STR = '{{$useMinStr}}';
+  </script>
+  <script src="{{.Global.Config.Blog.CDN}}js/jquery-3.4.1.min.js"></script>
+  <script src="{{.Global.Config.Blog.CDN}}js/blogPage.{{$useMinStr}}js"></script>
+  <script src="{{.Global.Config.Blog.CDN}}js/adminConPage.{{$useMinStr}}js"></script>
+  {{/*  <link href="{{.Global.Config.Blog.CDN}}css/material-icons.css" rel="stylesheet">*/}}
+  <link href="{{.Global.Config.Blog.CDN}}css/iconfont/iconfont.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{.Global.Config.Blog.CDN}}css/myStyles.highlight.{{$useMinStr}}css">
+  <link rel="stylesheet" href="{{.Global.Config.Blog.CDN}}css/myStyles.{{$useMinStr}}css">
+  <link rel="stylesheet" href="{{.Global.Config.Blog.CDN}}css/myStyles.admin.{{$useMinStr}}css">
+  {{if .Global.IsMobile}}
+    <link rel="stylesheet" href="{{.Global.Config.Blog.CDN}}css/myStyles.mob.{{$useMinStr}}css">
+    <link rel="stylesheet" href="{{.Global.Config.Blog.CDN}}css/myStyles.admin.mob.{{$useMinStr}}css">
+  {{end}}
+{{end}}
+
+{{define "admin_global_body_0"}}
+<div id="allContent" style="">
+  <div id="optionList" class="mybox simple no-before">
+    <a id="toggle" href="javascript:void(0);" onclick="toggleOptionList();">
+      <div>
+        <i class="iconfont">&#xe84f;</i>
+      </div>
+    </a>
+    <div>
+      <a href="/" title="返回主页"><img src="/favicon.ico" style="width: 40px; height: 40px; margin: 5px auto;"/></a>
+      <ul class="simple">
+        <li option="edit"><a class="button colorless {{if eq .Option "edit" -}} active {{- end}}" href="/admin/edit" title="整理博客文章、目录和文件">
+            <i class="iconfont">&#xe653;</i><span>博客</span>
+          </a></li>
+        <li option="about"><a class="button colorless {{if eq .Option "about" -}} active {{- end}}" href="/admin/about" title="编辑个人简介和关于信息">
+            <i class="iconfont">&#xe818;</i><span>简介</span>
+          </a></li>
+        <li no-option="1"><a class="button colorless" href="/" title="返回主页">
+            <i class="iconfont">&#xe88b;</i><span>返回主页</span>
+          </a></li>
+      </ul>
+    </div>
+  </div>
+  <div id="optionFrame" class="mybox simple">
+      {{end}}
+
+      {{define "admin_global_body_1"}}
+  </div>
+</div>
+<img id="BG" alt="" src="{{.Global.Config.Blog.CDN}}{{.Global.Config.Blog.BGImg}}"/>
+{{end}}

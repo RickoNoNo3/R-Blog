@@ -1,0 +1,118 @@
+{{define "admin_edit_article"}}
+  <!DOCTYPE html>
+  <html lang="zh">
+  <head>
+      {{template "admin_global_head_0" .}}
+    <link rel="stylesheet" href="{{.Global.Config.Blog.CDN}}js/code-mirror/lib/codemirror.css">
+    <link rel="stylesheet" href="{{.Global.Config.Blog.CDN}}js/code-mirror/addon/scroll/simplescrollbars.css">
+    <link rel="stylesheet" href="{{.Global.Config.Blog.CDN}}js/code-mirror/addon/dialog/dialog.css">
+    <link rel="stylesheet" href="{{.Global.Config.Blog.CDN}}js/code-mirror/addon/display/fullscreen.css">
+    <link rel="stylesheet" href="{{.Global.Config.Blog.CDN}}css/myStyles.cm.css">
+    <script src="{{.Global.Config.Blog.CDN}}js/code-mirror/lib/codemirror.js"></script>
+    <script src="{{.Global.Config.Blog.CDN}}js/code-mirror/keymap/vim.js"></script>
+    <script src="{{.Global.Config.Blog.CDN}}js/code-mirror/addon/selection/active-line.js"></script>
+    <script src="{{.Global.Config.Blog.CDN}}js/code-mirror/addon/scroll/simplescrollbars.js"></script>
+    <script src="{{.Global.Config.Blog.CDN}}js/code-mirror/addon/mode/overlay.js"></script>
+    <script src="{{.Global.Config.Blog.CDN}}js/code-mirror/addon/mode/multiplex.js"></script>
+    <script src="{{.Global.Config.Blog.CDN}}js/code-mirror/addon/mode/simple.js"></script>
+    <script src="{{.Global.Config.Blog.CDN}}js/code-mirror/addon/display/fullscreen.js"></script>
+    <script src="{{.Global.Config.Blog.CDN}}js/code-mirror/addon/dialog/dialog.js"></script>
+    <script src="{{.Global.Config.Blog.CDN}}js/code-mirror/addon/search/searchcursor.js"></script>
+    <script src="{{.Global.Config.Blog.CDN}}js/code-mirror/addon/edit/matchbrackets.js"></script>
+    <script src="{{.Global.Config.Blog.CDN}}js/code-mirror/mode/markdown/markdown.js"></script>
+    <script src="{{.Global.Config.Blog.CDN}}js/code-mirror/mode/stex/stex.js"></script>
+    <script src="{{.Global.Config.Blog.CDN}}js/code-mirror/mode/gfm/gfm.js"></script>
+    <script src="{{.Global.Config.Blog.CDN}}js/code-mirror/mode/css/css.js"></script>
+    <script src="{{.Global.Config.Blog.CDN}}js/code-mirror/mode/javascript/javascript.js"></script>
+    <script src="{{.Global.Config.Blog.CDN}}js/code-mirror/mode/xml/xml.js"></script>
+    <script src="{{.Global.Config.Blog.CDN}}js/code-mirror/mode/clike/clike.js"></script>
+    <script src="{{.Global.Config.Blog.CDN}}js/code-mirror/mode/jsx/jsx.js"></script>
+    <script src="{{.Global.Config.Blog.CDN}}js/code-mirror/mode/php/php.js"></script>
+    <script src="{{.Global.Config.Blog.CDN}}js/code-mirror/mode/sql/sql.js"></script>
+    <script src="{{.Global.Config.Blog.CDN}}js/code-mirror/mode/cmake/cmake.js"></script>
+    <script src="{{.Global.Config.Blog.CDN}}js/code-mirror/mode/javascript/javascript.js"></script>
+    <script src="{{.Global.Config.Blog.CDN}}js/code-mirror/mode/htmlmixed/htmlmixed.js"></script>
+    <script src="{{.Global.Config.Blog.CDN}}js/code-mirror/mode/dockerfile/dockerfile.js"></script>
+    <script src="{{.Global.Config.Blog.CDN}}js/code-mirror/mode/go/go.js"></script>
+    <script src="{{.Global.Config.Blog.CDN}}js/code-mirror/mode/nginx/nginx.js"></script>
+    <script src="{{.Global.Config.Blog.CDN}}js/code-mirror/mode/powershell/powershell.js"></script>
+    <script src="{{.Global.Config.Blog.CDN}}js/code-mirror/mode/python/python.js"></script>
+    <script src="{{.Global.Config.Blog.CDN}}js/code-mirror/mode/r/r.js"></script>
+    <script src="{{.Global.Config.Blog.CDN}}js/code-mirror/mode/shell/shell.js"></script>
+    <script src="{{.Global.Config.Blog.CDN}}js/code-mirror/mode/swift/swift.js"></script>
+    <script src="{{.Global.Config.Blog.CDN}}js/code-mirror/mode/vue/vue.js"></script>
+    <script src="{{.Global.Config.Blog.CDN}}js/code-mirror/mode/yaml/yaml.js"></script>
+    <script src="{{.Global.Config.Blog.CDN}}js/code-mirror/mode/rust/rust.js"></script>
+    <script src="{{.Global.Config.Blog.CDN}}js/code-mirror/mode/lua/lua.js"></script>
+    <script>
+      let IS_NEW = {{.IsNew}};
+      {{if not .IsNew}}
+      let ARTICLE_ID = {{.Article.Entity.Id}};
+      {{end}}
+      let PARENT_ID = {{.ParentId}};
+    </script>
+    <script src="{{.Global.Config.Blog.CDN}}js/adminConEditArticle.js"></script>
+    <style>
+    </style>
+  </head>
+  <body class="simple">
+  {{template "admin_global_body_0" .}}
+  <div class="mycontent">
+    <div>
+      <!-- toolBar -->
+      <ul id="toolBar" class="simple">
+        <li option="back" class="show">
+          <a class="button colorful"
+             href="/admin/edit?type=0&id={{.ParentId}}"
+             style="background-color: #484848;">
+            <i class="iconfont">&#xe885;</i><span>返回</span>
+          </a>
+        </li>
+        <li option="save" class="show" onclick="save();">
+          <a class="button colorful" href="javascript:void(0);">
+            <i class="iconfont">&#xe856;</i><span>保存</span>
+          </a>
+        </li>
+        <li option="uploadImg" class="show" onclick="uploadImg();">
+          <a class="button colorful" href="javascript:void(0);">
+            <i class="iconfont">&#xe811;</i><span>图片</span>
+          </a>
+        </li>
+        <li option="uploadFile" class="show" onclick="uploadFile();">
+          <a class="button colorful" href="javascript:void(0);">
+            <i class="iconfont">&#xe7f5;</i><span>文件</span>
+          </a>
+        </li>
+          {{/* TODO 3: 上传图片 */}}
+          {{/* TODO 3: 上传文件 */}}
+        <li option="fullscreen" class="{{if not .Global.IsMobile -}} show {{- end}}" onclick="toggleFullscreen();">
+          <a class="button colorful"
+             href="javascript:void(0);"
+             style="background-color: #AAAAAA">
+            <i class="iconfont">&#xe7e4;</i><span>全屏</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div id="contentFrame">
+      <textarea id="editor">{{if not .IsNew -}} {{.Article.Markdown}} {{- end}}</textarea>
+      <div id="output">
+        <img id="outputRefresh"
+             src="{{.Global.Config.Blog.CDN}}img/wait.gif"
+             alt="正在加载中..."/>
+        <div></div>
+      </div>
+    </div>
+  </div>
+
+  {{template "admin_global_body_1" .}}
+  {{if not .Global.IsMobile}}
+    <script>
+      $(document).ready(() => {
+        setTimeout(toggleOptionList, 500);
+      });
+    </script>
+  {{end}}
+  </body>
+  </html>
+{{end}}

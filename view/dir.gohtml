@@ -1,53 +1,54 @@
 {{define "dir"}}
-	<!DOCTYPE html>
-	<html lang="zh">
+  <!DOCTYPE html>
+  <html lang="zh">
 
-	<head>
+  <head>
       {{template "global_head_0" .}}
-		<meta name="keywords" content="{{.Dir.Entity.Title}},R崽的博客,文章列表">
-		<meta name="description" content="{{.Dir.Entity.Title}}目录下的文章列表, R崽的博客">
-		<style>
-			.list > .list-r {
-				height: 30px;
-				line-height: 30px;
-			}
+    <meta name="keywords" content="{{.Dir.Entity.Title}},R崽的博客,文章列表">
+    <meta name="description" content="{{.Dir.Entity.Title}}目录下的文章列表, R崽的博客">
+    <style>
+        .list > .list-r {
+            height: 30px;
+            line-height: 30px;
+        }
 
-			.list > .list-r > .name {
-				text-align: left;
-				padding-left: 1vw;
-			}
+        .list > .list-r > .name {
+            text-align: left;
+            padding-left: 1vw;
+        }
 
-			.list > .list-r > .name > i {
-				display: block;
-				position: absolute;
-				line-height: 33px;
-				left: 1vw;
-			}
+        .list > .list-r > .name > i {
+            display: block;
+            position: absolute;
+            line-height: 33px;
+            left: 1vw;
+        }
 
-			.list > .list-r > .time {
-				font-family: "Sarasa Term SC", Consolas, monospace;
-				text-align: right;
-				padding-right: 1vw;
-				word-wrap: normal;
-				word-break: keep-all;
-				white-space: nowrap;
-			}
-		</style>
-	</head>
-	<body>
+        .list > .list-r > .time {
+            font-family: "Sarasa Term SC", Consolas, monospace;
+            text-align: right;
+            padding-right: 1vw;
+            word-wrap: normal;
+            word-break: keep-all;
+            white-space: nowrap;
+        }
+    </style>
+  </head>
+  <body>
   {{template "global_body_0" .}}
-	<div class="mybox" id="box">
-		<div class="mycontent" id="content">
-			<h1>{{.Dir.Entity.Title}}</h1>
+  <div class="mybox" id="box">
+    <div class="mycontent" id="content">
+      <h1>{{.Dir.Entity.Title}}</h1>
         {{if len .Contents | ne 0}}
-					<div class="list">
-							{{$config := .Global.Config}}
+          <div class="list">
+              {{$config := .Global.Config}}
               {{range .Contents}}
-								<a class="list-r"
-									 href="/blog/{{- if eq .Type 0 -}} dir {{- else if eq .Type 1 -}} article {{- else -}} file {{- end -}}/{{.Id}}">
-									<div class="list-d name">
-										<div class="list-d-container">
-											<i class="material-icons">
+                <a class="list-r"
+                   target="{{- if eq .Type 0 -}} _top {{- else -}} _blank {{- end -}}"
+                   href="/blog/{{- if eq .Type 0 -}} dir {{- else if eq .Type 1 -}} article {{- else -}} file {{- end -}}/{{.Id}}">
+                  <div class="list-d name">
+                    <div class="list-d-container">
+                      <i class="iconfont">
                           {{if eq .Type 0}}
                               {{$config.Blog.Icons.Dir}}
                           {{else if eq .Type 1}}
@@ -55,24 +56,24 @@
                           {{else}}
                               {{$config.Blog.Icons.File}}
                           {{end}}
-											</i>
-											<span>{{.Title}}</span>
-										</div>
-									</div>
-									<div class="list-d time">
+                      </i>
+                      <span>{{.Title}}</span>
+                    </div>
+                  </div>
+                  <div class="list-d time">
                       {{toDate "2006-01-02 15:04:05" .ModifiedT | date "2006-01-02"}}
-									</div>
-								</a>
+                  </div>
+                </a>
               {{end}}
-					</div>
+          </div>
         {{else}}
-					<div class="notice">该目录下暂无内容</div>
+          <div class="notice">该目录下暂无内容</div>
         {{end}}
-		</div>
-	</div>
+    </div>
+  </div>
   {{template "global_body_1" .}}
   {{template "global_script_0" .}}
   {{template "global_script_1" .}}
-	</body>
-	</html>
+  </body>
+  </html>
 {{end}}

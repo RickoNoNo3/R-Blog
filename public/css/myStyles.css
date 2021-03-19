@@ -35,11 +35,17 @@ p > latex:first-child {
     --themecolor-1: #7D4B25;
     --themecolor-2: #404040;
     --themecolor-3: #DCDCDC;
+    font-family: 'Sarasa UI SC', 'Microsoft YaHei UI', 'Microsoft JhengHei UI', 'Segoe UI', sans-serif;
 }
 
 *, ::before, ::after {
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-    box-sizing: unset;
+    box-sizing: content-box;
+    outline: none;
+}
+
+::selection {
+    background: #FFFFDF29;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -142,12 +148,21 @@ dl > dd {
     text-indent: 2em;
 }
 
+.mycontent p > graph,
+.mycontent p > mjx-container[display=true] {
+    text-indent: 0 !important;
+}
+
 .mycontent code {
     text-indent: 0;
 }
 
 .mycontent li p:before {
     text-indent: 0;
+}
+
+.mycontent img {
+    max-width: calc(100% - 4em);
 }
 
 #loclink a, .mycontent a {
@@ -198,8 +213,10 @@ code:not(.hljs):not(.language-text) {
 
 /* ```text 类型的特殊格式 */
 code.language-text {
-    margin-left: 50px;
+    margin: 10px 50px;
     color: white;
+    overflow-x: auto;
+    width: calc(100% - 100px);
     filter: unset;
 }
 
@@ -302,7 +319,11 @@ graph {
 
 graph svg {
     max-width: 100%;
-    height: max-content;
+    /*height: max-content;*/
+}
+
+graph text {
+    font-family: 'Sarasa Term SC', 'Consolas', 'Courier New', monospace !important;
 }
 
 graph title + polygon[fill~="#ffffff"] {
@@ -506,7 +527,7 @@ h2 a {
 }
 
 .mybox.simple {
-    width: 100%;
+    /*width: 100%;*/
     height: 100%;
     margin: 0;
 }
@@ -596,7 +617,7 @@ table {
 table th, table td {
     padding: 5px;
     border: 1px solid var(--themecolor-0);
-    font-family: 'Sarasa Term SC', 'Consolas', monospace !important;
+    font-family: 'Sarasa Term SC', 'Consolas', 'Courier New', monospace !important;
 }
 
 table td[style~='center;'] {
@@ -710,7 +731,7 @@ button {
     display: flex;
     align-items: center;
     width: max-content;
-    padding: 5px 20px;
+    padding: 5px 17px;
     transition: background-color 100ms ease-in;
 }
 
@@ -735,8 +756,12 @@ button {
     background-color: rgba(255, 255, 255, 0.15);
 }
 
+.button.active {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
 .button > i {
-    margin-left: -8px;
+    margin-left: -1px;
 }
 
 .button > span {
@@ -827,7 +852,7 @@ ul.simple > li {
 }
 
 @media print {
-    mjx-container {
+    mjx-container:not([display=true]) {
         width: max-content;
     }
 
@@ -870,7 +895,7 @@ ul.simple > li {
         overflow: visible;
     }
 
-    .mycontent, .mycontent *{
+    .mycontent, .mycontent * {
         color: black !important;
     }
 

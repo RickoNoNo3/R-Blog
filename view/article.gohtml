@@ -1,33 +1,36 @@
 {{define "article"}}
-	<!DOCTYPE html>
-	<html lang="zh">
+  <!DOCTYPE html>
+  <html lang="zh">
 
-	<head>
+  <head>
       {{template "global_head_0" .}}
-		<meta name="keywords" content="{{.Article.Entity.Title}},R崽的博客">
-		<meta name="description" content="{{.Article.Entity.Title}}, R崽的博客">
-	</head>
-	<body>
+    <meta name="keywords" content="{{.Article.Entity.Title}},R崽的博客">
+    <meta name="description" content="{{.Article.Entity.Title}}, R崽的博客">
+  </head>
+  <body>
   {{template "global_body_0" .}}
-	<div class="mybox" id="box">
-		<div class="mycontent undisplay">
+  <div class="mybox" id="box">
+    <div class="mycontent undisplay">
         {{- html .Article.Markdown -}}
-		</div>
-	</div>
+    </div>
+  </div>
   {{template "global_body_1" .}}
   {{template "global_script_0" .}}
-	<script>
-		BlogPage.Ext.loadStaticFiles();
-		BlogPage.Ext.loadShowdown($('.mycontent'), {{.Article.Markdown}}, () => {
-			BlogPage.Ext.loadGroup([
-				{func: BlogPage.Ext.loadGraph},
-				{func: BlogPage.Ext.loadTex},
-				{func: BlogPage.Ext.loadHighlight},
-			], ()=> {
-				PageComplete();
-			});
-		});
-	</script>
-	</body>
-	</html>
+  <script>
+    BlogPage.Ext.loadStaticFiles();
+    BlogPage.Ext.loadShowdown($('.mycontent'), {{.Article.Markdown}}, () => {
+      BlogPage.Ext.loadGroup([
+        {
+          func: BlogPage.Ext.loadGraph,
+          args: [$('.mycontent')],
+        },
+        {func: BlogPage.Ext.loadTex},
+        {func: BlogPage.Ext.loadHighlight},
+      ], () => {
+        PageComplete();
+      });
+    });
+  </script>
+  </body>
+  </html>
 {{end}}

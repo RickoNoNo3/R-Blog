@@ -5,9 +5,9 @@ import (
 	"io"
 	"io/ioutil"
 
-	"rickonono3/r-blog/config"
 	"rickonono3/r-blog/helper/userhelper"
 	"rickonono3/r-blog/mytype"
+	"rickonono3/r-blog/objects"
 
 	"github.com/Masterminds/sprig/v3"
 	"github.com/labstack/echo/v4"
@@ -21,19 +21,19 @@ type Template struct {
 func (t *Template) Render(w io.Writer, name string, dataI interface{}, c echo.Context) error {
 	data := dataI.(*mytype.Object)
 	isMobile, isSpecial := userhelper.CheckUA(c.Request().UserAgent())
-	// TODO: IsAdmin
+	isAdmin := userhelper.CheckAdmin(c)
 	data.Set("Global", mytype.NewGroup(mytype.ObjectList{
 		"IsMobile":  mytype.NewValue(isMobile),
-		"IsSpecial": mytype.NewValue(isSpecial),
-		"IsAdmin":   mytype.NewValue(false),
-		"Config":    config.Config,
+		"IsSpecial": mytype.NewValue(!isMobile && isSpecial),
+		"IsAdmin":   mytype.NewValue(isAdmin),
+		"Config":    objects.Config,
 	}))
 	return t.templates.ExecuteTemplate(w, name, data.Staticize())
 }
 
 // listTemplateFiles 将rootDir下的所有文件递归写入一个模板文件路径列表
 func listTemplateFiles(dirName string) (list []string) {
-	rootDirName := config.Get("Cwd").Val.(string) + "view/"
+	rootDirName := objects.Config.Get("Cwd").Val.(string) + "view/"
 	list = make([]string, 0)
 	if files, err := ioutil.ReadDir(rootDirName + dirName); err == nil {
 		for _, file := range files {

@@ -4,6 +4,7 @@ go 1.15
 
 require (
 	github.com/Masterminds/sprig/v3 v3.2.2
+	github.com/floyernick/Data-Structures-and-Algorithms v0.0.0-20180516194625-b590be1f7d06 // indirect
 	github.com/google/uuid v1.2.0 // indirect
 	github.com/huandu/xstrings v1.3.2 // indirect
 	github.com/jmoiron/sqlx v1.3.1
@@ -11,6 +12,7 @@ require (
 	github.com/mattn/go-colorable v0.1.8 // indirect
 	github.com/mattn/go-sqlite3 v1.14.6
 	github.com/mitchellh/copystructure v1.1.1 // indirect
+	github.com/stretchr/testify v1.5.1
 	github.com/tdewolff/minify/v2 v2.9.13
 	golang.org/x/crypto v0.0.0-20210218145215-b8e89b74b9df // indirect
 	golang.org/x/net v0.0.0-20210119194325-5f4716e94777 // indirect

@@ -11,6 +11,10 @@ func MustItoa(x int) (res string) {
 	return strconv.Itoa(x)
 }
 
+func MustItoa64(x int64) (res string) {
+	return strconv.FormatInt(x, 10)
+}
+
 func MustAtoi(str string) (res int) {
 	var err error
 	if res, err = strconv.Atoi(str); err != nil {

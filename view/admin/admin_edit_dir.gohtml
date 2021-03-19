@@ -1,0 +1,115 @@
+{{define "admin_edit_dir"}}
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    {{template "admin_global_head_0" .}}
+  <script>
+    let DIR_ID = {{.Dir.Entity.Id}};
+  </script>
+  <script src="{{.Global.Config.Blog.CDN}}js/adminConEditDir.js"></script>
+</head>
+<body class="simple">
+{{template "admin_global_body_0" .}}
+<div class="mycontent">
+  <h1>{{.Dir.Entity.Title}}</h1>
+  <!-- toolBar -->
+  <ul id="toolBar" class="simple">
+      {{if ne .Dir.Entity.Id 0}}
+        <li option="back" class="show">
+          <a class="button colorful"
+             href="/admin/edit?type=1&id={{.ParentId}}"
+             style="background-color: #484848;">
+            <i class="iconfont">&#xe885;</i><span>返回上级</span>
+          </a>
+        </li>
+      {{end}}
+    <li option="dirNew" class="show" onclick="newDir();">
+      <a class="button colorful" href="javascript:void(0);">
+        <i class="iconfont">&#xe805;</i><span>新目录</span>
+      </a>
+    </li>
+    <li option="articleNew" class="show" onclick="newArticle();">
+      <a class="button colorful" href="javascript:void(0);">
+        <i class="iconfont">&#xe808;</i><span>新文章</span>
+      </a>
+    </li>
+      {{/* TODO 3: 上传文件 */}}
+    <li option="fileNew" class="show" onclick="newFile();">
+      <a class="button colorful" href="javascript:void(0);">
+        <i class="iconfont">&#xe7f5;</i><span>新文件</span>
+      </a>
+    </li>
+    <li option="move" class="" onclick="moveList();">
+      <a class="button colorful" href="javascript:void(0);">
+        <i class="iconfont">&#xe7f4;</i><span>移动</span>
+      </a>
+    </li>
+    <li option="remove" class="" onclick="removeList();">
+      <a class="button colorful" href="javascript:void(0);"
+         style="background-color: #7D4B25;">
+        <i class="iconfont">&#xe810;</i><span>删除</span>
+      </a>
+    </li>
+  </ul>
+  <!-- list -->
+    {{if len .Contents | ne 0}}
+      <div class="list" style="margin-top: 10px;">
+          {{$config := .Global.Config}}
+          {{range .Contents}}
+            <div entity-type="{{.Type}}" entity-id="{{.Id}}" class="list-r">
+              <!-- icon -->
+              <a class="list-d checkbox-d" href="javascript:void(0);"
+                 onclick="toggleSelect({{.Type}}, {{.Id}});">
+                <i class="iconfont">&#xe600;</i>
+              </a>
+              <!-- name -->
+              <a class="list-d name-d" href="javascript:void(0);"
+                 onclick="jump({{.Type}}, {{.Id}});">
+                <div class="list-d-container">
+                  <i class="iconfont">
+                      {{if eq .Type 0}}
+                          {{$config.Blog.Icons.Dir}}
+                      {{else if eq .Type 1}}
+                          {{$config.Blog.Icons.Article}}
+                      {{else}}
+                          {{$config.Blog.Icons.File}}
+                      {{end}}
+                  </i>
+                  <span>{{.Title}}</span>
+                </div>
+              </a>
+              <!-- option -->
+              <div class="list-d option-d">
+                <a option="edit"
+                   class="button colorless"
+                   href="javascript:void(0);"
+                   onclick="edit({{.Type}}, {{.Id}});">
+                  <i class="iconfont">&#xe884;</i>
+                  <span>编辑</span>
+                </a>
+                <a option="move"
+                   class="button colorless"
+                   href="javascript:void(0);"
+                   onclick="moveOne({{.Type}}, {{.Id}});">
+                  <i class="iconfont">&#xe7f4;</i>
+                  <span>移动</span>
+                </a>
+                <a option="remove"
+                   class="button colorless"
+                   href="javascript:void(0);"
+                   onclick="removeOne({{.Type}}, {{.Id}});">
+                  <i class="iconfont">&#xe810;</i>
+                  <span>删除</span>
+                </a>
+              </div>
+            </div>
+          {{end}}
+      </div>
+    {{else}}
+      <div class="notice">该目录下暂无内容</div>
+    {{end}}
+</div>
+
+{{template "admin_global_body_1" .}}
+</body>
+{{end}}

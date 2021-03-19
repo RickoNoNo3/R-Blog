@@ -4,14 +4,20 @@ import (
 	"github.com/jmoiron/sqlx"
 
 	_ "github.com/mattn/go-sqlite3" // sqlite3
+
+	"rickonono3/r-blog/objects"
 )
 
-var sqldb, sqlerr = sqlx.Open("sqlite3", "./blog.db")
+var sqldb *sqlx.DB
+var sqlerr error
 
-func init() {
-	if _, err := sqldb.Exec("PRAGMA recursive_triggers = TRUE"); err != nil {
-		panic(err)
-	}
+func OpenDB(dbLoc string) {
+	sqldb, sqlerr = sqlx.Open(
+		"sqlite3",
+		objects.Config.GetStr("Cwd")+dbLoc,
+	)
+	sqldb.MustExec("PRAGMA journal_mode = WAL")
+	sqldb.MustExec("PRAGMA recursive_triggers = TRUE")
 }
 
 // NewTx get a new sqlite transaction

@@ -1,0 +1,19 @@
+package userhelper
+
+import (
+	"github.com/labstack/echo/v4"
+
+	"rickonono3/r-blog/objects"
+)
+
+func CheckAdmin(c echo.Context) (isAdmin bool) {
+	if cookie, err := c.Cookie("blog-login"); err != nil {
+		return false
+	} else {
+		if cookie.Value != objects.Cache.Get("AdminHash").Val.(string) {
+			return false
+		} else {
+			return true
+		}
+	}
+}

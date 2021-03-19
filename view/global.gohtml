@@ -8,19 +8,21 @@
   <meta name="copyright" content="RickoNoNo3">
   <meta name="google-site-verification" content="H8OLMgsMa9HVIHDya6fmpU3aeLh0NH56MTuqc1qKvpM">
   <title>{{.Title}}</title>
-  {{/*在生产环境中使用压缩过的资源*/}}
   {{$useMinStr := ""}}
   {{if not .Global.Config.IsInDebug}}
       {{$useMinStr = "min."}}
   {{end}}
-  {{/*  {{$useMinStr = "min."}}*/}}
+  {{if .Global.IsSpecial}}
+    <script>alert('请换用 Google Chrome, Mozilla Firefox, Microsoft Edge, Apple Safari 等现代浏览器访问本站! \n本站无法在您当前使用的浏览器上保证访问效果! ');</script>
+  {{end}}
   <script>
     var CDN = '{{.Global.Config.Blog.CDN}}';
     var USE_MIN_STR = '{{$useMinStr}}';
   </script>
   <script src="{{.Global.Config.Blog.CDN}}js/jquery-3.4.1.min.js"></script>
   <script src="{{.Global.Config.Blog.CDN}}js/blogPage.{{$useMinStr}}js"></script>
-  <link href="{{.Global.Config.Blog.CDN}}css/material-icons.css" rel="stylesheet">
+  {{/*  <link href="{{.Global.Config.Blog.CDN}}css/material-icons.css" rel="stylesheet">*/}}
+  <link href="{{.Global.Config.Blog.CDN}}css/iconfont/iconfont.css" rel="stylesheet">
   <link rel="stylesheet" href="{{.Global.Config.Blog.CDN}}css/myStyles.highlight.{{$useMinStr}}css">
   <link rel="stylesheet" href="{{.Global.Config.Blog.CDN}}css/myStyles.{{$useMinStr}}css">
   {{if .Global.IsMobile}}
@@ -45,7 +47,7 @@
     </div>
   </div>
   <div class="myloc">
-    <div class="mylocbar {{- if not .Global.IsMobile | and .Global.IsSpecial}} edge {{- else}} normal {{- end}}" id="locbar">
+    <div class="mylocbar {{- if .Global.IsSpecial}} edge {{- else}} normal {{- end}}" id="locbar">
       <div class="mylocbarEX"></div>
       <span id="loclink">{{.Loc}}</span>
     </div>
@@ -53,7 +55,7 @@
 {{end}}
 
 {{define "global_body_1"}}
-  <div id="userlogin" onclick="login();"></div>
+  <div id="userlogin" onclick="{{if not .Global.IsAdmin -}} login() {{- else -}} logout() {{- end}}"></div>
   <img id="BG" alt="" src=""/>
   <div id="BODYBLANK"></div>
   <footer>

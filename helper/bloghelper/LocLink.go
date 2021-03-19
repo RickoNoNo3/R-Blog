@@ -4,6 +4,8 @@ import (
 	"bytes"
 	"html/template"
 
+	"github.com/jmoiron/sqlx"
+
 	"rickonono3/r-blog/data"
 	"rickonono3/r-blog/mytype"
 )
@@ -26,41 +28,43 @@ var temp = template.Must(template.New("locLink").Parse(
 // 根目录为0号元素, 父目录为最后一号元素,
 // 然后渲染成HTML.
 func MakeLocLink(entityType, entityId int) (html template.HTML) {
-	var err error
 	var tmpId = entityId
 	var locLinkArr = make([]LocLink, 0)
-	// 如果不是目录实体, 则需要找到其父目录实体
-	// 如果是目录实体, 那么链接中包含它本身, 因此不需要寻找父目录
-	if entityType != 0 {
-		tmpId, err = data.GetParentDir(mytype.Entity{
-			Type: entityType,
-			Id:   entityId,
-		})
-		if err != nil {
-			panic("Can not get loclink")
+	data.DoTx(func(tx *sqlx.Tx) (err error) {
+		// 如果不是目录实体, 则需要找到其父目录实体
+		// 如果是目录实体, 那么链接中包含它本身, 因此不需要寻找父目录
+		if entityType != 0 {
+			tmpId, err = data.GetParentDir(tx, mytype.Entity{
+				Type: entityType,
+				Id:   entityId,
+			})
+			if err != nil {
+				panic("Can not get loclink")
+			}
 		}
-	}
-	// 开始不断向上添加目录至Arr
-	for {
-		// 将当前级添加入Arr
-		var dir mytype.Dir
-		if dir, err = data.GetDir(tmpId); err != nil {
-			break
+		// 开始不断向上添加目录至Arr
+		for {
+			// 将当前级添加入Arr
+			var dir mytype.Dir
+			if dir, err = data.GetDir(tx, tmpId); err != nil {
+				break
+			}
+			locLinkArr = append([]LocLink{
+				{
+					Id:    tmpId,
+					Title: dir.Entity.Title,
+				},
+			}, locLinkArr...)
+			// 准备进入父级
+			if tmpId == 0 {
+				break
+			}
+			if tmpId, err = data.GetParentDir(tx, dir.Entity); err != nil {
+				break
+			}
 		}
-		locLinkArr = append([]LocLink{
-			{
-				Id:    tmpId,
-				Title: dir.Entity.Title,
-			},
-		}, locLinkArr...)
-		// 准备进入父级
-		if tmpId == 0 {
-			break
-		}
-		if tmpId, err = data.GetParentDir(dir.Entity); err != nil {
-			break
-		}
-	}
+		return
+	})
 	// 开始渲染HTML
 	htmlStr := ""
 	for i, loc := range locLinkArr {

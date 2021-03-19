@@ -30,6 +30,36 @@ func (obj *Object) Set(key string, val *Object) (valRes *Object) {
 	return obj.Get(key)
 }
 
+// 取一个Object的值作为string
+func (obj *Object) ValStr() string {
+	return obj.Val.(string)
+}
+
+// 取一个Object的值作为int
+func (obj *Object) ValInt() int {
+	return obj.Val.(int)
+}
+
+// 取一个Object的值作为bool
+func (obj *Object) ValBool() bool {
+	return obj.Val.(bool)
+}
+
+// 取一个Object的子元素的值作为string
+func (obj *Object) GetStr(key string) string {
+	return obj.Get(key).ValStr()
+}
+
+// 取一个Object的子元素的值作为int
+func (obj *Object) GetInt(key string) int {
+	return obj.Get(key).ValInt()
+}
+
+// 取一个Object的子元素的值作为bool
+func (obj *Object) GetBool(key string) bool {
+	return obj.Get(key).ValBool()
+}
+
 // 静态化. 将Object转为map[string]interface{}结构, 便于在其他地方使用(如构造json/模板传参).
 // 注意有子元素的会看作Group节点, 否则才看作Value节点, 因此有子元素的元素的Val不会被导出.
 func (obj *Object) Staticize() (res map[string]interface{}) {

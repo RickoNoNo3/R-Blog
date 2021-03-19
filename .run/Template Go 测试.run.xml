@@ -1,0 +1,16 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
+    <module name="blog" />
+    <working_directory value="$PROJECT_DIR$" />
+    <go_parameters value="-i" />
+    <envs>
+      <env name="BlogRoot" value="$PROJECT_DIR$" />
+    </envs>
+    <framework value="gotest" />
+    <kind value="DIRECTORY" />
+    <package value="rickonono3/r-blog" />
+    <directory value="$PROJECT_DIR$" />
+    <filePath value="$PROJECT_DIR$" />
+    <method v="2" />
+  </configuration>
+</component>

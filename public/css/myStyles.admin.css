@@ -1,0 +1,287 @@
+/* global */
+
+* {
+    box-sizing: border-box;
+}
+
+body.simple {
+    opacity: 1;
+}
+
+#allContent {
+    display: flex;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 100ms ease-in;
+}
+
+#allContent.fullscreen > #optionList {
+    display: none;
+}
+
+#allContent.fullscreen > #optionFrame {
+    margin: 0 !important;
+    height: 100% !important;
+}
+
+#allContent.fullscreen > #optionFrame::before {
+    display: none;
+}
+
+#allContent.fullscreen > #optionFrame > .mycontent {
+    margin: 16px 10px 10px;
+}
+
+#allContent.fullscreen > #optionFrame > .mycontent ul#toolBar {
+    position: absolute;
+    top: 8px;
+    left: 0;
+    margin: 0 20%;
+    padding: 4px 0;
+    width: 60%;
+    opacity: 0.2;
+    background-color: #FFF8;
+    z-index: 1;
+}
+
+#allContent.fullscreen > #optionFrame > .mycontent ul#toolBar > * {
+    display: none;
+}
+
+@keyframes fullscreenToolBarHover {
+    from {
+        top: -32px;
+    }
+    to {
+        top: 0;
+    }
+}
+
+#allContent.fullscreen > #optionFrame > .mycontent ul#toolBar:hover {
+    animation: fullscreenToolBarHover 100ms ease-out;
+    margin: 0;
+    top: 0;
+    width: 100%;
+    min-height: 50px;
+    padding: 16px 0;
+    opacity: 1;
+    background-color: #FFF2;
+    z-index: 9999;
+}
+
+#allContent.fullscreen > #optionFrame > .mycontent ul#toolBar:hover > * {
+    display: inline-block;
+}
+
+#BG {
+    top: auto;
+    bottom: 0;
+    opacity: 0.7;
+}
+
+#optionList {
+    flex: none;
+    position: relative;
+    width: 170px;
+    transition: width 500ms ease-in-out;
+}
+
+#optionList > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 170px;
+    height: 100%;
+    overflow: hidden;
+    overflow-y: auto;
+    transition: width 500ms ease-in-out;
+}
+
+#optionList > div > ul > li > a {
+    width: 100%;
+}
+
+#optionList > div > ul > li > a > span {
+    opacity: 1;
+    transition: opacity 500ms;
+}
+
+#optionList > #toggle {
+    position: absolute;
+    top: 20px;
+    right: -10px;
+    width: 20px;
+    height: 20px;
+    outline: none;
+    background-color: rgba(255, 255, 255, 0.4);
+    transform: rotate(45deg);
+}
+
+#optionList > #toggle > div {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    transform: rotate(-45deg);
+}
+
+#optionList > #toggle > div > i {
+    text-align: center;
+    font-size: 12px !important;
+}
+
+#optionList.hidden {
+    width: 63px;
+}
+
+#optionList.hidden > div {
+    width: 63px;
+}
+
+#optionList.hidden > div > ul > li > a > span {
+    opacity: 0;
+}
+
+#optionFrame {
+    flex: 1;
+    display: flex;
+    margin: 15px;
+    height: calc(100% - 30px);
+    overflow: hidden;
+}
+
+h1::after {
+    display: none !important;
+}
+
+#toolBar {
+    flex: none;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+    padding: 0;
+}
+
+#toolBar > li {
+    flex: none;
+    width: max-content;
+    margin: 5px;
+    display: none;
+}
+
+#toolBar > li.show {
+    display: block;
+}
+
+.mycontent {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    overflow-y: auto;
+    /*padding-bottom: 10px;*/
+    margin-bottom: 14px;
+    margin-left: 14px;
+    margin-right: 14px;
+}
+
+/* dir */
+
+.checkbox-d {
+    width: 30px;
+    text-align: center;
+    color: #DCDCDC !important;
+}
+
+.checkbox-d > i {
+    margin: 0 1vw;
+    font-size: 20px !important;
+}
+
+.name-d {
+    padding: 5px 2px;
+}
+
+.option-d {
+    padding-left: 3px;
+    text-align: right;
+    word-break: keep-all;
+    white-space: nowrap;
+    opacity: 0;
+    width: max-content;
+    transition: opacity 200ms ease-in;
+}
+
+.list-r:hover .option-d {
+    opacity: 1;
+}
+
+.option-d > .button {
+    color: #DCDCDC;
+    display: inline-flex;
+    padding: 0 8px 0 8px;
+    width: max-content;
+    height: 30px;
+    overflow: hidden;
+}
+
+.option-d > .button > i {
+    font-size: 20px !important;
+}
+
+.option-d > .button > span {
+    margin-left: 0;
+}
+
+/* article */
+
+#contentFrame {
+    flex: 1;
+    display: flex;
+    justify-content: stretch;
+    margin-top: 10px;
+    overflow: hidden;
+}
+
+#contentFrame > div {
+    flex: 1;
+    height: unset;
+    position: relative;
+}
+
+#contentFrame > #output {
+    overflow: hidden;
+    background-color: #0000002A;
+}
+
+#contentFrame > #output > #outputRefresh {
+    position: absolute;
+    left: 7px;
+    top: 7px;
+    opacity: 0;
+    transition: opacity 100ms;
+}
+
+#contentFrame > #output > div:last-child {
+    padding: 5px;
+    height: 100%;
+    overflow: auto;
+}
+
+@media all and (orientation: portrait) {
+    #contentFrame {
+        flex-direction: column;
+    }
+
+    #contentFrame > div {
+        width: 100%;
+    }
+
+    #output {
+        margin-top: 1vh;
+        /*display: none;*/
+    }
+}
