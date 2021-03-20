@@ -44,7 +44,7 @@ func RouteStatic() {
 			osInfo                       os.FileInfo
 			filePath, fileName, fileSize string
 		)
-		filePath = datahelper.GetFilePath(file.Entity.Id)
+		filePath = datahelper.GetResourcePathForServer() + datahelper.GetFileName(file.Entity.Id)
 		fileName = url.PathEscape(file.Entity.Title)
 		if osInfo, err = os.Stat(filePath); err == nil {
 			fileSize = typehelper.MustItoa64(osInfo.Size())

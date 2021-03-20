@@ -36,7 +36,11 @@ var BlogPage = {
           if (typeof success === 'function') {
             success(res);
           } else {
-            location.reload();
+            if (res['res'] === 'ok') {
+              location.reload();
+            } else {
+              BlogPage.PopWindow.openAsNote('resErr', '无法执行', '因为数据错误或服务器内部错误, 该操作无法执行');
+            }
           }
         },
         error: function () {

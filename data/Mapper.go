@@ -12,8 +12,9 @@ import (
 )
 
 // 通过type和id获取一个Entity
-// Entity和Dir/Article/File属于两个层次的东西
-// 一个代表通用的基础信息, 另一个代表特定的详细信息
+//
+// Entity和Dir/Article/File属于两个层次,
+// Entity代表通用的基础信息
 func GetEntityInfo(tx *sqlx.Tx, entityType, entityId int) (entity mytype.Entity, err error) {
 	err = tx.Get(&entity, "select id, type, title, createdT, modifiedT from layer_read where type=? and id=?", entityType, entityId)
 	return
@@ -100,9 +101,6 @@ func CreateArticle(tx *sqlx.Tx, title, markdown string, dirId int) (articleId in
 		Id:   articleId,
 		Type: 1,
 	}, dirId)
-	if err != nil {
-		panic(err)
-	}
 	return
 }
 
@@ -131,9 +129,6 @@ func CreateLayer(tx *sqlx.Tx, entity mytype.Entity, dirId int) (err error) {
 		return
 	}
 	err = UpdateLayer(tx, entity)
-	if err != nil {
-		panic(err)
-	}
 	return
 }
 
@@ -267,5 +262,44 @@ func RemoveLayer(tx *sqlx.Tx, entity mytype.Entity) (err error) {
 			}
 		}
 	}
+	return
+}
+
+func EditDir(tx *sqlx.Tx, id int, title string) (err error) {
+	_, err = tx.Exec("update dir set title=? where id=?", title, id)
+	if err != nil {
+		return
+	}
+	err = UpdateLayer(tx, mytype.Entity{
+		Id:    id,
+		Type:  0,
+		Title: title,
+	})
+	return
+}
+
+func EditArticle(tx *sqlx.Tx, id int, title, markdown string) (err error) {
+	_, err = tx.Exec("update article set title=?, markdown=? where id=?", title, markdown, id)
+	if err != nil {
+		return
+	}
+	err = UpdateLayer(tx, mytype.Entity{
+		Id:    id,
+		Type:  1,
+		Title: title,
+	})
+	return
+}
+
+func EditFile(tx *sqlx.Tx, id int, title string) (err error) {
+	_, err = tx.Exec("update file set title=? where id=?", title, id)
+	if err != nil {
+		return
+	}
+	err = UpdateLayer(tx, mytype.Entity{
+		Id:    id,
+		Type:  2,
+		Title: title,
+	})
 	return
 }

@@ -17,31 +17,30 @@
       {{if ne .Dir.Entity.Id 0}}
         <li option="back" class="show">
           <a class="button colorful"
-             href="/admin/edit?type=1&id={{.ParentId}}"
+             href="/admin/edit?type=0&id={{.ParentId}}"
              style="background-color: #484848;">
-            <i class="iconfont">&#xe885;</i><span>返回上级</span>
+            <i class="iconfont">&#xe885;</i><span>返回</span>
           </a>
         </li>
       {{end}}
     <li option="dirNew" class="show" onclick="newDir();">
       <a class="button colorful" href="javascript:void(0);">
-        <i class="iconfont">&#xe805;</i><span>新目录</span>
+        <i class="iconfont">&#xe805;</i><span>目录</span>
       </a>
     </li>
     <li option="articleNew" class="show" onclick="newArticle();">
       <a class="button colorful" href="javascript:void(0);">
-        <i class="iconfont">&#xe808;</i><span>新文章</span>
+        <i class="iconfont">&#xe808;</i><span>博文</span>
       </a>
     </li>
-      {{/* TODO 3: 上传文件 */}}
     <li option="fileNew" class="show" onclick="newFile();">
       <a class="button colorful" href="javascript:void(0);">
-        <i class="iconfont">&#xe7f5;</i><span>新文件</span>
+        <i class="iconfont">&#xe7f5;</i><span>文件</span>
       </a>
     </li>
     <li option="move" class="" onclick="moveList();">
       <a class="button colorful" href="javascript:void(0);">
-        <i class="iconfont">&#xe7f4;</i><span>移动</span>
+        <i class="iconfont">&#xe833;</i><span>移动</span>
       </a>
     </li>
     <li option="remove" class="" onclick="removeList();">
@@ -91,7 +90,7 @@
                    class="button colorless"
                    href="javascript:void(0);"
                    onclick="moveOne({{.Type}}, {{.Id}});">
-                  <i class="iconfont">&#xe7f4;</i>
+                  <i class="iconfont">&#xe833;</i>
                   <span>移动</span>
                 </a>
                 <a option="remove"

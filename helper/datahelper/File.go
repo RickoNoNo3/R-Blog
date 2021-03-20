@@ -5,18 +5,23 @@ import (
 	"rickonono3/r-blog/objects"
 )
 
-func GetFilePath(fileId int) string {
-	return objects.Config.Get("Cwd").Val.(string) + GetFilePathAbsolutely(fileId)
+// 生成 hash_{hashStr}
+func GetHashFileName(fileName string) string {
+	hashStr := MakeHashWithStr(fileName)
+	return "hash_" + hashStr
 }
 
-func GetResourcePath() string {
-	return objects.Config.Get("Cwd").Val.(string) + GetResourcePathAbsolutely()
+// 生成 file_{fileId}
+func GetFileName(fileId int) string {
+	return "file_" + typehelper.MustItoa(fileId)
 }
 
-func GetFilePathAbsolutely(fileId int) string {
-	return GetResourcePathAbsolutely() + "file_" + typehelper.MustItoa(fileId)
+// 生成 {Cwd}/public/resource/
+func GetResourcePathForServer() string {
+	return objects.Config.Get("Cwd").Val.(string) + "resource/"
 }
 
-func GetResourcePathAbsolutely() string {
-	return "public/resource/"
+// 生成 /resource/
+func GetResourcePathForBrowser() string {
+	return "/resource/"
 }

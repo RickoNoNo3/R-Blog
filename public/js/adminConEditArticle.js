@@ -19,11 +19,11 @@ let InFullscreen = false;
     ['ts', 'text/javascript'],
     ['text', 'text/plain'],
     ['tex', 'text/x-stex'],
-    ['shell', 'text/x-sh'],
-    ['sh', 'text/x-sh'],
     ['swift', 'text/x-swift'],
     ['sqlite', 'text/x-sql'],
     ['sql', 'text/x-sql'],
+    ['shell', 'text/x-sh'],
+    ['sh', 'text/x-sh'],
     ['scala', 'text/x-scala'],
     ['rust', 'text/x-rust'],
     ['r', 'text/x-rsrc'],
@@ -108,29 +108,47 @@ function save() {
     BlogPage.Ajax.call(
       '/api/admin/new',
       {
-        data: editor.getValue().trim(),
+        data: Editor.getValue().trim(),
         type: 1,
         dirId: PARENT_ID,
       },
-      () => {
-        location.href = `/admin/edit?type=0&id=${PARENT_ID}`;
+      res => {
+        if (res['res'] === 'ok') {
+          location.href = `/admin/edit?type=0&id=${PARENT_ID}`;
+        } else {
+          BlogPage.PopWindow.openAsNote('saveFailed', '保存失败', '发生未知错误');
+        }
       },
     );
   } else {
     BlogPage.Ajax.call(
       '/api/admin/edit',
       {
-        data: editor.getValue().trim(),
+        data: Editor.getValue().trim(),
         type: 1,
         id: ARTICLE_ID,
       },
-      () => {
-        BlogPage.PopWindow.openAsNote('saveEnd', '保存成功', '是否返回上级目录?', () => {
-          location.href = `/admin/edit?type=0&id=${PARENT_ID}`;
-        });
+      res => {
+        if (res['res'] === 'ok') {
+          BlogPage.PopWindow.openAsNote('saveEnd', '保存成功', '是否返回上级目录?', () => {
+            location.href = `/admin/edit?type=0&id=${PARENT_ID}`;
+          });
+        } else {
+          BlogPage.PopWindow.openAsNote('saveFailed', '保存失败', '发生未知错误');
+        }
       },
     );
   }
+}
+
+// TODO: uploadImg
+function uploadImg() {
+
+}
+
+// TODO: uploadFile
+function uploadFile() {
+
 }
 
 function toggleFullscreen() {
@@ -151,7 +169,6 @@ function toggleFullscreen() {
   }
   InFullscreen = !InFullscreen;
 }
-
 
 // -----------------------------------------
 // 实时预览相关

@@ -6,6 +6,48 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "6151106",
+      "name": "box-fill",
+      "font_class": "box-fill",
+      "unicode": "e7b3",
+      "unicode_decimal": 59315
+    },
+    {
+      "icon_id": "18267907",
+      "name": "仓储仓库",
+      "font_class": "cangchucangku",
+      "unicode": "e98c",
+      "unicode_decimal": 59788
+    },
+    {
+      "icon_id": "6150971",
+      "name": "supervise",
+      "font_class": "supervise",
+      "unicode": "e777",
+      "unicode_decimal": 59255
+    },
+    {
+      "icon_id": "6151061",
+      "name": "nail-fixed",
+      "font_class": "nail-fixed",
+      "unicode": "e79f",
+      "unicode_decimal": 59295
+    },
+    {
+      "icon_id": "6151072",
+      "name": "dollar",
+      "font_class": "dollar",
+      "unicode": "e7a1",
+      "unicode_decimal": 59297
+    },
+    {
+      "icon_id": "6151309",
+      "name": "arrows-alt",
+      "font_class": "arrows-alt",
+      "unicode": "e833",
+      "unicode_decimal": 59443
+    },
+    {
       "icon_id": "6151128",
       "name": "folder open-fill",
       "font_class": "folderopen-fill",

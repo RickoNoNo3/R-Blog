@@ -19,11 +19,11 @@ mjx-utext {
 }
 
 p > graph:first-child {
-    margin-top: -20px;
+    /*margin-top: -20px;*/
 }
 
 p > latex:first-child {
-    margin-top: -40px;
+    margin-top: -10px;
 }
 
 /* myStyles */

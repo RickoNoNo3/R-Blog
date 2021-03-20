@@ -102,35 +102,51 @@ func TestCreateDir(t *testing.T) {
 func TestCreateArticle(t *testing.T) {
 	InitDBTest(true)
 	defer CloseDB()
-	var (
-		id  [2]int
-		err [2]error
-	)
+	type TestData struct {
+		Title          string
+		Markdown       string
+		Id             int
+		Err            error
+		TitleActual    string
+		MarkdownActual string
+	}
+	testData := []TestData{
+		{
+			Title:    "Title1",
+			Markdown: "# Title1\nThis is a demo.",
+		},
+		{
+			Title:    "Title2",
+			Markdown: "# Title2\nThis is a demo too.",
+		},
+		{
+			Title:    "Title3",
+			Markdown: "# Title3\n包含各种字符😘",
+		},
+	}
 	DoTx(func(tx *sqlx.Tx) error {
-		id[0], err[0] = CreateArticle(tx, "Title1", "# Title1\nThis is a demo.", 0)
-		id[1], err[1] = CreateArticle(tx, "Title2", "# Title1\nThis is a demo.", 0)
+		for i, data := range testData {
+			testData[i].Id, testData[i].Err = CreateArticle(
+				tx,
+				data.Title,
+				data.Markdown,
+				0,
+			)
+		}
 		return nil
 	})
-	assert.NoError(t, err[0])
-	assert.NoError(t, err[1])
-	assert.Equal(t, 1, id[0])
-	assert.Equal(t, 2, id[1])
-	assert.Equal(
-		t,
-		[]string{
-			"Title1",
-			"Title2",
-		},
-		func() (titleList []string) {
-			titleList = make([]string, 0)
-			if err := DoTx(func(tx *sqlx.Tx) (err error) {
-				return tx.Select(&titleList, "select title from article")
-			}); err != nil {
-				return []string{}
-			}
-			return
-		}(),
-	)
+	for i, data := range testData {
+		err := DoTx(func(tx *sqlx.Tx) (err error) {
+			return tx.QueryRowx("select title, markdown from article where id=?", data.Id).Scan(&testData[i].TitleActual, &testData[i].MarkdownActual)
+		})
+		assert.NoError(t, err)
+	}
+	for i, data := range testData {
+		assert.NoError(t, data.Err)
+		assert.Equal(t, i+1, data.Id)
+		assert.Equal(t, data.Title, data.TitleActual)
+		assert.Equal(t, data.Markdown, data.MarkdownActual)
+	}
 }
 
 func TestCreateFile(t *testing.T) {

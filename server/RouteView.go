@@ -30,7 +30,7 @@ func viewContainer(next echo.HandlerFunc) echo.HandlerFunc {
 //  - 博客文章页: /blog/article/:id
 //  - 管理员路径重定向: /admin/
 //  - 管理员编辑: /admin/edit?type&id&parentId
-// TODO: /admin/tool/dirSelector
+//  - 管理员获取目录选择器 /admin/tool/dirSelector
 // TODO: /admin/settings
 func RouteView() {
 	// 注册错误处理器, 处理发生错误时的响应
@@ -58,4 +58,5 @@ func RouteView() {
 		return c.Redirect(http.StatusPermanentRedirect, "/admin/edit")
 	})
 	admin.GET("/edit", viewContainer(viewAdmin.Edit))
+	// TODO: admin.GET("/tool/dirSelector", viewContainer(viewAdmin.DirSelector))
 }

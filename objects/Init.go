@@ -25,7 +25,7 @@ func init() {
 			"Icons": mytype.NewGroup(mytype.ObjectList{
 				"Dir":     mytype.NewValue(template.HTML("&#xe806;")),
 				"Article": mytype.NewValue(template.HTML("&#xe809;")),
-				"File":    mytype.NewValue(template.HTML("&#xe809;")),
+				"File":    mytype.NewValue(template.HTML("&#xe7f5;")),
 			}),
 		}),
 		"AdminPSWD": mytype.NewValue("tydhc199963+"),

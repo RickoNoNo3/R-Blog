@@ -19,7 +19,7 @@ func Article(c echo.Context) (err error) {
 		if article, err = data.GetArticle(tx, articleId); err == nil {
 			return c.Render(http.StatusOK, "article", mytype.NewGroup(mytype.ObjectList{
 				"Title":   mytype.NewValue(bloghelper.MakeTitle(article.Entity.Title)),
-				"Loc":     mytype.NewValue(bloghelper.MakeLocLink(0, articleId)),
+				"Loc":     mytype.NewValue(bloghelper.MakeLocLink(1, articleId)),
 				"Article": mytype.NewValue(article),
 			}))
 		}

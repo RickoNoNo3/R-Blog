@@ -37,8 +37,8 @@ function getSelectList() {
   list.each(function () {
     var ele = $(this);
     data.push({
-      type: ele.attr('entity-type'),
-      id: ele.attr('entity-id'),
+      type: parseInt(ele.attr('entity-type')),
+      id: parseInt(ele.attr('entity-id')),
     });
   });
   return data;

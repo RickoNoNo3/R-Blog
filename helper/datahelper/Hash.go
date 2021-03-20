@@ -8,6 +8,7 @@ import (
 	"rickonono3/r-blog/helper/typehelper"
 )
 
+// 生成带时间戳的哈希字符串
 func MakeHashWithStr(str string) (hashStr string) {
 	hash := md5.New()
 	hash.Write([]byte(str))
