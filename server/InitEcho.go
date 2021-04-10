@@ -36,7 +36,7 @@ func loadEcho() {
 		},
 		Level: 9,
 	}))
-	if !objects.Config.Get("IsInDebug").Val.(bool) {
+	if !objects.Config.MustGet("IsInDebug").ValBool() {
 		E.Use(echo.WrapMiddleware(M.Middleware))
 		updateRender()
 		RouteDebug()

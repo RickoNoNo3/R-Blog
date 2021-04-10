@@ -57,6 +57,7 @@ function jump(type, id) {
       window.open(`/blog/article/${id}`, '_blank');
       break;
     case 2:
+      window.open(`/blog/file/${id}`, '_blank');
       break;
   }
 }
@@ -117,7 +118,9 @@ function editArticle(id) {
 }
 
 function newFile() {
-  // TODO: newFile
+  BlogPage.PopWindow.openAsFileUpload(() => {
+    location.reload();
+  }, undefined, DIR_ID, false, true);
 }
 
 function editFile(id) {

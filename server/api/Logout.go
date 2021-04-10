@@ -6,8 +6,7 @@ import (
 
 	"github.com/labstack/echo/v4"
 
-	"rickonono3/r-blog/helper/bloghelper"
-	"rickonono3/r-blog/mytype"
+	"rickonono3/r-blog/helper/datahelper"
 	"rickonono3/r-blog/objects"
 )
 
@@ -17,8 +16,8 @@ type logoutRes struct {
 
 func Logout(c echo.Context) (err error) {
 	res := logoutRes{}
-	hash := bloghelper.GetAdminHash()
-	objects.Cache.Set("AdminHash", mytype.NewValue(hash))
+	hash := datahelper.MakeHashWithStr("")
+	objects.Cache.Set("AdminHash", hash)
 	c.SetCookie(&http.Cookie{
 		Name:    "blog-login",
 		Value:   "",

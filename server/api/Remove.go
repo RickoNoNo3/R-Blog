@@ -40,9 +40,11 @@ func Remove(c echo.Context) (err error) {
 			if datahelper.IsExists(tx, entity) {
 				if item.Type == 2 {
 					filePath := datahelper.GetResourcePathForServer() + datahelper.GetFileName(item.Id)
-					pathErr := os.Remove(filePath)
-					if pathErr != os.ErrNotExist {
-						err = pathErr
+					_, err = os.Stat(filePath)
+					if os.IsNotExist(err) {
+						err = nil
+					} else if err == nil {
+						err = os.Remove(filePath)
 					}
 				}
 				if err == nil {

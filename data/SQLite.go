@@ -14,7 +14,7 @@ var sqlerr error
 func OpenDB(dbLoc string) {
 	sqldb, sqlerr = sqlx.Open(
 		"sqlite3",
-		objects.Config.GetStr("Cwd")+dbLoc,
+		objects.Config.MustGet("Cwd").ValStr()+dbLoc,
 	)
 	sqldb.MustExec("PRAGMA journal_mode = WAL")
 	sqldb.MustExec("PRAGMA recursive_triggers = TRUE")

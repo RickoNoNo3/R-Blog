@@ -10,7 +10,7 @@ func CheckAdmin(c echo.Context) (isAdmin bool) {
 	if cookie, err := c.Cookie("blog-login"); err != nil {
 		return false
 	} else {
-		if cookie.Value != objects.Cache.Get("AdminHash").Val.(string) {
+		if cookie.Value != objects.Cache.MustGet("AdminHash").ValStr() {
 			return false
 		} else {
 			return true

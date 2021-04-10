@@ -5,14 +5,31 @@
 package objects
 
 import (
+	"html/template"
 	"os"
 	"regexp"
 	"runtime"
 
-	"rickonono3/r-blog/mytype"
+	"github.com/rickonono3/m2obj"
+	"github.com/rickonono3/m2obj/m2json"
 )
 
-var Config *mytype.Object
+var Config *m2obj.Object
+var ConfigFile = "config.json"
+var DefaultConfig = m2obj.New(m2obj.Group{
+	"Cwd": "./",
+	"Blog": m2obj.Group{
+		"CDN":   "/",
+		"BGImg": "img/bg.jpg",
+		"Icons": m2obj.Group{
+			"Dir":     "&#xe806;",
+			"Article": "&#xe809;",
+			"File":    "&#xe7f5;",
+		},
+	},
+	"AdminPSWD": "",
+	"IsInDebug": false,
+})
 
 func makeCwd() (cwd string) {
 	cwd = os.Args[0]
@@ -25,4 +42,30 @@ func makeCwd() (cwd string) {
 		return "./"
 	}
 	return
+}
+
+func initConfig() {
+	var (
+		err error
+		cwd = makeCwd()
+	)
+	if blogRoot := os.Getenv("BlogRoot"); blogRoot != "" {
+		cwd = regexp.MustCompile("/?$").ReplaceAllString(blogRoot, "/")
+	}
+	if Config, err = m2json.New().LoadFromFile(cwd + ConfigFile); err != nil {
+		Config = DefaultConfig
+	}
+	Config.Set("Cwd", cwd)
+	{
+		dir := Config.MustGet("Blog.Icons.Dir")
+		article := Config.MustGet("Blog.Icons.Article")
+		file := Config.MustGet("Blog.Icons.File")
+		dir.SetVal(template.HTML(dir.ValStr()))
+		article.SetVal(template.HTML(article.ValStr()))
+		file.SetVal(template.HTML(file.ValStr()))
+	}
+}
+
+func SaveConfig() {
+	m2json.New().SaveToFile(Config, Config.MustGet("Cwd").ValStr()+ConfigFile)
 }

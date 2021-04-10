@@ -15,7 +15,7 @@ import (
 // viewContainer 在全部view中都套用此高阶函数, 便于模板热更(限DEBUG模式)
 func viewContainer(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		if objects.Config.Get("IsInDebug").Val.(bool) {
+		if objects.Config.MustGet("IsInDebug").ValBool() {
 			updateRender()
 		}
 		return next(c)
@@ -25,6 +25,7 @@ func viewContainer(next echo.HandlerFunc) echo.HandlerFunc {
 // 需要渲染视图的请求在此注册:
 //  - err时的响应
 //  - 主页: /
+//  - 关于页: /about
 //  - 博客路径重定向: /blog/
 //  - 博客目录页: /blog/dir/:id
 //  - 博客文章页: /blog/article/:id
@@ -47,6 +48,7 @@ func RouteView() {
 	}
 	// 注册主页与博客页面
 	E.GET("/", viewContainer(view.Index))
+	E.GET("/about/", viewContainer(view.About))
 	E.GET("/blog/", func(c echo.Context) error {
 		return c.Redirect(http.StatusPermanentRedirect, "/blog/dir/0")
 	})
@@ -58,5 +60,5 @@ func RouteView() {
 		return c.Redirect(http.StatusPermanentRedirect, "/admin/edit")
 	})
 	admin.GET("/edit", viewContainer(viewAdmin.Edit))
-	// TODO: admin.GET("/tool/dirSelector", viewContainer(viewAdmin.DirSelector))
+	admin.Any("/tool/dirSelector", viewContainer(viewAdmin.DirSelector))
 }

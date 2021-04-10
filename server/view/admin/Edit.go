@@ -5,6 +5,7 @@ import (
 
 	"github.com/jmoiron/sqlx"
 	"github.com/labstack/echo/v4"
+	"github.com/rickonono3/m2obj"
 
 	"rickonono3/r-blog/data"
 	"rickonono3/r-blog/helper/bloghelper"
@@ -35,21 +36,21 @@ func Edit(c echo.Context) (err error) {
 				if article, err = data.GetArticle(tx, entityId); err == nil {
 					var parentId int
 					if parentId, err = data.GetParentDir(tx, article.Entity); err == nil {
-						return c.Render(http.StatusOK, "admin_edit_article", mytype.NewGroup(mytype.ObjectList{
-							"Title":    mytype.NewValue(bloghelper.MakeTitle("编辑文章")),
-							"Option":   mytype.NewValue("edit"),
-							"IsNew":    mytype.NewValue(false),
-							"Article":  mytype.NewValue(article),
-							"ParentId": mytype.NewValue(parentId),
+						return c.Render(http.StatusOK, "admin_edit_article", m2obj.New(m2obj.Group{
+							"Title":    bloghelper.MakeTitle("编辑文章"),
+							"Option":   "edit",
+							"IsNew":    false,
+							"Article":  article,
+							"ParentId": parentId,
 						}))
 					}
 				}
 			} else { // 是新建文章
-				return c.Render(http.StatusOK, "admin_edit_article", mytype.NewGroup(mytype.ObjectList{
-					"Title":    mytype.NewValue(bloghelper.MakeTitle("新建文章")),
-					"Option":   mytype.NewValue("edit"),
-					"IsNew":    mytype.NewValue(true),
-					"ParentId": mytype.NewValue(entityParentId),
+				return c.Render(http.StatusOK, "admin_edit_article", m2obj.New(m2obj.Group{
+					"Title":    bloghelper.MakeTitle("新建文章"),
+					"Option":   "edit",
+					"IsNew":    true,
+					"ParentId": entityParentId,
 				}))
 			}
 		default:
@@ -61,12 +62,12 @@ func Edit(c echo.Context) (err error) {
 					if entityId != 0 {
 						parentId, _ = data.GetParentDir(tx, dir.Entity)
 					}
-					return c.Render(http.StatusOK, "admin_edit_dir", mytype.NewGroup(mytype.ObjectList{
-						"Title":    mytype.NewValue(bloghelper.MakeTitle(dir.Entity.Title)),
-						"Option":   mytype.NewValue("edit"),
-						"Dir":      mytype.NewValue(dir),
-						"ParentId": mytype.NewValue(parentId),
-						"Contents": mytype.NewValue(contents),
+					return c.Render(http.StatusOK, "admin_edit_dir", m2obj.New(m2obj.Group{
+						"Title":    bloghelper.MakeTitle(dir.Entity.Title),
+						"Option":   "edit",
+						"Dir":      dir,
+						"ParentId": parentId,
+						"Contents": contents,
 					}))
 				}
 			}

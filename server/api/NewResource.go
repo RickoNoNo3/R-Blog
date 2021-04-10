@@ -13,6 +13,7 @@ import (
 
 	"rickonono3/r-blog/data"
 	"rickonono3/r-blog/helper/datahelper"
+	"rickonono3/r-blog/helper/typehelper"
 )
 
 //   4           FileNameLen 1     [4]     n
@@ -26,7 +27,7 @@ type newResourceReq struct {
 
 type newResourceRes struct {
 	Res     string `json:"res"`
-	FileLoc string `json:"filePath"`
+	FileLoc string `json:"fileLoc"`
 }
 
 func NewResource(c echo.Context) (err error) {
@@ -43,18 +44,20 @@ func NewResource(c echo.Context) (err error) {
 			if req.FileName != "" {
 				// 读取1字节 IsTmp
 				req.IsTmp = readNBytes(bodyReader, 1)[0]
-				if req.IsTmp == 1 {
-					// 是临时文件, 开始写文件吧
+				if req.IsTmp == 1 { // 是临时文件, 开始写文件吧
+					// TODO: 清理工具(或清理线程)
 					fileName := datahelper.GetHashFileName(req.FileName)
+					filePath := datahelper.GetResourcePathForServer() + fileName
 					if err = writeToFile(
 						bodyReader,
-						datahelper.GetResourcePathForServer()+fileName,
+						filePath,
 					); err == nil {
 						res.Res = "ok"
 						res.FileLoc = datahelper.GetResourcePathForBrowser() + fileName
-						return c.JSON(http.StatusOK, res)
+					} else {
+						removeFile(filePath)
 					}
-				} else { // 是固定文件
+				} else { // 是固定文件, 先创建数据库再写入文件
 					// 读取4字节 DirId
 					req.DirId = int(binary.BigEndian.Uint32(readNBytes(bodyReader, 4)))
 					// 在数据库中创建文件索引
@@ -62,13 +65,15 @@ func NewResource(c echo.Context) (err error) {
 					if fileId, err = data.CreateFile(tx, req.FileName, req.DirId); err == nil {
 						// 开始写文件
 						fileName := datahelper.GetFileName(fileId)
+						filePath := datahelper.GetResourcePathForServer() + fileName
 						if err = writeToFile(
 							bodyReader,
-							datahelper.GetResourcePathForServer()+fileName,
+							filePath,
 						); err == nil {
 							res.Res = "ok"
-							res.FileLoc = datahelper.GetResourcePathForBrowser() + fileName
-							return c.JSON(http.StatusOK, res)
+							res.FileLoc = "/blog/file/" + typehelper.MustItoa(fileId)
+						} else {
+							removeFile(filePath)
 						}
 					}
 				}
@@ -77,10 +82,12 @@ func NewResource(c echo.Context) (err error) {
 		return
 	})
 	if err != nil {
-		res.Res = "err"
-		return c.JSON(http.StatusOK, res)
+		return err
 	} else {
-		return
+		if res.Res != "ok" {
+			res.Res = "err"
+		}
+		return c.JSON(http.StatusOK, res)
 	}
 }
 
@@ -95,9 +102,19 @@ func readNBytes(reader io.Reader, n uint32) []byte {
 func writeToFile(reader io.Reader, filePath string) (err error) {
 	var file *os.File
 	if file, err = os.Create(filePath); err == nil {
+		defer file.Close()
 		if _, err = io.Copy(file, reader); err == nil {
-			file.Close()
+			err = file.Close()
 		}
+	}
+	return
+}
+
+func removeFile(filePath string) (err error) {
+	// TODO(可选): 可以把删除失败的内容全部加入一个待删队列, 等服务器重启的时候统一处理, 数据库里就不管怎么样先显示已经删掉了. 还可以配合resource清理工具使用.
+	err = os.Remove(filePath)
+	if err == os.ErrNotExist {
+		err = nil
 	}
 	return
 }

@@ -1,4 +1,6 @@
-/*来自mathjax的生成结果*/
+/*
+ * 一些特定元素的适配性样式
+ */
 mjx-container {
     font-size: 100% !important;
     font-family: unset;
@@ -26,10 +28,12 @@ p > latex:first-child {
     margin-top: -10px;
 }
 
-/* myStyles */
+/*
+ *  基础全局样式
+ */
 :root {
     --menu-cnt: 4;
-    /* 这里并未使用颜色 */
+    /* 并未使用颜色变量 */
     --themecolor: #959500;
     --themecolor-0: #AFAFAF;
     --themecolor-1: #7D4B25;
@@ -42,10 +46,9 @@ p > latex:first-child {
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     box-sizing: content-box;
     outline: none;
-}
-
-::selection {
-    background: #FFFFDF29;
+    /* Firefox */
+    scrollbar-color: #959500 #404040;
+    scrollbar-width: thin;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -53,10 +56,38 @@ p > latex:first-child {
 }
 
 ::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
     background-color: #404040;
 }
+
+::selection {
+    background: #FFFFDF29;
+}
+
+progress {
+    width: 100%;
+    height: 16px;
+    border: none;
+    background-color: #404040;
+    color: #959500;
+}
+
+progress::-webkit-progress-bar {
+    background-color: #404040;
+}
+
+progress::-webkit-progress-value {
+    background-color: #959500;
+}
+
+progress::-moz-progress-bar {
+    background-color: #959500;
+}
+
+/*
+ * 字号字体及文本性内容的相关样式
+ */
 
 div {
     color: #DCDCDC;
@@ -153,7 +184,7 @@ dl > dd {
     text-indent: 0 !important;
 }
 
-.mycontent code {
+.mycontent p code {
     text-indent: 0;
 }
 
@@ -161,8 +192,33 @@ dl > dd {
     text-indent: 0;
 }
 
-.mycontent img {
+.mycontent p img {
+    display: block;
+    margin: 0 auto;
     max-width: calc(100% - 4em);
+}
+
+.mycontent p img[inline] {
+    display: inline-block;
+    margin: unset;
+}
+
+.mycontent video,
+.mycontent audio {
+    display: block;
+    max-width: calc(100% - 4em);
+    margin: 10px auto;
+}
+
+.mycontent p video,
+.mycontent p audio {
+    margin: unset;
+}
+
+.mycontent video[inline],
+.mycontent audio[inline] {
+    display: inline-block;
+    margin: 10px 2em;
 }
 
 #loclink a, .mycontent a {
@@ -234,6 +290,10 @@ code.language-text {
     padding-left: 0;
     margin-left: 20px;
 }
+
+/*
+ * 从这里正式开始myStyles主体
+ */
 
 html {
     margin: 0;
@@ -696,7 +756,7 @@ table tr:nth-child(2n-1) > td {
 .pop-window > .pop-content input {
     width: 100%;
     height: 25px;
-    background-color: transparent;
+    background-color: #40404040;
     text-align: center;
     border: 0;
     resize: none;

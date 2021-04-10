@@ -1,6 +1,9 @@
 node_modules/
 built/
 logs/
+*.db
+*.db-*
+public/resource/
 
 # Unused files
 *.pid*

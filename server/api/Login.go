@@ -6,8 +6,7 @@ import (
 
 	"github.com/labstack/echo/v4"
 
-	"rickonono3/r-blog/helper/bloghelper"
-	"rickonono3/r-blog/mytype"
+	"rickonono3/r-blog/helper/datahelper"
 	"rickonono3/r-blog/objects"
 )
 
@@ -25,9 +24,9 @@ func Login(c echo.Context) (err error) {
 	if err = c.Bind(&req); err != nil {
 		return
 	}
-	if req.Pswd == objects.Config.Get("AdminPSWD").Val.(string) {
-		hash := bloghelper.GetAdminHash()
-		objects.Cache.Set("AdminHash", mytype.NewValue(hash))
+	if req.Pswd == objects.Config.MustGet("AdminPSWD").ValStr() {
+		hash := datahelper.MakeHashWithStr(c.RealIP())
+		objects.Cache.Set("AdminHash", hash)
 		c.SetCookie(&http.Cookie{
 			Name:    "blog-login",
 			Value:   hash,

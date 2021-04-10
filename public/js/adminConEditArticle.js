@@ -141,14 +141,8 @@ function save() {
   }
 }
 
-// TODO: uploadImg
-function uploadImg() {
-
-}
-
-// TODO: uploadFile
-function uploadFile() {
-
+function upload() {
+  BlogPage.PopWindow.openAsFileUpload(() => {}, () => {}, PARENT_ID, true, false);
 }
 
 function toggleFullscreen() {

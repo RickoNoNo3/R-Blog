@@ -12,6 +12,6 @@ import (
 func MakeHashWithStr(str string) (hashStr string) {
 	hash := md5.New()
 	hash.Write([]byte(str))
-	timeByte := []byte(typehelper.MustItoa64(time.Now().UnixNano()))
-	return fmt.Sprintf("%x", hash.Sum(timeByte))
+	hash.Write([]byte(typehelper.MustItoa64(time.Now().UnixNano())))
+	return fmt.Sprintf("%x", hash.Sum(nil))
 }
