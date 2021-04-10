@@ -1,6 +1,8 @@
 package datahelper
 
 import (
+	"os"
+
 	"rickonono3/r-blog/helper/typehelper"
 	"rickonono3/r-blog/objects"
 )
@@ -18,7 +20,9 @@ func GetFileName(fileId int) string {
 
 // 生成 {Cwd}/public/resource/
 func GetResourcePathForServer() string {
-	return objects.Config.MustGet("Cwd").ValStr() + "public/resource/"
+	path := objects.Config.MustGet("Cwd").ValStr() + "public/resource/"
+	os.MkdirAll(path, 0777)
+	return path
 }
 
 // 生成 /resource/
