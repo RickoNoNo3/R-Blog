@@ -17,10 +17,12 @@ import (
 var Config *m2obj.Object
 var ConfigFile = "config.json"
 var DefaultConfig = m2obj.New(m2obj.Group{
-	"Cwd": "./",
+	"Version": "0.0.0",
+	"Cwd":     "./",
 	"Blog": m2obj.Group{
-		"CDN":   "/",
-		"BGImg": "img/bg.jpg",
+		"CDN":     "/",
+		"BGImg":   "img/bg.jpg",
+		"IconImg": "img/icon.svg",
 		"Icons": m2obj.Group{
 			"Dir":     "&#xe806;",
 			"Article": "&#xe809;",
@@ -54,6 +56,7 @@ func initConfig() {
 	}
 	if Config, err = m2json.New().LoadFromFile(cwd + ConfigFile); err != nil {
 		Config = DefaultConfig
+		m2json.New().SaveToFile(Config, cwd+ConfigFile)
 	}
 	Config.Set("Cwd", cwd)
 	{

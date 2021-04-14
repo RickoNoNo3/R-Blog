@@ -4,26 +4,264 @@
 
   <head>
       {{template "global_head_0" .}}
+    <style>
+    </style>
   </head>
 
-  <body>
+  <body id="aboutPage">
   {{template "global_body_0" .}}
-  {{/* TODO: about.gohtml */}}
-  <div style="display: flex;">
-    <div class="mybox">
-      <div class="mycontent">
-        <h1>关于</h1>
+  <div class="page-wrapper">
+    <div class="mybox box1">
+      <div class="mycontent" style="text-align: center">
+        <!-- copy from https://tholman.com/github-corners/ -->
+        <a href="https://github.com/rickonono3/r-blog" target="_blank" class="github-corner" aria-label="View source on GitHub">
+          <svg viewBox="0 0 250 250" style="fill:#959500;
+        color:#FFF;
+        position: absolute; top: 0; border: 0; left: 0; transform: scale(-1, 1);" aria-hidden="true">
+            <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+            <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+                  fill="currentColor"
+                  style="transform-origin: 130px 106px;"
+                  class="octo-arm"></path>
+            <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+                  fill="currentColor"
+                  class="octo-body"></path>
+          </svg>
+          <style>.github-corner:hover .octo-arm {
+                  animation: octocat-wave 560ms ease-in-out
+              }
+
+              @keyframes octocat-wave {
+                  0%, 100% {
+                      transform: rotate(0)
+                  }
+                  20%, 60% {
+                      transform: rotate(-25deg)
+                  }
+                  40%, 80% {
+                      transform: rotate(10deg)
+                  }
+              }
+
+              @media (max-width: 500px) {
+                  .github-corner:hover .octo-arm {
+                      animation: none
+                  }
+
+                  .github-corner .octo-arm {
+                      animation: octocat-wave 560ms ease-in-out
+                  }
+              }</style>
+        </a>
+        <h1>R崽的博客<span id="version">v{{.Global.Config.Version}}</span></h1>
+        <h2>技术依赖</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>页面技术</th>
+              <th>服务器技术</th>
+              <th>生产技术</th>
+            </tr>
+          </thead>
+          <tbody id="techDep" style="text-align: left">
+          </tbody>
+        </table>
+        <h2 class="top-margin">开源许可</h2>
+        <pre style="text-align: left"><code class="hljs">MIT License
+
+Copyright (c) 2020 RickoNoNo3
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.</code></pre>
+        <h2 class="top-margin">鸣谢</h2>
+        <div>啊短</div>
+        <div>NameSilo</div>
+        <div>Linode</div>
+        <div>OneVPS</div>
+        <div>AWS</div>
+        <div>腾讯云</div>
+        <div>阿里云</div>
+        <div>GitHub</div>
       </div>
     </div>
-    <div class="mybox">
-      <div class="mycontent">
-        <h1>关于</h1>
+    <div class="flex-blank"></div>
+    <div class="box-right-wrapper">
+      <div class="mybox box2" style="flex: none">
+        <div class="mycontent">
+          <div id="icon">
+            <img src="{{.Global.Config.Blog.CDN}}{{.Global.Config.Blog.IconImg}}" alt="icon">
+          </div>
+          <table id="introTable" class="no-style">
+            <tr>
+              <td>姓名:</td>
+              <td>R崽哗啦啦</td>
+            </tr>
+            <tr>
+              <td>性别:</td>
+              <td>R崽哗啦啦</td>
+            </tr>
+            <tr>
+              <td>生卒年:</td>
+              <td>不详</td>
+            </tr>
+            <tr>
+              <td>码龄:</td>
+              <td><span id="MaLing"></span>年<br></td>
+            </tr>
+            <tr>
+              <td>简介:</td>
+              <td>不著名秃头程序员</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="mybox box3" style="flex: none">
+        <div class="mycontent">
+          <div id="contactBtnBar">
+            <i data-info="email" class="iconfont active">&#xe602;</i>
+            <i data-info="qq" class="iconfont">&#xe627;</i>
+            <i data-info="tg" class="iconfont">&#xe651;</i>
+          </div>
+          <div id="contactInfo">
+            <div class="active" data-info="email">
+              <div class="title">点击发送邮件</div>
+              <a target="_blank" href="mailto:rickonono3@rickonono3.top">
+                rickonono3@rickonono3.top
+              </a>
+            </div>
+            <div data-info="qq">
+              <div class="title">点击与我聊天</div>
+                {{- if .Global.IsMobile -}}
+                  <!-- url schema -->
+                  <a target="_blank" href="mqqwpa://im/chat?chat_type=wpa&uin=1070101572&version=1&src_type=web&web_src=rickonono3.top">1070101572</a>
+                {{- else -}}
+                  <!-- application protocol -->
+                  <a target="_blank" href="tencent://message/?Menu=yes&uin=1070101572&Site=rickonono3.top">1070101572</a>
+                {{- end -}}
+            </div>
+            <div data-info="tg">
+              <div class="title">点击与我聊天</div>
+              <a target="_blank" href="https://t.me/RickoNoNo3">RickoNoNo3</a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
   {{template "global_body_1" .}}
   {{template "global_script_0" .}}
   {{template "global_script_1" .}}
+  <script>
+    // TechDep
+    {
+      const techDepEle = $('#techDep');
+      const techDepList = [[{
+        name: 'jQuery',
+        href: 'https://jquery.com/',
+      }, {
+        name: 'Less',
+        href: 'http://lesscss.org/',
+      }, {
+        name: 'Showdown.js',
+        href: 'https://github.com/showdownjs/showdown',
+      }, {
+        name: 'Highlight.js',
+        href: 'https://github.com/highlightjs/highlight.js/',
+      }, {
+        name: 'MathJax',
+        href: 'https://github.com/mathjax/MathJax/',
+      }, {
+        name: 'Viz.js',
+        href: 'https://github.com/mdaines/viz.js',
+      }, {
+        name: 'CodeMirror',
+        href: 'https://github.com/codemirror/CodeMirror',
+      }, {
+        name: 'Iconfont',
+        href: 'https://www.iconfont.cn/',
+      }], [{
+        name: 'M2Obj',
+        href: 'https://github.com/rickonono3/m2obj',
+      }, {
+        name: 'Echo',
+        href: 'https://github.com/labstack/echo',
+      }, {
+        name: 'SQLite',
+        href: 'https://www.sqlite.org/',
+      }, {
+        name: 'Go-SQLite3',
+        href: 'https://github.com/mattn/go-sqlite3',
+      }, {
+        name: 'sqlx',
+        href: 'https://github.com/jmoiron/sqlx',
+      }, {
+        name: 'Sprig',
+        href: 'https://github.com/Masterminds/sprig',
+      }, {
+        name: 'Testify',
+        href: 'https://github.com/stretchr/testify',
+      }, {
+        name: 'Minify',
+        href: 'https://github.com/tdewolff/minify',
+      }], [{
+        name: 'CSSO',
+        href: 'https://github.com/css/csso',
+      }, {
+        name: 'Terser',
+        href: 'https://github.com/terser/terser',
+      }]];
+      const maxLen = Math.max(techDepList[0].length, techDepList[1].length, techDepList[2].length);
+      for (let i = 0; i < maxLen; ++i) {
+        let tr = $(`<tr></tr>`);
+        for (let j = 0; j < 3; ++j) {
+          let item = techDepList[j][i];
+          if (item !== undefined) {
+            tr.append(
+              $(`<td><a href="${item.href}" target="_blank">${item.name}</a></td>`),
+            );
+          } else {
+            tr.append($(`<td></td>`));
+          }
+        }
+        techDepEle.append(tr);
+      }
+    }
+    // MaLing
+    {
+      $('#MaLing').text(new Date().getFullYear() - 2010);
+    }
+    // ContactBtnBar
+    {
+      function changeContactInfo() {
+        const info = $(this).data('info');
+        const btnEle = $(`#contactBtnBar > i[data-info=${info}]`);
+        const infoEle = $(`#contactInfo > div[data-info=${info}]`);
+        btnEle.siblings().removeClass('active');
+        btnEle.addClass('active');
+        infoEle.siblings().removeClass('active');
+        infoEle.addClass('active');
+      }
+
+      const btnEles = $('#contactBtnBar > i');
+      btnEles.click(changeContactInfo);
+      btnEles.hover(changeContactInfo);
+    }
+  </script>
   </body>
 
   </html>

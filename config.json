@@ -1,14 +1,16 @@
 {
-	"Cwd": "./",
-	"Blog": {
-		"CDN":   "http://localhost:13808/",
-		"BGImg": "img/bg.jpg",
-		"Icons": {
-			"Dir":     "&#xe806;",
-			"Article": "&#xe809;",
-			"File":    "&#xe7f5;"
-		}
-	},
-	"AdminPSWD": "tydhc199963+",
-	"IsInDebug": true
+  "Version": "0.5.0",
+  "Cwd": "./",
+  "Blog": {
+    "CDN": "/",
+    "BGImg": "img/bg.jpg",
+    "IconImg": "img/icon.svg",
+    "Icons": {
+      "Dir": "&#xe806;",
+      "Article": "&#xe809;",
+      "File": "&#xe7f5;"
+    }
+  },
+  "AdminPSWD": "tydhc199963+",
+  "IsInDebug": true
 }

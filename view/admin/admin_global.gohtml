@@ -7,25 +7,31 @@
   <meta name="copyright" content="RickoNoNo3">
   <title>{{.Title}}(管理员)</title>
   {{$useMinStr := ""}}
-  {{if not .Global.Config.IsInDebug}}
+  {{$styleSheetExt := "css"}}
+  {{$styleSheetRel := "stylesheet"}}
+  {{if .Global.Config.IsInDebug}}
       {{$useMinStr = "min."}}
+      {{$styleSheetExt := "less"}}
+      {{$styleSheetType := "stylesheet/less"}}
   {{end}}
-  {{$useMinStr = ""}}
   <script>
     var CDN = '{{.Global.Config.Blog.CDN}}';
     var USE_MIN_STR = '{{$useMinStr}}';
+    var STYLE_SHEET_EXT = '{{$styleSheetExt}}';
+    var STYLE_SHEET_REL = '{{$styleSheetRel}}';
   </script>
   <script src="{{.Global.Config.Blog.CDN}}js/jquery-3.6.0.min.js"></script>
   <script src="{{.Global.Config.Blog.CDN}}js/blogPage.{{$useMinStr}}js"></script>
   <script src="{{.Global.Config.Blog.CDN}}js/adminConPage.{{$useMinStr}}js"></script>
   <script src="{{.Global.Config.Blog.CDN}}js/input-process.js"></script>
   <link href="{{.Global.Config.Blog.CDN}}css/iconfont/iconfont.css" rel="stylesheet">
-  <link rel="stylesheet" href="{{.Global.Config.Blog.CDN}}css/myStyles.highlight.{{$useMinStr}}css">
-  <link rel="stylesheet" href="{{.Global.Config.Blog.CDN}}css/myStyles.{{$useMinStr}}css">
-  <link rel="stylesheet" href="{{.Global.Config.Blog.CDN}}css/myStyles.admin.{{$useMinStr}}css">
+  <!-- myStyle -->
+  <link rel="{{$styleSheetRel}}" href="{{.Global.Config.Blog.CDN}}css/myStyles.highlight.{{$useMinStr}}{{$styleSheetExt}}">
+  <link rel="{{$styleSheetRel}}" href="{{.Global.Config.Blog.CDN}}css/myStyles.{{$useMinStr}}{{$styleSheetExt}}">
+  <link rel="{{$styleSheetRel}}" href="{{.Global.Config.Blog.CDN}}css/myStyles.admin.{{$useMinStr}}{{$styleSheetExt}}">
   {{if .Global.IsMobile}}
-    <link rel="stylesheet" href="{{.Global.Config.Blog.CDN}}css/myStyles.mob.{{$useMinStr}}css">
-    <link rel="stylesheet" href="{{.Global.Config.Blog.CDN}}css/myStyles.admin.mob.{{$useMinStr}}css">
+    <link rel="{{$styleSheetRel}}" href="{{.Global.Config.Blog.CDN}}css/myStyles.mob.{{$useMinStr}}{{$styleSheetExt}}">
+    <link rel="{{$styleSheetRel}}" href="{{.Global.Config.Blog.CDN}}css/myStyles.admin.mob.{{$useMinStr}}{{$styleSheetExt}}">
   {{end}}
 {{end}}
 
@@ -38,7 +44,9 @@
       </div>
     </a>
     <div>
-      <a href="/" title="返回主页"><img src="/favicon.ico" style="width: 40px; height: 40px; margin: 5px auto;"/></a>
+      <a href="/" title="返回主页">
+        <img src="{{.Global.Config.Blog.CDN}}{{.Global.Config.Blog.IconImg}}" style="width: 40px; height: 40px; margin: 5px auto;"/>
+      </a>
       <ul class="simple">
         <li option="edit"><a class="button colorless {{if eq .Option "edit" -}} active {{- end}}" href="/admin/edit" title="整理博客文章、目录和文件">
             <i class="iconfont">&#xe63d;</i><span>编辑</span>

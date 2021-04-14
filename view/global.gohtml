@@ -8,9 +8,13 @@
   <meta name="copyright" content="RickoNoNo3">
   <meta name="google-site-verification" content="H8OLMgsMa9HVIHDya6fmpU3aeLh0NH56MTuqc1qKvpM">
   <title>{{.Title}}</title>
-  {{$useMinStr := ""}}
-  {{if not .Global.Config.IsInDebug}}
-      {{$useMinStr = "min."}}
+  {{$useMinStr := "min."}}
+  {{$styleSheetExt := "css"}}
+  {{$styleSheetRel := "stylesheet"}}
+  {{if .Global.Config.IsInDebug}}
+      {{$useMinStr = ""}}
+      {{$styleSheetExt = "less"}}
+      {{$styleSheetRel = "stylesheet/less"}}
   {{end}}
   {{if .Global.IsSpecial}}
     <script>alert('请换用 Google Chrome, Mozilla Firefox, Microsoft Edge, Apple Safari 等现代浏览器访问本站! \n本站无法在您当前使用的浏览器上保证访问效果! ');</script>
@@ -18,17 +22,21 @@
   <script>
     var CDN = '{{.Global.Config.Blog.CDN}}';
     var USE_MIN_STR = '{{$useMinStr}}';
+    var STYLE_SHEET_EXT = '{{$styleSheetExt}}';
+    var STYLE_SHEET_REL = '{{$styleSheetRel}}';
   </script>
   <script src="{{.Global.Config.Blog.CDN}}js/jquery-3.6.0.min.js"></script>
   <script src="{{.Global.Config.Blog.CDN}}js/blogPage.{{$useMinStr}}js"></script>
-  {{/*  <link href="{{.Global.Config.Blog.CDN}}css/material-icons.css" rel="stylesheet">*/}}
   <link href="{{.Global.Config.Blog.CDN}}css/iconfont/iconfont.css" rel="stylesheet">
-  <link rel="stylesheet" href="{{.Global.Config.Blog.CDN}}css/myStyles.highlight.{{$useMinStr}}css">
-  <link rel="stylesheet" href="{{.Global.Config.Blog.CDN}}css/myStyles.{{$useMinStr}}css">
+  <link rel="{{$styleSheetRel}}" href="{{.Global.Config.Blog.CDN}}css/myStyles.highlight.{{$useMinStr}}{{$styleSheetExt}}">
+  <link rel="{{$styleSheetRel}}" href="{{.Global.Config.Blog.CDN}}css/myStyles.{{$useMinStr}}{{$styleSheetExt}}">
   {{if .Global.IsMobile}}
-    <link rel="stylesheet" href="{{.Global.Config.Blog.CDN}}css/myStyles.mob.{{$useMinStr}}css">
+    <link rel="{{$styleSheetRel}}" href="{{.Global.Config.Blog.CDN}}css/myStyles.mob.{{$useMinStr}}{{$styleSheetExt}}">
   {{end}}
+  <script src="{{.Global.Config.Blog.CDN}}js/less.min.js"></script>
 {{end}}
+{{/*TODO: mycontent改为article*/}}
+{{/*TODO: admin less化*/}}
 
 {{define "global_body_0"}}
   <div class="mynav">
@@ -57,7 +65,7 @@
 {{define "global_body_1"}}
   <div id="userlogin" onclick="{{if not .Global.IsAdmin -}} login() {{- else -}} logout() {{- end}}"></div>
   <img id="BG" alt="" src=""/>
-  <div id="BODYBLANK"></div>
+  <div id="BODYBLANK" class="flex-blank"></div>
   <footer>
     <div>
       <a href="/">R崽的博客</a>

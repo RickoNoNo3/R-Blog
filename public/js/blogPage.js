@@ -7,6 +7,7 @@ function PageComplete() {
   // 给需要等待页面内容渲染完成才能开始的各种任务发送消息
   $(window).trigger('PageCompleted');
   $(window).trigger('BgScrollStart');
+  $(window).trigger('NavMenuPreview');
 }
 
 var BlogPage = {
@@ -687,12 +688,14 @@ var BlogPage = {
               `${CDN}js/conLogin.${USE_MIN_STR}js`,
             ],
             callback: () => {
-              BlogPage.Ext.loadJS('conNavLoc',
+              BlogPage.Ext.loadJS(
+                'conNavLoc',
                 `${CDN}js/conNavLoc.${USE_MIN_STR}js`,
+                callback,
               );
             },
           },
-        ], callback);
+        ]);
       },
     }
     ,

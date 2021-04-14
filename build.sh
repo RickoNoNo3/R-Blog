@@ -62,6 +62,8 @@ for filename in ${MinifyCssList[*]}; do
   fi
 done
 
+# TODO: Less
+
 # Copy resource files
 echo 'Copying resource files to built folder'
 rm -rf built/public &> /dev/null
