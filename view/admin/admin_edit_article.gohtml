@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="{{.Global.Config.Blog.CDN}}js/code-mirror/addon/scroll/simplescrollbars.css">
     <link rel="stylesheet" href="{{.Global.Config.Blog.CDN}}js/code-mirror/addon/dialog/dialog.css">
     <link rel="stylesheet" href="{{.Global.Config.Blog.CDN}}js/code-mirror/addon/display/fullscreen.css">
-    <link rel="stylesheet" href="{{.Global.Config.Blog.CDN}}css/myStyles.cm.css">
     <script src="{{.Global.Config.Blog.CDN}}js/code-mirror/lib/codemirror.js"></script>
     <script src="{{.Global.Config.Blog.CDN}}js/code-mirror/keymap/vim.js"></script>
     <script src="{{.Global.Config.Blog.CDN}}js/code-mirror/addon/selection/active-line.js"></script>
@@ -55,7 +54,7 @@
     <style>
     </style>
   </head>
-  <body class="simple">
+  <body class="simple" id="editArticlePage">
   {{template "admin_global_body_0" .}}
   <div class="mycontent">
     <div>
@@ -99,13 +98,7 @@
   </div>
 
   {{template "admin_global_body_1" .}}
-  {{if not .Global.IsMobile}}
-    <script>
-      $(document).ready(() => {
-        setTimeout(toggleOptionList, 500);
-      });
-    </script>
-  {{end}}
+  {{template "admin_global_script_0" .}}
   </body>
   </html>
 {{end}}

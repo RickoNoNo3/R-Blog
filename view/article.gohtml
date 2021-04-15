@@ -10,26 +10,17 @@
   <body>
   {{template "global_body_0" .}}
   <div class="mybox" id="box">
-    <div class="mycontent undisplay">
+    <article class="mycontent undisplay">
         {{- html .Article.Markdown -}}
-    </div>
+    </article>
   </div>
   {{template "global_body_1" .}}
   {{template "global_script_0" .}}
   <script>
-    BlogPage.Ext.loadStaticFiles();
-    BlogPage.Ext.loadShowdown($('.mycontent'), {{.Article.Markdown}}, () => {
-      BlogPage.Ext.loadGroup([
-        {
-          func: BlogPage.Ext.loadGraph,
-          args: [$('.mycontent')],
-        },
-        {func: BlogPage.Ext.loadTex},
-        {func: BlogPage.Ext.loadHighlight},
-      ], () => {
-        PageComplete();
-      });
-    });
+    Promise.all([
+      BlogPage.Ext.loadStaticFiles(),
+      BlogPage.Ext.loadArticle($('.mycontent'), {{.Article.Markdown}}),
+    ]).then(PageComplete);
   </script>
   </body>
   </html>

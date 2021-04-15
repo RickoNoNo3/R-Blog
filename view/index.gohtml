@@ -14,20 +14,17 @@ $intro 开屏介绍博文
   {{template "global_body_0" .}}
   <div class="welcome-title {{- if .Global.IsMobile}} mobile {{- end}}">欢迎来到R崽的博客</div>
   <div class="mybox {{- if .Global.IsMobile}} mobile {{- else}} box1 {{- end}}">
-    <div class="mycontent {{- if not .Global.IsSpacial}} undisplay {{- end}}">
+    <article class="mycontent {{- if not .Global.IsSpacial}} undisplay {{- end}}">
         {{- html .Intro -}}
-    </div>
+    </article>
   </div>
   {{template "global_body_1" .}}
   {{template "global_script_0" .}}
   <script>
-    BlogPage.Ext.loadStaticFiles(
-      () => {
-        BlogPage.Ext.loadShowdown($('.mycontent'), "{{.Intro}}", function () {
-          PageComplete();
-        });
-      },
-    );
+    Promise.all([
+      BlogPage.Ext.loadStaticFiles(),
+      BlogPage.Ext.loadArticle($('.mycontent'), {{.Intro}}),
+    ]).then(PageComplete);
   </script>
   </body>
 

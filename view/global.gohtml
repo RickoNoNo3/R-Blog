@@ -30,12 +30,8 @@
   <link href="{{.Global.Config.Blog.CDN}}css/iconfont/iconfont.css" rel="stylesheet">
   <link rel="{{$styleSheetRel}}" href="{{.Global.Config.Blog.CDN}}css/myStyles.highlight.{{$useMinStr}}{{$styleSheetExt}}">
   <link rel="{{$styleSheetRel}}" href="{{.Global.Config.Blog.CDN}}css/myStyles.{{$useMinStr}}{{$styleSheetExt}}">
-  {{if .Global.IsMobile}}
-    <link rel="{{$styleSheetRel}}" href="{{.Global.Config.Blog.CDN}}css/myStyles.mob.{{$useMinStr}}{{$styleSheetExt}}">
-  {{end}}
   <script src="{{.Global.Config.Blog.CDN}}js/less.min.js"></script>
 {{end}}
-{{/*TODO: mycontent改为article*/}}
 {{/*TODO: admin less化*/}}
 
 {{define "global_body_0"}}
@@ -88,8 +84,6 @@
 {{/*仅在页面为静态时引入使用, 否则应在页面加载完成后手动调用loadStaticFile*/}}
 {{define "global_script_1"}}
   <script>
-    BlogPage.Ext.loadStaticFiles(() => {
-      PageComplete();
-    });
+    BlogPage.Ext.loadStaticFiles().then(PageComplete);
   </script>
 {{end}}

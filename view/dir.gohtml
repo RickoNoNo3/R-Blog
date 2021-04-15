@@ -37,7 +37,7 @@
   <body>
   {{template "global_body_0" .}}
   <div class="mybox" id="box">
-    <div class="mycontent" id="content">
+    <article class="mycontent" id="content">
       <h1>{{.Dir.Entity.Title}}</h1>
         {{if len .Contents | ne 0}}
           <div class="list">
@@ -69,7 +69,7 @@
         {{else}}
           <div class="notice">该目录下暂无内容</div>
         {{end}}
-    </div>
+    </article>
   </div>
   {{template "global_body_1" .}}
   {{template "global_script_0" .}}
