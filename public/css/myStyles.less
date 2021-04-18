@@ -24,20 +24,20 @@
   /* Firefox */
   scrollbar-color: @theme-color @theme-color-gray-dark;
   scrollbar-width: thin;
+}
 
-  &::-webkit-scrollbar-thumb {
-    background-color: @theme-color;
-  }
+::-webkit-scrollbar-thumb {
+  background-color: @theme-color;
+}
 
-  &::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-    background-color: @theme-color-gray-dark;
-  }
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  background-color: @theme-color-gray-dark;
+}
 
-  &::selection {
-    background: @selection-color;
-  }
+::selection {
+  background: @selection-color;
 }
 
 html {
@@ -117,12 +117,12 @@ a {
   }
 
   #loclink &, .mycontent & {
-    color: @link-color;
-    text-decoration: underline;
+    color: @link-color !important;
+    text-decoration: underline !important;
   }
 
   .list & {
-    text-decoration: none;
+    text-decoration: none !important;
   }
 }
 
