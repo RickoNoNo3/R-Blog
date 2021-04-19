@@ -111,14 +111,14 @@ div {
 }
 
 a {
-  &, &:hover, &.button {
-    color: @theme-color-white !important;
-    text-decoration: none !important;
-  }
-
   #loclink &, .mycontent & {
     color: @link-color !important;
     text-decoration: underline !important;
+  }
+
+  &:hover, &.button {
+    color: @theme-color-white !important;
+    text-decoration: none !important;
   }
 
   .list & {
