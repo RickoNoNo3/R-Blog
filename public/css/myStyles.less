@@ -111,14 +111,18 @@ div {
 }
 
 a {
+  & {
+    color: @theme-color-white !important;
+    text-decoration: none !important;
+  }
+
   #loclink &, .mycontent & {
     color: @link-color !important;
     text-decoration: underline !important;
   }
 
   &:hover, &.button {
-    color: @theme-color-white !important;
-    text-decoration: none !important;
+    a();
   }
 
   .list & {
@@ -917,6 +921,7 @@ ul.simple {
 
   .notice {
     display: block;
+    width: max-content;
     margin: 5px auto;
   }
 
