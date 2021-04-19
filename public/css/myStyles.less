@@ -116,16 +116,13 @@ a {
     text-decoration: none !important;
   }
 
-  #loclink &, .mycontent & {
+  #loclink &, .mycontent p & {
     color: @link-color !important;
     text-decoration: underline !important;
   }
 
-  &:hover, &.button {
-    a();
-  }
-
-  .list & {
+  &:hover, &.button, .list & {
+    color: @theme-color-white !important;
     text-decoration: none !important;
   }
 }
