@@ -5,6 +5,7 @@ import (
 	myMiddleware "rickonono3/r-blog/server/middleware"
 )
 
+// RouteApi
 // 无视图渲染需求的(主要是返回json的)请求在此注册:
 //   - /api/login
 //   - /api/logout

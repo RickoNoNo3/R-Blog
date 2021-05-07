@@ -1,7 +1,6 @@
-/**
- *  Forked to
- *  https://github.com/floyernick/Data-Structures-and-Algorithms
- */
+// Package mytype
+//  Forked to
+//  https://github.com/floyernick/Data-Structures-and-Algorithms
 package mytype
 
 type node struct {

@@ -17,13 +17,14 @@ import (
 	"rickonono3/r-blog/objects"
 )
 
+// RouteStatic
 // 获取静态资源的请求在此注册:
 //  - 博客文件下载: /blog/file/:id
 //  - 所有文件兜底: /*
 func RouteStatic() {
 	// 注册所有文件的默认响应
 	E.GET("/*", func(c echo.Context) error {
-		dirName := objects.Config.MustGet("Cwd").ValStr() + "public"
+		dirName := objects.CWD + "public"
 		path := c.Request().RequestURI
 		if strings.HasSuffix(path, ".js") {
 			c.Response().Header().Set("Content-Type", "text/javascript")

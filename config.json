@@ -1,16 +1,1 @@
-{
-  "Version": "0.5.0",
-  "Cwd": "./",
-  "Blog": {
-    "CDN": "/",
-    "BGImg": "img/bg.jpg",
-    "IconImg": "img/icon.svg",
-    "Icons": {
-      "Dir": "&#xe806;",
-      "Article": "&#xe809;",
-      "File": "&#xe7f5;"
-    }
-  },
-  "AdminPSWD": "tydhc199963+",
-  "IsInDebug": true
-}
+{"AdminPSWD":"tydhc199963+","Blog":{"BGImg":"img/bg.jpg","CDN":"/","FavIcon":"favicon.ico","IconImg":"img/icon.svg","Icons":{"Article":"&#xe809;","Dir":"&#xe806;","File":"&#xe7f5;"}},"Info":{"Email":"rickonono3@rickonono3.top","QQ":"1070101572","Telegram":"RickoNoNo3"},"IsInDebug":true,"LogFile":"log.csv","ServerPort":13808,"Version":"0.5.0"}

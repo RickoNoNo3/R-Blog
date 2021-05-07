@@ -1,11 +1,10 @@
 package api
 
 import (
-	"net/http"
-	"os"
-
+	"errors"
 	"github.com/jmoiron/sqlx"
 	"github.com/labstack/echo/v4"
+	"net/http"
 
 	"rickonono3/r-blog/data"
 	"rickonono3/r-blog/helper/datahelper"
@@ -39,12 +38,8 @@ func Remove(c echo.Context) (err error) {
 			}
 			if datahelper.IsExists(tx, entity) {
 				if item.Type == 2 {
-					filePath := datahelper.GetResourcePathForServer() + datahelper.GetFileName(item.Id)
-					_, err = os.Stat(filePath)
-					if os.IsNotExist(err) {
-						err = nil
-					} else if err == nil {
-						err = os.Remove(filePath)
+					if !datahelper.RemoveFileByName(datahelper.GetFileName(item.Id)) {
+						err = errors.New("removing file failed")
 					}
 				}
 				if err == nil {

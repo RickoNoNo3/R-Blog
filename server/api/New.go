@@ -23,7 +23,7 @@ type newRes struct {
 	Id  int    `json:"id"`
 }
 
-// Only for type 0 and 1
+// New Only for type 0 and 1
 // 2 => NewResource
 func New(c echo.Context) (err error) {
 	req := newReq{}

@@ -22,3 +22,7 @@ func MustAtoi(str string) (res int) {
 	}
 	return
 }
+
+func MustAtoitoa(str string) string {
+	return MustItoa(MustAtoi(str))
+}

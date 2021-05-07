@@ -36,7 +36,7 @@ func (t *Template) Render(w io.Writer, name string, dataI interface{}, c echo.Co
 
 // listTemplateFiles 是为了解决template包下的ParseBlob方法只能识别仅仅一层目录下的模板文件的问题而编写的, 逻辑是将./view/下的所有文件递归列出, 最后生成一个路径列表, 这样目录套目录的结构也可以识别成模板.
 func listTemplateFiles(dirName string) (list []string) {
-	rootDirName := objects.Config.MustGet("Cwd").ValStr() + "view/"
+	rootDirName := objects.CWD + "view/"
 	list = make([]string, 0)
 	if files, err := ioutil.ReadDir(rootDirName + dirName); err == nil {
 		for _, file := range files {

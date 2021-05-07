@@ -9,14 +9,14 @@ import (
 	"rickonono3/r-blog/mytype"
 )
 
-// 将 res 转为 int 型的 id
+// GetResultId 将 res 转为 int 型的 id
 func GetResultId(res *sql.Result) (id int) {
 	id64, _ := (*res).LastInsertId()
 	id = typehelper.Int64ToInt(id64)
 	return
 }
 
-// 判断某个实体是否存在
+// IsExists 判断某个实体是否存在
 func IsExists(tx *sqlx.Tx, entity mytype.Entity) bool {
 	if entity.Type == 0 && entity.Id == 0 {
 		return true

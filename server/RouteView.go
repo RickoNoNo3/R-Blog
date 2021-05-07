@@ -22,6 +22,7 @@ func viewContainer(next echo.HandlerFunc) echo.HandlerFunc {
 	}
 }
 
+// RouteView
 // 需要渲染视图的请求在此注册:
 //  - err时的响应
 //  - 主页: /
@@ -32,16 +33,32 @@ func viewContainer(next echo.HandlerFunc) echo.HandlerFunc {
 //  - 管理员路径重定向: /admin/
 //  - 管理员编辑: /admin/edit?type&id&parentId
 //  - 管理员获取目录选择器 /admin/tool/dirSelector
-// TODO: /admin/settings
 func RouteView() {
 	// 注册错误处理器, 处理发生错误时的响应
 	E.HTTPErrorHandler = func(err error, c echo.Context) {
+		// ----------------------------
+		// echo.go:253 DefaultHTTPErrorHandler
+		he, ok := err.(*echo.HTTPError)
+		if ok {
+			if he.Internal != nil {
+				if herr, ok := he.Internal.(*echo.HTTPError); ok {
+					he = herr
+				}
+			}
+		} else {
+			he = &echo.HTTPError{
+				Code:    http.StatusInternalServerError,
+				Message: http.StatusText(http.StatusInternalServerError),
+			}
+		}
+		// ----------------------------
+
 		accept := c.Request().Header.Get("Accept")
 		path := c.Request().RequestURI
 		reg1 := regexp.MustCompile(`application/(json|octet-stream)`)
 		reg2 := regexp.MustCompile(`^/api/`)
 		if c.Request().Method == "GET" && !reg1.MatchString(accept) && !reg2.MatchString(path) {
-			err = viewContainer(view.Error)(c)
+			err = viewContainer(view.ErrorWrap(he.Code))(c)
 		} else {
 			E.DefaultHTTPErrorHandler(err, c)
 		}
@@ -60,5 +77,6 @@ func RouteView() {
 		return c.Redirect(http.StatusPermanentRedirect, "/admin/edit")
 	})
 	admin.GET("/edit", viewContainer(viewAdmin.Edit))
+	admin.GET("/settings", viewContainer(viewAdmin.Settings))
 	admin.Any("/tool/dirSelector", viewContainer(viewAdmin.DirSelector))
 }

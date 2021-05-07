@@ -55,7 +55,7 @@ func NewResource(c echo.Context) (err error) {
 						res.Res = "ok"
 						res.FileLoc = datahelper.GetResourcePathForBrowser() + fileName
 					} else {
-						removeFile(filePath)
+						datahelper.RemoveFileByPath(filePath)
 					}
 				} else { // 是固定文件, 先创建数据库再写入文件
 					// 读取4字节 DirId
@@ -73,7 +73,7 @@ func NewResource(c echo.Context) (err error) {
 							res.Res = "ok"
 							res.FileLoc = "/blog/file/" + typehelper.MustItoa(fileId)
 						} else {
-							removeFile(filePath)
+							datahelper.RemoveFileByPath(filePath)
 						}
 					}
 				}
@@ -106,15 +106,6 @@ func writeToFile(reader io.Reader, filePath string) (err error) {
 		if _, err = io.Copy(file, reader); err == nil {
 			err = file.Close()
 		}
-	}
-	return
-}
-
-func removeFile(filePath string) (err error) {
-	// TODO(可选): 可以把删除失败的内容全部加入一个待删队列, 等服务器重启的时候统一处理, 数据库里就不管怎么样先显示已经删掉了. 还可以配合resource清理工具使用.
-	err = os.Remove(filePath)
-	if err == os.ErrNotExist {
-		err = nil
 	}
 	return
 }

@@ -1,3 +1,4 @@
+// Package data
 // 此处存放所有与数据库交互的sql命令.
 // sqlite里还写有多个触发器, 有些还是递归的
 // 请务必与此处的sql配合阅读.
@@ -11,6 +12,8 @@ import (
 	"rickonono3/r-blog/mytype"
 )
 
+// GetEntityInfo
+//
 // 通过type和id获取一个Entity
 //
 // Entity和Dir/Article/File属于两个层次,
@@ -20,7 +23,7 @@ func GetEntityInfo(tx *sqlx.Tx, entityType, entityId int) (entity mytype.Entity,
 	return
 }
 
-// 通过dirId获取一个dir
+// GetDir 通过dirId获取一个dir
 func GetDir(tx *sqlx.Tx, dirId int) (dir mytype.Dir, err error) {
 	if dirId == 0 {
 		return mytype.Dir{
@@ -35,7 +38,7 @@ func GetDir(tx *sqlx.Tx, dirId int) (dir mytype.Dir, err error) {
 	return
 }
 
-// 获取某Entity所属的父dir, 注意不能为{0,0}(根目录)
+// GetParentDir 获取某Entity所属的父dir, 注意不能为{0,0}(根目录)
 func GetParentDir(tx *sqlx.Tx, entity mytype.Entity) (dirId int, err error) {
 	if entity.Type == 0 && entity.Id == 0 {
 		err = errors.New("get parent dir of {0,0}")
@@ -45,7 +48,7 @@ func GetParentDir(tx *sqlx.Tx, entity mytype.Entity) (dirId int, err error) {
 	return
 }
 
-// 通过articleId获取一个article
+// GetArticle 通过articleId获取一个article
 func GetArticle(tx *sqlx.Tx, articleId int) (article mytype.Article, err error) {
 	article.Entity, err = GetEntityInfo(tx, 1, articleId)
 	if err != nil {
@@ -55,20 +58,20 @@ func GetArticle(tx *sqlx.Tx, articleId int) (article mytype.Article, err error) 
 	return
 }
 
-// 通过fileId获取一个file
+// GetFile 通过fileId获取一个file
 func GetFile(tx *sqlx.Tx, fileId int) (file mytype.File, err error) {
 	file.Entity, err = GetEntityInfo(tx, 2, fileId)
 	return
 }
 
-// 通过dirId获取一层contents (使用视图layer_read)
+// GetContents 通过dirId获取一层contents (使用视图layer_read)
 func GetContents(tx *sqlx.Tx, dirId int) (contents []mytype.Entity, err error) {
 	contents = make([]mytype.Entity, 0)
 	err = tx.Select(&contents, "select id, type, title, createdT, modifiedT from layer_read where dirId=?", dirId)
 	return
 }
 
-// 创建目录
+// CreateDir 创建目录
 func CreateDir(tx *sqlx.Tx, title string, parentDirId int) (dirId int, err error) {
 	res, err := tx.Exec("insert into dir (title) values (?)", title)
 	if err != nil {
@@ -86,7 +89,7 @@ func CreateDir(tx *sqlx.Tx, title string, parentDirId int) (dirId int, err error
 	return
 }
 
-// 创建文章
+// CreateArticle 创建文章
 func CreateArticle(tx *sqlx.Tx, title, markdown string, dirId int) (articleId int, err error) {
 	res, err := tx.Exec("insert into article (title, markdown) values (?, ?)", title, markdown)
 	if err != nil {
@@ -104,7 +107,7 @@ func CreateArticle(tx *sqlx.Tx, title, markdown string, dirId int) (articleId in
 	return
 }
 
-// 创建文件
+// CreateFile 创建文件
 func CreateFile(tx *sqlx.Tx, filename string, dirId int) (fileId int, err error) {
 	res, err := tx.Exec("insert into file (title) values (?)", filename)
 	if err != nil {
@@ -122,7 +125,7 @@ func CreateFile(tx *sqlx.Tx, filename string, dirId int) (fileId int, err error)
 	return
 }
 
-// 创建一层(并更新上层时间)
+// CreateLayer 创建一层(并更新上层时间)
 func CreateLayer(tx *sqlx.Tx, entity mytype.Entity, dirId int) (err error) {
 	_, err = tx.Exec("insert into layer (id, type, dirId) values (?,?,?)", entity.Id, entity.Type, dirId)
 	if err != nil {
@@ -132,7 +135,7 @@ func CreateLayer(tx *sqlx.Tx, entity mytype.Entity, dirId int) (err error) {
 	return
 }
 
-// 更新上层时间
+// UpdateLayer 更新上层时间
 func UpdateLayer(tx *sqlx.Tx, entity mytype.Entity) (err error) {
 	if entity.Type == 0 && entity.Id == 0 {
 		err = errors.New("get parent dir of {0,0}")
@@ -160,7 +163,7 @@ func UpdateLayer(tx *sqlx.Tx, entity mytype.Entity) (err error) {
 	return
 }
 
-// 移动层到其他dirId, 并把dirId的时间更新
+// MoveLayer 移动层到其他dirId, 并把dirId的时间更新
 func MoveLayer(tx *sqlx.Tx, entity mytype.Entity, dirId int) (err error) {
 	// 处理移动目录时的一些问题
 	if entity.Type == 0 {
@@ -209,7 +212,7 @@ func MoveLayer(tx *sqlx.Tx, entity mytype.Entity, dirId int) (err error) {
 	return
 }
 
-// 删除层, 并把时间更新
+// RemoveLayer 删除层, 并把时间更新
 func RemoveLayer(tx *sqlx.Tx, entity mytype.Entity) (err error) {
 	if entity.Type == 0 && entity.Id == 0 {
 		err = errors.New("remove of {0,0}")
