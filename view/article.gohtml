@@ -19,7 +19,7 @@
   <script>
     Promise.all([
       BlogPage.Ext.loadStaticFiles(),
-      BlogPage.Ext.loadArticle($('.mycontent'), {{.Article.Markdown}}),
+      BlogPage.Ext.loadArticle($('article.mycontent'), {{.Article.Markdown}}),
     ]).then(PageComplete);
   </script>
   </body>

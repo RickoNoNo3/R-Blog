@@ -404,6 +404,8 @@ var BlogPage = {
                     window.getSelection().addRange(range);
                     if (!document.execCommand('copy')) {
                       BlogPage.PopWindow.openAsNote('uploadedFileLocCopyFailed', '复制失败', '当前浏览器不支持复制');
+                    } else {
+                      BlogPage.PopWindow.openAsNote('uploadedFileLocCopySuccess', '复制成功', '现在可以关闭对话框');
                     }
                   }),
                   $(`<a class="button colorful" href="javascript:void(0)">关闭</a>`).click(win.ok),

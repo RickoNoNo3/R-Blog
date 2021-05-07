@@ -116,12 +116,12 @@ a {
     text-decoration: none !important;
   }
 
-  #loclink &, .mycontent p & {
+  #loclink &, .mycontent & {
     color: @link-color !important;
     text-decoration: underline !important;
   }
 
-  &:hover, &.button, .list & {
+  &:hover, .mycontent &.button, &.button, .list & {
     color: @theme-color-white !important;
     text-decoration: none !important;
   }
@@ -146,6 +146,9 @@ i {
 input {
   &, &:focus {
     outline: none;
+    border: none;
+    background-color: @input-color;
+    color: @theme-color-gray-lightest;
   }
 }
 
@@ -155,6 +158,7 @@ button {
   border-radius: 0 !important;
   outline: 0;
   color: white;
+  cursor: pointer;
 }
 
 .button {
@@ -163,6 +167,7 @@ button {
   width: max-content;
   padding: 8px 17px;
   transition: background-color 100ms ease-in;
+  cursor: pointer;
 
   &, * {
     line-height: 100%;
@@ -171,7 +176,7 @@ button {
   &.colorful {
     background-color: @theme-color;
 
-    &[active], &:not([active]):hover {
+    &[active], &:not([active], [disabled]):hover {
       filter: brightness(1.2);
     }
   }
@@ -183,7 +188,7 @@ button {
       background-color: @theme-color;
     }
 
-    &:not([active]):hover {
+    &:not([active], [disabled]):hover {
       background-color: @btn-hover-color;
     }
   }
@@ -521,7 +526,7 @@ ul.simple {
 
 .mybox {
   position: relative;
-  width: 80%;
+  width: calc(100% - @mybox-normal-margin * 2);
   margin: 0 auto 20px auto;
   filter: @drop-shadow;
   min-height: var(--corner-size);
@@ -572,27 +577,28 @@ ul.simple {
     }
   }
 
+  @media screen and (max-width: @middle-trigger-width) {
+    width: calc(100% - @mybox-middle-margin * 2);
+  }
+
   @media screen and (max-width: @small-trigger-width) {
     width: calc(100% - @mybox-small-margin-left);
     margin: 55px 0 20px @mybox-small-margin-left;
-    min-height: 50px;
-    ::before {
-      border-width: 50px 50px 0 0;
-    }
   }
 }
 
 .mycontent {
   display: block;
-  margin: 40px;
-  width: calc(100% - 80px);
+  --horizontal-margin: 40px;
+  margin: 40px var(--horizontal-margin);
+  width: calc(100% - 2 * var(--horizontal-margin));
   word-wrap: break-word;
   word-break: break-all;
   overflow: hidden;
 
   .mybox.inclient > & {
-    width: calc(100% - 60px);
-    margin: 10px 30px 40px 30px;
+    --horizontal-margin: 30px;
+    margin-top: 10px;
   }
 
   #line() {
@@ -923,8 +929,8 @@ ul.simple {
   }
 
   @media print {
-    margin: 5px;
-    width: calc(100% - 10px);
+    --horizontal-margin: 5px;
+    margin: var(--horizontal-margin);
     height: 100%;
     overflow: visible;
     &, * {
@@ -1115,9 +1121,6 @@ footer {
   border-color: transparent transparent @theme-color transparent !important;
   filter: @drop-shadow;
   z-index: 10;
-  @media screen and (max-width: @small-trigger-width) {
-    border-width: 0 0 50px 50px;
-  }
 }
 
 // -------------------------------------------
@@ -1140,33 +1143,95 @@ footer {
     margin-top: 20px;
   }
 
+  .mybox.box2 {
+    margin-top: 0;
+
+    > .mycontent {
+      display: flex;
+      align-items: stretch;
+      justify-content: center;
+      height: 40px;
+      padding-left: 2em;
+      width: calc(100% - $padding-left);
+
+      > input {
+        flex: 1;
+        padding-left: 8px;
+        padding-right: 8px;
+        font-size: 15px;
+        min-width: 0;
+      }
+
+      > input ~ * {
+        flex: none;
+      }
+    }
+  }
+
   @media screen and (min-width: @small-trigger-width) {
     .welcome-title {
-      margin-top: 0;
-      font-size: 30px;
-      max-width: 90vw;
-      height: 45px;
-    }
-
-    .mybox.box1 {
-      width: 50%;
-      margin: 20px 0 20px 10%;
-      float: left;
+      margin: 0 auto;
     }
 
     .mybox.box2 {
-      position: fixed;
-      width: 25%;
-      margin: 20px 10% 20px 5%;
-      right: 0;
-      top: 60px;
+      > .mycontent {
+        padding-left: 0;
+        width: calc(100% - 2 * var(--horizontal-margin));
+      }
     }
 
-    .mybox.box3 {
-      width: 5%;
-      margin: 20px 10% 20px 5%;
-      float: right;
-      text-align: center;
+    @media (min-width: @middle-trigger-width) {
+      .welcome-title {
+        margin-top: 0;
+        font-size: 30px;
+        max-width: 90vw;
+        height: 45px;
+      }
+
+      .mybox.box1,
+      .mybox.box2,
+      .mybox.box3 {
+        display: inline-block;
+      }
+
+      .mybox.box1 {
+        width: 50%;
+        margin: 20px 0 20px @mybox-normal-margin;
+        float: left;
+      }
+
+      .mybox.box2 {
+        width: 25%;
+        margin: 20px @mybox-normal-margin 20px 5%;
+
+        > .mycontent {
+          flex-direction: column;
+          height: max-content;
+          align-items: stretch;
+          justify-content: center;
+
+          > * {
+            height: 40px;
+          }
+
+          > input {
+            flex: none;
+          }
+
+          > a.button {
+            margin: 20px auto 0;
+            padding-top: 0;
+            padding-bottom: 0;
+          }
+        }
+      }
+
+      .mybox.box3 {
+        width: 5%;
+        margin: 20px 10% 20px 5%;
+        float: right;
+        text-align: center;
+      }
     }
   }
 }
@@ -1279,12 +1344,12 @@ footer {
   @media screen and (min-width: @small-trigger-width) {
     .page-wrapper {
       display: flex;
-      width: 80%;
-      margin-left: 10%;
+      width: calc(100% - 2 * @mybox-middle-margin);
+      margin-left: @mybox-middle-margin;
     }
 
     .box-right-wrapper {
-      width: 350px;
+      width: 270px;
       flex: none;
       display: flex;
       flex-direction: column;
@@ -1297,12 +1362,6 @@ footer {
     .mybox.box1 {
       flex: 30;
       width: inherit;
-
-      .mycontent {
-        .github-corner svg {
-          width: var(--corner-size);
-        }
-      }
     }
 
     .mybox.box2 {
@@ -1335,6 +1394,54 @@ footer {
     .mybox.box2, .mybox.box3 {
       margin-top: 0;
       width: 100%;
+    }
+
+    @media (min-width: @middle-trigger-width) {
+      .page-wrapper {
+        display: flex;
+        width: calc(100% - 2 * @mybox-normal-margin);
+        margin-left: @mybox-normal-margin;
+      }
+
+      .box-right-wrapper {
+        width: 350px;
+      }
+    }
+  }
+}
+
+#errorPage {
+  &body {
+    text-align: center;
+  }
+
+  #title, #icon1 {
+    filter: drop-shadow(0 0 5px black);
+  }
+
+  #icon1 {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 20px;
+  }
+
+  #title {
+    color: rgb(255, 255, 230);
+    margin: 0 auto 10px auto;
+    font-size: 30px;
+    height: 40px;
+    text-align: center;
+    flex: 1;
+  }
+
+  #goHome {
+    color: yellow !important;
+    font-size: 20px;
+  }
+
+  @media screen and (max-width: @small-trigger-width) {
+    #icon1 {
+      margin: 60px auto 20px;
     }
   }
 }

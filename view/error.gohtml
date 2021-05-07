@@ -1,41 +1,12 @@
 {{define "error"}}
-{{/* TODO: css => myStyle.less */}}
   <!DOCTYPE html>
   <html lang="zh">
-
   <head>
       {{template "global_head_0" .}}
-    <style>
-			body {
-				text-align: center;
-			}
-
-			#icon1 {
-				width: 120px;
-				height: 120px;
-				margin: 0 auto;
-			}
-
-			#title {
-				color: rgb(255, 255, 230);
-				margin: 0 auto 10px auto;
-				font-size: 30px;
-				height: 40px;
-				text-align: center;
-				filter: drop-shadow(0 0 5px black);
-				flex: 1;
-			}
-
-			#goHome {
-				color: yellow;
-				font-size: 20px;
-			}
-    </style>
   </head>
-
-  <body>
+  <body id="errorPage">
   {{template "global_body_0" .}}
-  <img id="icon1" src="{{.Global.Config.Blog.CDN}}img/icon.png"/>
+  <img id="icon1" src="{{.Global.Config.Blog.CDN}}{{.Global.Config.Blog.IconImg}}"/>
   <div id="title">
     页面走丢了哦<br/>
     <a id="goHome" href="/" target="_top">返回主页</a>
@@ -44,6 +15,5 @@
   {{template "global_script_0" .}}
   {{template "global_script_1" .}}
   </body>
-
   </html>
 {{end}}

@@ -49,6 +49,7 @@
       let ARTICLE_ID = {{.Article.Entity.Id}};
       {{end}}
       let PARENT_ID = {{.ParentId}};
+      let ARTICLE = '{{if not .IsNew -}} {{.Article.Markdown}} {{- end}}';
     </script>
     <script src="{{.Global.Config.Blog.CDN}}js/adminConEditArticle.js"></script>
     <style>
@@ -87,7 +88,7 @@
       </ul>
     </div>
     <div id="contentFrame">
-      <textarea id="editor">{{if not .IsNew -}} {{.Article.Markdown}} {{- end}}</textarea>
+      <textarea id="editor"></textarea>
       <div id="output">
         <img id="outputRefresh"
              src="{{.Global.Config.Blog.CDN}}img/wait.gif"

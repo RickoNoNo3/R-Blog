@@ -13,7 +13,7 @@
     $(link).data('href', $(link).attr('href'));
     $(link).attr('href', 'javascript:void(0)');
     $(link).click(function () {
-      if (mynav[0].offsetTop === 0 && !mynav.hasClass('preview')) {
+      if (mynav[0].offsetTop === 0) {
         window.location.href = $(this).data('href');
       }
     });

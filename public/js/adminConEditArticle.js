@@ -1,7 +1,7 @@
-let Editor;
-let Output;
-let WaitAni;
-let InFullscreen = false;
+var Editor;
+var Output;
+var WaitAni;
+var InFullscreen = false;
 
 // -----------------------------------------
 // CodeMirror 初始化
@@ -190,7 +190,7 @@ function refresh() {
       let f = window.frames[0];
       let fDoc = f.document;
       let script = fDoc.createElement('script');
-      script.src = `${CDN}js/jquery-3.4.1.min.js`;
+      script.src = `${CDN}js/jquery-3.6.0.min.js`;
       script.addEventListener('load', () => {
         // 添加blogPage依赖
         let script = fDoc.createElement('script');
@@ -206,18 +206,7 @@ function refresh() {
               $('head>style').attr('category', 'mathjax');
               window.top.refreshDone($('.mycontent').html(), $('head>style[category=mathjax]'));
             });
-            BlogPage.Ext.loadShowdown($('.mycontent'), window.top.Editor.getValue().trim(), () => {
-              BlogPage.Ext.loadGroup([
-                {
-                  func: BlogPage.Ext.loadGraph,
-                  args: [$('.mycontent')],
-                },
-                {func: BlogPage.Ext.loadTex},
-                {func: BlogPage.Ext.loadHighlight},
-              ], () => {
-                PageComplete();
-              });
-            });
+            BlogPage.Ext.loadArticle($('.mycontent'), window.top.Editor.getValue().trim()) .then(PageComplete);
             </script>
           `);
         }, false);
@@ -233,8 +222,8 @@ function refresh() {
 
 $(document).ready(() => {
   // init code mirror
-  let textarea = document.querySelector('textarea#editor');
-  window.Editor = Editor = CodeMirror.fromTextArea(textarea, {
+  const textarea = document.querySelector('textarea#editor');
+  Editor = CodeMirror.fromTextArea(textarea, {
     mode: 'md',
     theme: 'midnight',
     lineNumbers: true,
@@ -267,13 +256,16 @@ $(document).ready(() => {
     json: true,
   });
   // CodeMirror.commands.save = function () { alert('Saving'); };
+  Editor.setValue(ARTICLE);
   Editor.on('change', () => {
     refresh();
   });
-
   // init page
   Output = $('#output>div');
   WaitAni = $('#outputRefresh');
-  setTimeout(refresh);
+  setTimeout(() => {
+    Editor.refresh();
+    refresh();
+  }, 500);
   ShowPage();
 });

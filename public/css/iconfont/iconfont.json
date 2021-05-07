@@ -6,6 +6,132 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "18267906",
+      "name": "底层架构",
+      "font_class": "dicengjiagou",
+      "unicode": "e98e",
+      "unicode_decimal": 59790
+    },
+    {
+      "icon_id": "18267908",
+      "name": "饼图图表",
+      "font_class": "bingtutubiao",
+      "unicode": "e98f",
+      "unicode_decimal": 59791
+    },
+    {
+      "icon_id": "18267915",
+      "name": "订单",
+      "font_class": "dingdan",
+      "unicode": "e990",
+      "unicode_decimal": 59792
+    },
+    {
+      "icon_id": "18267916",
+      "name": "服务器",
+      "font_class": "fuwuqi",
+      "unicode": "e991",
+      "unicode_decimal": 59793
+    },
+    {
+      "icon_id": "18267917",
+      "name": "分支",
+      "font_class": "fenzhi",
+      "unicode": "e992",
+      "unicode_decimal": 59794
+    },
+    {
+      "icon_id": "18267939",
+      "name": "平台",
+      "font_class": "pingtai",
+      "unicode": "e994",
+      "unicode_decimal": 59796
+    },
+    {
+      "icon_id": "18267949",
+      "name": "商业化全球",
+      "font_class": "shangyehuaquanqiu",
+      "unicode": "e996",
+      "unicode_decimal": 59798
+    },
+    {
+      "icon_id": "18267950",
+      "name": "身份认证",
+      "font_class": "shenfenrenzheng",
+      "unicode": "e997",
+      "unicode_decimal": 59799
+    },
+    {
+      "icon_id": "18267952",
+      "name": "时间戳",
+      "font_class": "shijianchuo",
+      "unicode": "e998",
+      "unicode_decimal": 59800
+    },
+    {
+      "icon_id": "18267953",
+      "name": "数字化",
+      "font_class": "shuzihua",
+      "unicode": "e999",
+      "unicode_decimal": 59801
+    },
+    {
+      "icon_id": "18267956",
+      "name": "图表柱图",
+      "font_class": "tubiaozhutu",
+      "unicode": "e99a",
+      "unicode_decimal": 59802
+    },
+    {
+      "icon_id": "18267958",
+      "name": "数据库",
+      "font_class": "shujuku",
+      "unicode": "e99b",
+      "unicode_decimal": 59803
+    },
+    {
+      "icon_id": "18267969",
+      "name": "应用场景",
+      "font_class": "yingyongchangjing",
+      "unicode": "e99c",
+      "unicode_decimal": 59804
+    },
+    {
+      "icon_id": "18267971",
+      "name": "数据监管",
+      "font_class": "shujujianguan",
+      "unicode": "e99d",
+      "unicode_decimal": 59805
+    },
+    {
+      "icon_id": "18267973",
+      "name": "印章认证",
+      "font_class": "yinzhangrenzheng",
+      "unicode": "e99f",
+      "unicode_decimal": 59807
+    },
+    {
+      "icon_id": "18267974",
+      "name": "文档",
+      "font_class": "wendang",
+      "unicode": "e9a0",
+      "unicode_decimal": 59808
+    },
+    {
+      "icon_id": "18914865",
+      "name": "log",
+      "font_class": "log",
+      "unicode": "e604",
+      "unicode_decimal": 58884
+    },
+    {
+      "icon_id": "19410759",
+      "name": "邮件邮箱",
+      "font_class": "mail1",
+      "unicode": "e9a1",
+      "unicode_decimal": 59809
+    },
+    {
       "icon_id": "3096559",
       "name": "QQ",
       "font_class": "QQ",

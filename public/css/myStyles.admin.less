@@ -122,6 +122,12 @@ body.simple {
         display: none;
       }
     }
+
+    @media screen and (max-width: @small-trigger-width) {
+      > div > ul > li > a > span {
+        display: none;
+      }
+    }
   }
 
   > #optionFrame {
@@ -175,7 +181,7 @@ body.simple {
         &::before {
           content: "　　";
 
-          @media (max-width: 150px) {
+          @media (max-width: 300px) {
             display: none;
           }
         }
@@ -260,8 +266,45 @@ body.simple {
   opacity: 0.7;
 }
 
+.dir-selector {
+  flex: 1;
+  overflow: auto;
+
+  &, & * {
+    box-sizing: border-box;
+  }
+
+  > div {
+    display: flex;
+    flex-direction: column;
+    width: max-content;
+    min-width: 100%;
+  }
+
+  .option {
+    width: 100%;
+    padding: 5px 10px;
+
+    i {
+      font-size: 16px !important;
+    }
+  }
+}
+
 /* dir */
 #editDirPage {
+  #toolBar {
+    li {
+      &[option=back] > a.button {
+        background-color: @theme-color-gray-dark;
+      }
+
+      &[option=remove] > a.button {
+        background-color: @theme-color-red;
+      }
+    }
+  }
+
   .checkbox-d {
     width: 30px;
     text-align: center;
@@ -354,10 +397,8 @@ body.simple {
       }
     }
   }
-}
 
-@media all and (orientation: portrait) {
-  #editArticlePage {
+  @media all and (orientation: portrait) {
     #contentFrame {
       flex-direction: column;
 
@@ -372,19 +413,116 @@ body.simple {
   }
 }
 
-@media screen and (max-width: @small-trigger-width) {
-  #allContent {
-    > #optionList {
-      > div > ul > li > a > span {
-        display: none;
+#settingsPage {
+  #toolBar {
+    li {
+      &[option=restart] > a.button {
+        background-color: @theme-color-red;
+
+        &:hover {
+          filter: brightness(0.9);
+        }
       }
     }
   }
-}
 
-@media screen and (max-width: 150px) {
-  #toolBar::before {
-    display: none;
+  #settingsForm {
+    line-height: 0; // 为了placeholder隐藏
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    max-width: 100%;
+
+    > div {
+      display: inline-flex;
+      align-items: center;
+      flex-wrap: wrap;
+      width: 305px;
+      max-width: 100%;
+      text-align: left;
+
+      &:not(.placeholder) {
+        margin-top: 15px;
+      }
+
+      > div {
+        &:first-child {
+          flex: none;
+          width: 80px;
+          margin-right: 3px;
+          margin-left: 5px;
+          word-break: keep-all;
+          white-space: nowrap;
+
+          &.dangerous {
+            text-shadow: 0 0.5px @theme-color-white, 0 -0.5px @theme-color-white, 0.5px 0 @theme-color-white, -0.5px 0 @theme-color-white, 0 0 3px @theme-color-white, 0 0 3px @theme-color-white;
+            color: @theme-color-red;
+            font-weight: bold;
+          }
+        }
+
+        &:last-child {
+          flex: auto;
+          max-width: 100%;
+          display: flex;
+          align-items: center;
+
+          a.button {
+            flex: 1;
+            height: 40px;
+            justify-content: center;
+          }
+
+          input, input:focus {
+            flex: 1;
+            max-width: 100%;
+            min-width: 0;
+            font-size: 15px;
+            background: @input-color;
+            border: none;
+            filter: @drop-shadow;
+            box-sizing: content-box;
+            height: 20px;
+            padding: 10px 15px;
+            color: @theme-color-gray-lightest;
+
+            &[type=number] {
+              -moz-appearance: textfield;
+              -o-appearance: textfield;
+              -ms-appearance: textfield;
+              -webkit-appearance: textfield;
+
+              &[name^=version-] {
+                padding-left: 0;
+                padding-right: 0;
+                width: 45px;
+                text-align: center;
+              }
+            }
+          }
+        }
+      }
+
+      @media screen and (max-width: 750px) {
+        width: 200px;
+        margin-top: 6px;
+        > div {
+          &:first-child {
+            margin-left: 0;
+          }
+        }
+
+        @media (max-width: 500px) {
+          width: 100%;
+          display: flex;
+          margin-left: auto;
+          margin-right: auto;
+          &.placeholder {
+            display: none !important;
+          }
+        }
+      }
+    }
   }
 }
 

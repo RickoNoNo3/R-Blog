@@ -96,6 +96,8 @@ SOFTWARE.</code></pre>
         <div>AWS</div>
         <div>腾讯云</div>
         <div>阿里云</div>
+        <div>Dotname</div>
+        <div>VPSServer</div>
         <div>GitHub</div>
       </article>
     </div>
@@ -140,23 +142,29 @@ SOFTWARE.</code></pre>
           <div id="contactInfo">
             <div class="active" data-info="email">
               <div class="title">点击发送邮件</div>
-              <a target="_blank" href="mailto:rickonono3@rickonono3.top">
-                rickonono3@rickonono3.top
+              <a target="_blank" href="mailto:{{.Global.Config.Info.Email}}">
+                  {{.Global.Config.Info.Email}}
               </a>
             </div>
             <div data-info="qq">
               <div class="title">点击与我聊天</div>
                 {{- if .Global.IsMobile -}}
                   <!-- url schema -->
-                  <a target="_blank" href="mqqwpa://im/chat?chat_type=wpa&uin=1070101572&version=1&src_type=web&web_src=rickonono3.top">1070101572</a>
+                  <a target="_blank" href="mqqwpa://im/chat?chat_type=wpa&uin={{.Global.Config.Info.QQ}}&version=1&src_type=web&web_src=rickonono3.top">
+                      {{.Global.Config.Info.QQ}}
+                  </a>
                 {{- else -}}
                   <!-- application protocol -->
-                  <a target="_blank" href="tencent://message/?Menu=yes&uin=1070101572&Site=rickonono3.top">1070101572</a>
+                  <a target="_blank" href="tencent://message/?Menu=yes&uin={{.Global.Config.Info.QQ}}&Site=rickonono3.top">
+                      {{.Global.Config.Info.QQ}}
+                  </a>
                 {{- end -}}
             </div>
             <div data-info="tg">
               <div class="title">点击与我聊天</div>
-              <a target="_blank" href="https://t.me/RickoNoNo3">RickoNoNo3</a>
+              <a target="_blank" href="https://t.me/{{.Global.Config.Info.Telegram}}">
+                  {{.Global.Config.Info.Telegram}}
+              </a>
             </div>
           </div>
         </div>

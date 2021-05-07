@@ -1,31 +1,4 @@
 {{define "dir_selector"}}
-{{/* TODO: css => admin.less */}}
-  <style>
-      .dir-selector, .dir-selector * {
-          box-sizing: border-box;
-      }
-
-      .dir-selector {
-          flex: 1;
-          overflow: auto;
-      }
-
-      .dir-selector > div {
-          display: flex;
-          flex-direction: column;
-          width: max-content;
-          min-width: 100%;
-      }
-
-      .dir-selector .option {
-          width: 100%;
-          padding: 5px 10px;
-      }
-
-      .dir-selector .option i {
-          font-size: 16px !important;
-      }
-  </style>
   <form class="dir-selector">
     <div> <!-- flex -->
         {{range .List}}

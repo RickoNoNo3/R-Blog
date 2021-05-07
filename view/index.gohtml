@@ -12,18 +12,29 @@ $intro 开屏介绍博文
 
   <body id="indexPage">
   {{template "global_body_0" .}}
-  <div class="welcome-title {{- if .Global.IsMobile}} mobile {{- end}}">欢迎来到R崽的博客</div>
-  <div class="mybox {{- if .Global.IsMobile}} mobile {{- else}} box1 {{- end}}">
-    <article class="mycontent {{- if not .Global.IsSpacial}} undisplay {{- end}}">
-        {{- html .Intro -}}
-    </article>
+  <div class="welcome-title">欢迎来到R崽的博客</div>
+  <div>
+    <div class="mybox box1">
+      <article class="mycontent {{- if not .Global.IsSpacial}} undisplay {{- end}}">
+          {{- html .Intro -}}
+      </article>
+    </div>
+    <div class="mybox box2">
+      <div class="mycontent">
+        <input type="text">
+        <br>
+        <a class="button colorful">
+          <i class="iconfont" style="font-size: 24px!important;">&#xe63c;</i><span>搜索</span>
+        </a>
+      </div>
+    </div>
   </div>
   {{template "global_body_1" .}}
   {{template "global_script_0" .}}
   <script>
     Promise.all([
       BlogPage.Ext.loadStaticFiles(),
-      BlogPage.Ext.loadArticle($('.mycontent'), {{.Intro}}),
+      BlogPage.Ext.loadArticle($('article.mycontent'), {{.Intro}}),
     ]).then(PageComplete);
   </script>
   </body>
