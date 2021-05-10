@@ -1,0 +1,19 @@
+{{define "error"}}
+  <!DOCTYPE html>
+  <html lang="zh">
+  <head>
+      {{template "global_head_0" .}}
+  </head>
+  <body id="errorPage">
+  {{template "global_body_0" .}}
+  <img id="icon1" src="{{.Global.Config.Blog.CDN}}{{.Global.Config.Blog.IconImg}}"/>
+  <div id="title">
+    页面走丢了哦<br/>
+    <a id="goHome" href="/" target="_top">返回主页</a>
+  </div>
+  {{template "global_body_1" .}}
+  {{template "global_script_0" .}}
+  {{template "global_script_1" .}}
+  </body>
+  </html>
+{{end}}

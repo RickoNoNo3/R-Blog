@@ -1,19 +1,24 @@
-# R-Blog Core  (R-Blog 核心)
+# R-Blog
 
-轻量级博客系统 R-Blog 的功能核心.
+轻量级博客系统 R-Blog.
 
-Go + Sqlite 3. **同步支持 客户端-服务器模式 和 浏览器-服务器模式 和 本地模式**! 
-
-实现**纯绿色便携博客系统**, 多平台打开即用, 妈妈再也不用担心我换环境了!
+前后一体化服务器程序, HTML + Less + jQuery + Go + Sqlite 3.
 
 -----
 
-需要注意, 启用高级渲染(图论/数学公式/代码高亮)需要安装Chrome浏览器. 如果只阅读, 不添加和修改, 或者不使用高级渲染则不需要.
-
-Linux环境下, 使用Chromium替换Chrome时, 需要手动将Chromium链接到`PATH`下的`google-chrome`文件上, 构造一个假Chrome供程序识别.
-
 ## 使用方法
 
+```shell
+# 自定义配置文件
+cat ./config.json
+# BlogRoot指定时，寻找资源相对于BlogRoot，否则相对于程序运行时的args[0]
+export BlogRoot=./
+# method 1
+go run .
+# method 2
+go build -o blog.run .
+./blog.run
+```
 请完整阅读本章.
 
 原则上, 下载本核心程序的Release版本, 执行相应的环境检查, 进行程序配置, 即有一个完整的博客系统可供使用.

@@ -1,0 +1,528 @@
+@import "myStyles.config.less";
+
+@keyframes fullscreenToolBarHover {
+  from {
+    top: -32px;
+  }
+  to {
+    top: 0;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body.simple {
+  opacity: 1;
+}
+
+#allContent {
+  display: flex;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 100ms ease-in;
+
+  > #optionList {
+    flex: none;
+    position: relative;
+    width: 170px;
+    transition: width 500ms ease-in-out;
+    overflow: visible;
+
+    > div {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 170px;
+      height: 100%;
+      overflow: hidden;
+      overflow-y: auto;
+      transition: width 500ms ease-in-out;
+
+      > ul > li > a {
+        width: 100%;
+
+        > i {
+          font-size: 30px !important;
+        }
+
+        > span {
+          opacity: 1;
+          transition: opacity 500ms;
+        }
+      }
+    }
+
+    > #toggle {
+      position: absolute;
+      top: 20px;
+      right: -10px;
+      width: 20px;
+      height: 20px;
+      outline: none;
+      background-color: rgba(255, 255, 255, 0.4);
+      transform: rotate(45deg);
+
+      > div {
+        display: flex;
+        flex-direction: column;
+        align-content: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        transform: rotate(-45deg);
+
+        > i {
+          text-align: center;
+          font-size: 12px !important;
+        }
+      }
+    }
+
+    &.hidden {
+      width: 63px;
+
+      > div {
+        width: 63px;
+
+        > ul > li > a > span {
+          opacity: 0;
+        }
+      }
+    }
+
+    @media screen and (max-width: @small-trigger-width) {
+      &, & > div {
+        width: 50px !important;
+      }
+
+      & > div {
+        > a {
+          display: none;
+        }
+
+        > ul > li > a {
+          width: 50px;
+          height: 50px;
+          padding: 10px;
+
+          > i {
+            margin-left: 0;
+            font-size: 30px !important;
+          }
+
+          > span {
+            opacity: 0;
+          }
+        }
+      }
+
+      #toggle {
+        display: none;
+      }
+    }
+
+    @media screen and (max-width: @small-trigger-width) {
+      > div > ul > li > a > span {
+        display: none;
+      }
+    }
+  }
+
+  > #optionFrame {
+    flex: 1;
+    display: flex;
+    margin: 15px;
+    height: calc(100% - 30px);
+    overflow: hidden;
+
+    h1::after {
+      display: none !important;
+    }
+
+    #toolBar {
+      flex: none;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      width: 100%;
+      padding: 0;
+
+      > li {
+        flex: none;
+        width: max-content;
+        margin: 5px;
+        display: none;
+
+        &.show {
+          display: block;
+        }
+      }
+    }
+
+    .mycontent {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      overflow-y: auto;
+      /*padding-bottom: 10px;*/
+      margin-bottom: 14px;
+      margin-left: 14px;
+      margin-right: 14px;
+    }
+
+    @media screen and (max-width: @small-trigger-width) {
+      margin: 0;
+      height: 100%;
+
+      #toolBar {
+        &::before {
+          content: "　　";
+
+          @media (max-width: 300px) {
+            display: none;
+          }
+        }
+
+        > li {
+          margin: 2px;
+
+          > a {
+            padding: 5px;
+          }
+        }
+      }
+    }
+  }
+
+  &.fullscreen {
+    > #optionList {
+      display: none;
+    }
+
+    > #optionFrame {
+      margin: 0 !important;
+      height: 100% !important;
+
+      &::before {
+        display: none;
+      }
+
+      > .mycontent {
+        margin: 16px 10px 10px;
+
+        ul#toolBar {
+          position: absolute;
+          top: 8px;
+          left: 0;
+          margin: 0 20%;
+          padding: 4px 0;
+          width: 60%;
+          opacity: 0.2;
+          background-color: #FFF8;
+          z-index: 1;
+
+          > * {
+            display: none;
+          }
+
+          &:hover {
+            animation: fullscreenToolBarHover 100ms ease-out;
+            margin: 0;
+            top: 0;
+            width: 100%;
+            min-height: 50px;
+            padding: 16px 0;
+            opacity: 1;
+            background-color: #FFF2;
+            z-index: 9999;
+
+            > * {
+              display: inline-block;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: @small-trigger-width) {
+    a.button > i {
+      margin: 0 !important;
+    }
+
+    a.button > i + span {
+      display: none !important;
+    }
+
+  }
+}
+
+#BG {
+  top: auto;
+  bottom: 0;
+  opacity: 0.7;
+}
+
+.dir-selector {
+  flex: 1;
+  overflow: auto;
+
+  &, & * {
+    box-sizing: border-box;
+  }
+
+  > div {
+    display: flex;
+    flex-direction: column;
+    width: max-content;
+    min-width: 100%;
+  }
+
+  .option {
+    width: 100%;
+    padding: 5px 10px;
+
+    i {
+      font-size: 16px !important;
+    }
+  }
+}
+
+/* dir */
+#editDirPage {
+  #toolBar {
+    li {
+      &[option=back] > a.button {
+        background-color: @theme-color-gray-dark;
+      }
+
+      &[option=remove] > a.button {
+        background-color: @theme-color-red;
+      }
+    }
+  }
+
+  .checkbox-d {
+    width: 30px;
+    text-align: center;
+    color: #DCDCDC !important;
+
+    > i {
+      margin: 0 1vw;
+      font-size: 20px !important;
+    }
+  }
+
+  .name-d {
+    /*padding: 5px 2px;*/
+  }
+
+  .option-d {
+    padding-left: 3px;
+    text-align: right;
+    word-break: keep-all;
+    white-space: nowrap;
+    opacity: 0;
+    width: max-content;
+    transition: opacity 200ms ease-in;
+
+    > .button {
+      color: #DCDCDC;
+      display: inline-flex;
+      padding: 0 8px 0 8px;
+      width: max-content;
+      height: 30px;
+      overflow: hidden;
+
+      > i {
+        font-size: 20px !important;
+      }
+
+      > span {
+        margin-left: 0;
+      }
+    }
+  }
+
+  .list-r:hover {
+    .option-d {
+      opacity: 1;
+    }
+  }
+
+  @media screen and (max-width: @small-trigger-width) {
+  }
+}
+
+/* article */
+#editArticlePage {
+  #contentFrame {
+    flex: 1;
+    display: flex;
+    justify-content: stretch;
+    margin-top: 10px;
+    overflow: hidden;
+
+    > div {
+      flex: 1;
+      height: unset;
+      position: relative;
+    }
+
+    > #output {
+      overflow: hidden;
+      background-color: #0000002A;
+
+      > #outputRefresh {
+        position: absolute;
+        left: 7px;
+        top: 7px;
+        opacity: 0;
+        transition: opacity 100ms;
+      }
+
+      > div:last-child {
+        padding: 5px;
+        height: 100%;
+        overflow: auto;
+      }
+    }
+
+    @media screen and (max-width: @small-trigger-width) {
+      h1::before {
+        display: none;
+      }
+    }
+  }
+
+  @media all and (orientation: portrait) {
+    #contentFrame {
+      flex-direction: column;
+
+      > div {
+        width: 100%;
+      }
+    }
+
+    #output {
+      margin-top: 1vh;
+    }
+  }
+}
+
+#settingsPage {
+  #toolBar {
+    li {
+      &[option=restart] > a.button {
+        background-color: @theme-color-red;
+
+        &:hover {
+          filter: brightness(0.9);
+        }
+      }
+    }
+  }
+
+  #settingsForm {
+    line-height: 0; // 为了placeholder隐藏
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    max-width: 100%;
+
+    > div {
+      display: inline-flex;
+      align-items: center;
+      flex-wrap: wrap;
+      width: 305px;
+      max-width: 100%;
+      text-align: left;
+
+      &:not(.placeholder) {
+        margin-top: 15px;
+      }
+
+      > div {
+        &:first-child {
+          flex: none;
+          width: 80px;
+          margin-right: 3px;
+          margin-left: 5px;
+          word-break: keep-all;
+          white-space: nowrap;
+
+          &.dangerous {
+            text-shadow: 0 0.5px @theme-color-white, 0 -0.5px @theme-color-white, 0.5px 0 @theme-color-white, -0.5px 0 @theme-color-white, 0 0 3px @theme-color-white, 0 0 3px @theme-color-white;
+            color: @theme-color-red;
+            font-weight: bold;
+          }
+        }
+
+        &:last-child {
+          flex: auto;
+          max-width: 100%;
+          display: flex;
+          align-items: center;
+
+          a.button {
+            flex: 1;
+            height: 40px;
+            justify-content: center;
+          }
+
+          input, input:focus {
+            flex: 1;
+            max-width: 100%;
+            min-width: 0;
+            font-size: 15px;
+            background: @input-color;
+            border: none;
+            filter: @drop-shadow;
+            box-sizing: content-box;
+            height: 20px;
+            padding: 10px 15px;
+            color: @theme-color-gray-lightest;
+
+            &[type=number] {
+              -moz-appearance: textfield;
+              -o-appearance: textfield;
+              -ms-appearance: textfield;
+              -webkit-appearance: textfield;
+
+              &[name^=version-] {
+                padding-left: 0;
+                padding-right: 0;
+                width: 45px;
+                text-align: center;
+              }
+            }
+          }
+        }
+      }
+
+      @media screen and (max-width: 750px) {
+        width: 200px;
+        margin-top: 6px;
+        > div {
+          &:first-child {
+            margin-left: 0;
+          }
+        }
+
+        @media (max-width: 500px) {
+          width: 100%;
+          display: flex;
+          margin-left: auto;
+          margin-right: auto;
+          &.placeholder {
+            display: none !important;
+          }
+        }
+      }
+    }
+  }
+}
+

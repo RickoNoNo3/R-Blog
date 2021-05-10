@@ -1,0 +1,23 @@
+{{define "dir_selector"}}
+  <form class="dir-selector">
+    <div> <!-- flex -->
+        {{range .List}}
+          <a class="option button colorless"
+             href="javascript:void(0);"
+             data-dir-id="{{.Id}}"
+             style="padding-left: calc(10px + {{.Layer}}px * 10);"
+          >
+            <i class="iconfont">&#xe7c2;</i>
+            &nbsp;{{.Title}}
+          </a>
+        {{end}}
+    </div>
+  </form>
+  <script>
+    $('.dir-selector .option').click(function () {
+      $(this).siblings().removeAttr('active');
+      $(this).attr('active', '1');
+    });
+    $('.dir-selector .option:first').attr('active', '1');
+  </script>
+{{end}}

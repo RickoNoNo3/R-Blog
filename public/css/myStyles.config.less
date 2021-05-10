@@ -1,0 +1,54 @@
+.undisplay {
+  opacity: 0 !important;
+}
+
+/*
+ *  基础全局样式
+ */
+@small-trigger-width: 800px;
+@middle-trigger-width: 1200px;
+@corner-size-normal: 60px;
+@corner-size-small: 50px;
+@mybox-small-margin-left: 20px;
+@mybox-middle-margin: 2.5%;
+@mybox-normal-margin: 10%;
+
+@theme-color: #959500;
+@theme-color-white: #FFF;
+@theme-color-black: #000;
+@theme-color-gray: #AFAFAF;
+@theme-color-gray-lightest: #FAFAFA;
+@theme-color-gray-light: #DCDCDC;
+@theme-color-gray-dark: #404040;
+@theme-color-gray-darkest: #2D2D28;
+@theme-color-red: #7D4B25;
+@over-color-white: rgba(255, 255, 255, 0.1);
+@over-color-gray: rgba(100, 100, 100, 0.1);
+@over-color-black: rgba(0, 0, 0, 0.1);
+
+@selection-color: #FFFFDF29;
+@link-color: #FF0;
+@box-bg-color: rgba(45, 45, 40, 0.5);
+@pop-bg-color: rgba(10, 10, 10, 0.5);
+@content-bg-color: fade(@over-color-black, 30);
+@input-color: fade(@over-color-white, 5);
+@btn-hover-color: fade(@over-color-white, 15);
+@btn-active-color: @over-color-white;
+@list-hover-color: fade(@over-color-white, 15);
+
+@drop-shadow: drop-shadow(0 0 10px @theme-color-black);
+
+:root {
+  --corner-size: @corner-size-normal;
+  --menu-cnt: 4;
+  --theme-color: @theme-color;
+  --theme-color-gray: @theme-color-gray;
+  --theme-color-gray-light: @theme-color-gray-light;
+  --theme-color-gray-dark: @theme-color-gray-dark;
+  --theme-color-red: @theme-color-red;
+  font-family: 'Sarasa UI SC', 'Microsoft YaHei UI', 'Microsoft JhengHei UI', 'Segoe UI', sans-serif;
+  @media screen and (max-width: @small-trigger-width) {
+    --corner-size: @corner-size-small;
+  }
+}
+

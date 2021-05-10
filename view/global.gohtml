@@ -1,0 +1,88 @@
+{{define "global_head_0"}}
+  <meta charset="utf-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0,minimum-scale=0.5,maximum-scale=3.0, user-scalable=yes">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="renderer" content="webkit">
+  <meta name="author" content="RickoNoNo3,RickoNoNo3@163.com">
+  <meta name="copyright" content="RickoNoNo3">
+  <meta name="google-site-verification" content="H8OLMgsMa9HVIHDya6fmpU3aeLh0NH56MTuqc1qKvpM">
+  <title>{{.Title}}</title>
+  {{$useMinStr := "min."}}
+  {{$styleSheetExt := "css"}}
+  {{$styleSheetRel := "stylesheet"}}
+  {{if .Global.Config.IsInDebug}}
+      {{$useMinStr = ""}}
+      {{$styleSheetExt = "less"}}
+      {{$styleSheetRel = "stylesheet/less"}}
+  {{end}}
+  {{if .Global.IsSpecial}}
+    <script>alert('请换用 Google Chrome, Mozilla Firefox, Microsoft Edge, Apple Safari 等现代浏览器访问本站! \n本站无法在您当前使用的浏览器上保证访问效果! ');</script>
+  {{end}}
+  <script>
+    var CDN = '{{.Global.Config.Blog.CDN}}';
+    var USE_MIN_STR = '{{$useMinStr}}';
+    var STYLE_SHEET_EXT = '{{$styleSheetExt}}';
+    var STYLE_SHEET_REL = '{{$styleSheetRel}}';
+  </script>
+  <script src="{{.Global.Config.Blog.CDN}}js/jquery-3.6.0.min.js"></script>
+  <script src="{{.Global.Config.Blog.CDN}}js/blogPage.{{$useMinStr}}js"></script>
+  <link href="{{.Global.Config.Blog.CDN}}css/iconfont/iconfont.css" rel="stylesheet">
+  <link rel="{{$styleSheetRel}}" href="{{.Global.Config.Blog.CDN}}css/myStyles.highlight.{{$useMinStr}}{{$styleSheetExt}}">
+  <link rel="{{$styleSheetRel}}" href="{{.Global.Config.Blog.CDN}}css/myStyles.{{$useMinStr}}{{$styleSheetExt}}">
+  <script src="{{.Global.Config.Blog.CDN}}js/less.min.js"></script>
+{{end}}
+
+{{define "global_body_0"}}
+  <div class="mynav">
+    <div class="mynavline">
+      <ul class="mymenubar">
+        <li class="mymenuli"><a href="/">主页</a></li>
+        <li class="mymenuli"><a href="/blog/">博客</a></li>
+        <li class="mymenuli"><a href="/about/">关于</a></li>
+          {{if .Global.IsAdmin}}
+            <li class="mymenuli"><a href="/admin/">管理</a></li>
+          {{end}}
+      </ul>
+    </div>
+    <div class="mynavicon">
+      <a title="R崽的博客 - 博客园" href="https://www.cnblogs.com/rickonono3" class="undisplay"></a>
+    </div>
+  </div>
+  <div class="myloc">
+    <div class="mylocbar {{- if .Global.IsSpecial}} edge {{- else}} normal {{- end}}" id="locbar">
+      <div class="mylocbarEX"></div>
+      <span id="loclink">{{.Loc}}</span>
+    </div>
+  </div>
+{{end}}
+
+{{define "global_body_1"}}
+  <div id="userlogin" onclick="{{if not .Global.IsAdmin -}} login() {{- else -}} logout() {{- end}}"></div>
+  <img id="BG" alt="" src=""/>
+  <div id="BODYBLANK" class="flex-blank"></div>
+  <footer>
+    <div>
+      <a href="/">R崽的博客</a>
+      &nbsp;|&nbsp;
+      Copyright © 2019 - {{now | date "2006"}} R崽哗啦啦
+    </div>
+  </footer>
+{{end}}
+
+{{define "global_script_0"}}
+  <script>
+    (function () {
+      let BG = document.getElementById('BG');
+      BG.src = "{{.Global.Config.Blog.CDN}}{{.Global.Config.Blog.BGImg}}";
+      BG.onload = () => BG.setAttribute('complete', '1');
+    })();
+  </script>
+{{end}}
+
+{{/*仅在页面为静态时引入使用, 否则应在页面加载完成后手动调用loadStaticFile*/}}
+{{define "global_script_1"}}
+  <script>
+    BlogPage.Ext.loadStaticFiles().then(PageComplete);
+  </script>
+{{end}}

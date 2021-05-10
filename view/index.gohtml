@@ -1,0 +1,43 @@
+{{/*
+参数一览:
+$intro 开屏介绍博文
+*/}}
+{{define "index"}}
+  <!DOCTYPE html>
+  <html lang="zh">
+
+  <head>
+      {{template "global_head_0" .}}
+  </head>
+
+  <body id="indexPage">
+  {{template "global_body_0" .}}
+  <div class="welcome-title">欢迎来到R崽的博客</div>
+  <div>
+    <div class="mybox box1">
+      <article class="mycontent {{- if not .Global.IsSpacial}} undisplay {{- end}}">
+          {{- html .Intro -}}
+      </article>
+    </div>
+    <div class="mybox box2">
+      <div class="mycontent">
+        <input type="text">
+        <br>
+        <a class="button colorful">
+          <i class="iconfont" style="font-size: 24px!important;">&#xe63c;</i><span>搜索</span>
+        </a>
+      </div>
+    </div>
+  </div>
+  {{template "global_body_1" .}}
+  {{template "global_script_0" .}}
+  <script>
+    Promise.all([
+      BlogPage.Ext.loadStaticFiles(),
+      BlogPage.Ext.loadArticle($('article.mycontent'), {{.Intro}}),
+    ]).then(PageComplete);
+  </script>
+  </body>
+
+  </html>
+{{end}}
