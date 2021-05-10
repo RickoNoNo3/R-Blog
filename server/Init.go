@@ -1,6 +1,6 @@
 package server
 
-func init() {
+func Init() {
 	loadMinify()
 	loadEcho()
 }

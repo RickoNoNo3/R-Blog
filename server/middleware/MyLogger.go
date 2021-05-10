@@ -2,17 +2,21 @@ package middleware
 
 import (
 	"github.com/labstack/echo/v4"
-	"io"
-	"regexp"
+	"os"
+	"rickonono3/r-blog/helper/loggerhelper"
 	"rickonono3/r-blog/helper/typehelper"
+	"rickonono3/r-blog/logger"
+	"rickonono3/r-blog/objects"
 	"strings"
 	"time"
 )
 
-func MyLogger(logFile io.Writer) echo.MiddlewareFunc {
-	var escapeComma = func(str string) string {
-		return regexp.MustCompile("\\s*,\\s*").ReplaceAllString(str, "|")
+func MyLogger() echo.MiddlewareFunc {
+	logFile, err := os.Create(objects.CWD + objects.Config.MustGet("LogFile.WebLog").ValStr())
+	if err != nil {
+		logFile = os.Stdout
 	}
+	logger.L.Info("[Server]", "网络日志已启用")
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) (err error) {
 			req := c.Request()
@@ -23,23 +27,23 @@ func MyLogger(logFile io.Writer) echo.MiddlewareFunc {
 			}
 			stop := time.Now()
 			logStmt := make([]string, 0)
-			logStmt = append(logStmt, escapeComma(time.Now().Format(time.RFC3339)))
-			logStmt = append(logStmt, escapeComma(c.RealIP()))
-			logStmt = append(logStmt, escapeComma(req.Method))
-			logStmt = append(logStmt, escapeComma(req.RequestURI))
-			logStmt = append(logStmt, escapeComma(req.UserAgent()))
-			logStmt = append(logStmt, escapeComma(typehelper.MustAtoitoa(req.Header.Get(echo.HeaderContentLength))))
-			logStmt = append(logStmt, escapeComma(typehelper.MustItoa64(res.Size)))
-			logStmt = append(logStmt, escapeComma(typehelper.MustItoa(res.Status)))
-			logStmt = append(logStmt, escapeComma(typehelper.MustItoa64(int64(stop.Sub(start)))))
+			logStmt = append(logStmt, loggerhelper.EscapeComma(typehelper.MustItoa64(time.Now().Unix())))
+			logStmt = append(logStmt, loggerhelper.EscapeComma(c.RealIP()))
+			logStmt = append(logStmt, loggerhelper.EscapeComma(req.Method))
+			logStmt = append(logStmt, loggerhelper.EscapeComma(req.RequestURI))
+			logStmt = append(logStmt, loggerhelper.EscapeComma(req.UserAgent()))
+			logStmt = append(logStmt, loggerhelper.EscapeComma(typehelper.MustAtoitoa(req.Header.Get(echo.HeaderContentLength))))
+			logStmt = append(logStmt, loggerhelper.EscapeComma(typehelper.MustItoa64(res.Size)))
+			logStmt = append(logStmt, loggerhelper.EscapeComma(typehelper.MustItoa(res.Status)))
+			logStmt = append(logStmt, loggerhelper.EscapeComma(typehelper.MustItoa64(int64(stop.Sub(start)))))
 			if err == nil {
-				logStmt = append(logStmt, escapeComma(""))
+				logStmt = append(logStmt, loggerhelper.EscapeComma(""))
 			} else {
-				logStmt = append(logStmt, escapeComma(err.Error()))
+				logStmt = append(logStmt, loggerhelper.EscapeComma(err.Error()))
 			}
 			logStr := strings.Join(logStmt, ",")
 			logFile.Write([]byte(logStr + "\n"))
-			return
+			return nil
 		}
 	}
 }

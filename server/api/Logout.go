@@ -17,7 +17,7 @@ type logoutRes struct {
 func Logout(c echo.Context) (err error) {
 	res := logoutRes{}
 	hash := datahelper.MakeHashWithStr("")
-	objects.Cache.Set("AdminHash", hash)
+	objects.RuntimeEnv.Set("AdminHash", hash)
 	c.SetCookie(&http.Cookie{
 		Name:    "blog-login",
 		Value:   "",

@@ -1,4 +1,4 @@
-package api
+package admin
 
 import (
 	"net/http"
@@ -39,22 +39,26 @@ func Move(c echo.Context) (err error) {
 		})
 		return
 	})
-	for _, item := range req.List {
-		if err = data.DoTx(func(tx *sqlx.Tx) (err error) {
-			entity := mytype.Entity{
-				Type: item.Type,
-				Id:   item.Id,
+	if dirExists {
+		for _, item := range req.List {
+			if err = data.DoTx(func(tx *sqlx.Tx) (err error) {
+				entity := mytype.Entity{
+					Type: item.Type,
+					Id:   item.Id,
+				}
+				if datahelper.IsExists(tx, entity) {
+					err = data.MoveLayer(tx, entity, req.DirId)
+				}
+				return
+			}); err != nil {
+				break
 			}
-			if datahelper.IsExists(tx, entity) {
-				err = data.MoveLayer(tx, entity, req.DirId)
-			}
-			return
-		}); err != nil {
-			break
 		}
-	}
-	if err == nil {
-		res.Res = "ok"
+		if err == nil {
+			res.Res = "ok"
+		} else {
+			res.Res = "err"
+		}
 	} else {
 		res.Res = "err"
 	}

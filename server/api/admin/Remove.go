@@ -1,4 +1,4 @@
-package api
+package admin
 
 import (
 	"errors"
@@ -39,7 +39,7 @@ func Remove(c echo.Context) (err error) {
 			if datahelper.IsExists(tx, entity) {
 				if item.Type == 2 {
 					if !datahelper.RemoveFileByName(datahelper.GetFileName(item.Id)) {
-						err = errors.New("removing file failed")
+						err = errors.New("removing file failed - cleaning goroutine is exited")
 					}
 				}
 				if err == nil {

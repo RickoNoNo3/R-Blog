@@ -1,6 +1,9 @@
 package data
 
 import (
+	"os"
+	"rickonono3/r-blog/logger"
+	"rickonono3/r-blog/objects"
 	"testing"
 	"time"
 
@@ -11,6 +14,8 @@ import (
 )
 
 func InitDBTest(clear bool) {
+	objects.Init()
+	logger.InitLogger(os.Stdout)
 	OpenDB("blog_test.db")
 	if clear {
 		DoTx(func(tx *sqlx.Tx) (err error) {

@@ -26,7 +26,7 @@ func Login(c echo.Context) (err error) {
 	}
 	if req.Pswd == objects.Config.MustGet("AdminPSWD").ValStr() {
 		hash := datahelper.MakeHashWithStr(c.RealIP())
-		objects.Cache.Set("AdminHash", hash)
+		objects.RuntimeEnv.Set("AdminHash", hash)
 		c.SetCookie(&http.Cookie{
 			Name:    "blog-login",
 			Value:   hash,

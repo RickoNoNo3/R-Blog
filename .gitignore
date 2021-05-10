@@ -9,6 +9,7 @@ public/resource/
 *.pid*
 *.test
 *.out
+*_log.csv
 *.log
 log.*
 *.exe

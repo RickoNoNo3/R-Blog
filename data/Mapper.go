@@ -306,3 +306,15 @@ func EditFile(tx *sqlx.Tx, id int, title string) (err error) {
 	})
 	return
 }
+
+func GetAllIdByType(tx *sqlx.Tx, entityType int) (list []int, err error) {
+	list = make([]int, 0)
+	err = tx.Select(&list, "select id from layer where type=? order by id", entityType)
+	return
+}
+
+func GetAllMarkdownInArticle(tx *sqlx.Tx) (list []string, err error) {
+	list = make([]string, 0)
+	err = tx.Select(&list, "select markdown from article")
+	return
+}

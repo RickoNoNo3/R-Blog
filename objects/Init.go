@@ -1,6 +1,6 @@
 package objects
 
-func init() {
+func Init() {
 	initConfig()
-	initCache()
+	initRuntimeEnv()
 }

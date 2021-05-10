@@ -26,41 +26,41 @@
         </a>
       </li>
     </ul>
-    <form id="settingsForm">
+    <form id="settingsForm" autocomplete="off">
       <div>
         <div>Email</div>
         <div>
-          <input type="email" name="email" value="{{.Global.Config.Info.Email}}">
+          <input type="email" id="email" name="email" value="{{.Global.Config.Info.Email}}">
         </div>
       </div>
       <div>
         <div>QQ</div>
         <div>
-          <input type="text" name="qq" value="{{.Global.Config.Info.QQ}}">
+          <input type="text" id="qq" name="qq" value="{{.Global.Config.Info.QQ}}">
         </div>
       </div>
       <div>
         <div>Telegram</div>
         <div>
-          <input type="text" name="telegram" value="{{.Global.Config.Info.Telegram}}">
+          <input type="text" id="telegram" name="telegram" value="{{.Global.Config.Info.Telegram}}">
         </div>
       </div>
       <div>
         <div>背景图片</div>
         <div>
-          <input type="text" name="bg-img" value="{{.Global.Config.Blog.BGImg}}">
+          <input type="text" id="bgImg" name="bgImg" value="{{.Global.Config.Blog.BGImg}}">
         </div>
       </div>
       <div>
         <div>标识图片</div>
         <div>
-          <input type="text" name="icon-img" value="{{.Global.Config.Blog.IconImg}}">
+          <input type="text" id="iconImg" name="iconImg" value="{{.Global.Config.Blog.IconImg}}">
         </div>
       </div>
       <div>
         <div>网站图标</div>
         <div>
-          <input type="text" name="fav-icon" value="{{.Global.Config.Blog.FavIcon}}">
+          <input type="text" id="favicon" name="favicon" value="{{.Global.Config.Blog.Favicon}}">
         </div>
       </div>
       <div class="placeholder"></div>
@@ -75,35 +75,49 @@
         <div>当前版本</div>
         <div>
             {{$version := split "." .Global.Config.Version}}
-          <input type="number" min="0" max="99" name="version-1" value="{{$version._0}}">
+          <input type="number" min="0" max="99" id="version-0" name="version-0" value="{{$version._0}}">
           &nbsp;·&nbsp;
-          <input type="number" min="0" max="99" name="version-2" value="{{$version._1}}">
+          <input type="number" min="0" max="99" id="version-1" name="version-1" value="{{$version._1}}">
           &nbsp;·&nbsp;
-          <input type="number" min="0" max="99" name="version-3" value="{{$version._2}}">
-        </div>
-      </div>
-      <div>
-        <div class="dangerous">CDN路径</div>
-        <div>
-          <input type="text" name="cdn" value="{{.Global.Config.Blog.CDN}}">
+          <input type="number" min="0" max="99" id="version-2" name="version-2" value="{{$version._2}}">
         </div>
       </div>
       <div>
         <div>管理员密码</div>
         <div>
-          <input type="text" name="adminPSWD" value="{{.Global.Config.AdminPSWD}}">
+          <!--屏蔽浏览器自动保存密码机制的BUG-->
+          <input type="text" style="display:none;"/>
+          <input type="password" id="adminPSWD" name="adminPSWD" value="{{.Global.Config.AdminPSWD}}">
+        </div>
+      </div>
+      <div>
+        <div class="dangerous">CDN路径</div>
+        <div>
+          <input type="text" id="cdn" name="cdn" value="{{.Global.Config.Blog.CDN}}">
         </div>
       </div>
       <div>
         <div class="dangerous">服务器端口</div>
         <div>
-          <input type="number" name="serverPort" max="65535" min="1" value="{{.Global.Config.ServerPort}}">
+          <input type="number" id="serverPort" name="serverPort" max="65535" min="1" value="{{.Global.Config.ServerPort}}">
+        </div>
+      </div>
+      <div>
+        <div class="dangerous">网络日志</div>
+        <div>
+          <input type="text" id="logFile-web" name="logFile-web" value="{{.Global.Config.LogFile.WebLog}}">
+        </div>
+      </div>
+      <div>
+        <div class="dangerous">控制台日志</div>
+        <div>
+          <input type="text" id="logFile-con" name="logFile-con" value="{{.Global.Config.LogFile.ConsoleLog}}">
         </div>
       </div>
       <div>
         <div class="dangerous">调试模式</div>
         <div>
-          <input type="checkbox" name="isInDebug" style="display:none;">
+          <input type="checkbox" id="isInDebug" name="isInDebug" style="display:none;">
           <a class="button colorless" option="true">打开</a>
           <a class="button colorless" option="false">关闭</a>
           <script>
@@ -113,12 +127,6 @@
               {{- end -}}
               var DEBUG_BUTTON_ACTIVE = {{$debugButtonActive}};
           </script>
-        </div>
-      </div>
-      <div>
-        <div class="dangerous">日志文件</div>
-        <div>
-          <input type="text" name="logFile" value="{{.Global.Config.LogFile}}">
         </div>
       </div>
       <div class="placeholder"></div>

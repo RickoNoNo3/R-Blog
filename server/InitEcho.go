@@ -1,25 +1,19 @@
 package server
 
 import (
-	"os"
 	"regexp"
-	"strings"
-
-	"rickonono3/r-blog/objects"
 	mymiddleware "rickonono3/r-blog/server/middleware"
+	"strings"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	"rickonono3/r-blog/objects"
 )
 
 var E = echo.New()
 
 func loadEcho() {
-	logFile, err := os.Create(objects.CWD + objects.Config.MustGet("LogFile").ValStr())
-	if err != nil {
-		logFile = os.Stdout
-	}
-	E.Use(mymiddleware.MyLogger(logFile))
+	E.Use(mymiddleware.MyLogger())
 	E.Use(middleware.CORS())
 	E.Use(middleware.GzipWithConfig(middleware.GzipConfig{
 		Skipper: func(c echo.Context) bool {

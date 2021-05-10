@@ -2,8 +2,9 @@ package data
 
 import (
 	"github.com/jmoiron/sqlx"
-
 	_ "github.com/mattn/go-sqlite3" // sqlite3
+	"os"
+	"rickonono3/r-blog/logger"
 
 	"rickonono3/r-blog/objects"
 )
@@ -12,9 +13,15 @@ var sqldb *sqlx.DB
 var sqlerr error
 
 func OpenDB(dbLoc string) {
+	file := objects.CWD + dbLoc
+	_, err := os.Stat(file)
+	if err != nil {
+		logger.L.Panic("[Database]", "无法加载数据库!")
+		panic("无法加载数据库!")
+	}
 	sqldb, sqlerr = sqlx.Open(
 		"sqlite3",
-		objects.CWD+dbLoc,
+		file,
 	)
 	sqldb.MustExec("PRAGMA journal_mode = WAL")
 	sqldb.MustExec("PRAGMA recursive_triggers = TRUE")

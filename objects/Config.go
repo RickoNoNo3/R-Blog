@@ -20,7 +20,7 @@ var DefaultConfig = m2obj.New(m2obj.Group{
 		"CDN":     "/",
 		"BGImg":   "img/bg.jpg",
 		"IconImg": "img/icon.svg",
-		"FavIcon": "favicon.ico",
+		"Favicon": "favicon.ico",
 		"Icons": m2obj.Group{
 			"Dir":     "&#xe806;",
 			"Article": "&#xe809;",
@@ -35,7 +35,10 @@ var DefaultConfig = m2obj.New(m2obj.Group{
 	"AdminPSWD":  "",
 	"ServerPort": 13808,
 	"IsInDebug":  false,
-	"LogFile": "log.csv",
+	"LogFile": m2obj.Group{
+		"ConsoleLog": "",
+		"WebLog":     "web_log.csv",
+	},
 })
 
 func makeCWD() (cwd string) {
