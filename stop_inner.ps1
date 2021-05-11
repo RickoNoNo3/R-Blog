@@ -1,3 +1,5 @@
+chcp 65001
+
 # 由于以下原因：
 # 1. Windows系统没有完整的POSIX信号体系
 # 2. Ctrl+C无法通过powershell进行模拟

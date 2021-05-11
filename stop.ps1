@@ -1,3 +1,4 @@
+chcp 65001
 Write-Debug "stop"
 
 # getPid

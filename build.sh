@@ -31,9 +31,7 @@ fi
 
 # Build binary
 echo 'Cleaning built folder'
-if ! rm -rf built_sh; then
-  exit $EXIT_BUILD_ERR
-fi
+rm -rf built_sh
 mkdir built_sh
 echo 'Building binary'
 if ! go build -o built_sh/blog.run .; then
@@ -113,7 +111,7 @@ cp LICENSE built_sh/
 cp config.json built_sh/
 cp start.sh built_sh/
 cp stop.sh built_sh/
-rm -rf built_sh/public/resources/* &>/dev/null
+rm -rf built_sh/public/resource/* &>/dev/null
 
 # Done
 echo "Done! See ./built_sh/"
