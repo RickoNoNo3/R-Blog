@@ -1,3 +1,6 @@
 [submodule "public/js/lib"]
 	path = public/js/lib
 	url = git@github.com:RickoNoNo3/R-Blog-Public-Library.git
+[submodule "public/css/iconfont"]
+	path = public/css/iconfont
+	url = git@github.com:RickoNoNo3/R-Blog-IconFont.git
