@@ -190,7 +190,7 @@ function refresh() {
       let f = window.frames[0];
       let fDoc = f.document;
       let script = fDoc.createElement('script');
-      script.src = `${CDN}js/jquery-3.6.0.min.js`;
+      script.src = `${CDN}js/lib/jquery-3.6.0.min.js`;
       script.addEventListener('load', () => {
         // 添加blogPage依赖
         let script = fDoc.createElement('script');

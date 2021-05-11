@@ -514,7 +514,7 @@ var BlogPage = {
         );
         BlogPage.Ext.loadJS(
           'showdown',
-          `${CDN}js/showdown.min.js`,
+          `${CDN}js/lib/showdown.min.js`,
         ).then(() => {
           const converter = new showdown.Converter();
           converter.setOption('literalMidWordUnderscores', true);
@@ -539,7 +539,7 @@ var BlogPage = {
       return new Promise((resolve, reject) => {
         BlogPage.Ext.loadJS(
           'hljs',
-          `${CDN}js/highlight/highlight.pack.js`,
+          `${CDN}js/lib/highlight/highlight.pack.js`,
         ).then(() => {
           if (typeof hljs !== 'undefined') {
             hljs.initHighlighting();
@@ -571,10 +571,10 @@ var BlogPage = {
         };
         BlogPage.Ext.loadJS(
           'viz',
-          `${CDN}js/viz/viz.js`,
+          `${CDN}js/lib/viz/viz.js`,
         ).then(() => {
           BlogPage.Ext.loadJS('vizFull',
-            `${CDN}js/viz/full.render.js`,
+            `${CDN}js/lib/viz/full.render.js`,
           ).then(() => {
             for (let i = 0; i < vizHave; ++i) {
               const graph = graphs[i];
@@ -630,7 +630,7 @@ var BlogPage = {
         };
         BlogPage.Ext.loadJS(
           'mathJax',
-          `${CDN}js/mathjax/tex-chtml.js`,
+          `${CDN}js/lib/mathjax/tex-chtml.js`,
         ).then(() => {}).catch(reject);
       });
     },
