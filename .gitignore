@@ -15,6 +15,7 @@ public/resource/
 *.log
 log.*
 blog.run
+blog.run~
 blog.exe
 blog.exe~
 .*.swp
@@ -26,4 +27,3 @@ _.swp
 *.iws
 .idea/
 .vscode/
-
