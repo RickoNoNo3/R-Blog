@@ -65,8 +65,8 @@ func RouteView() {
 	}
 	// 注册主页与博客页面
 	E.GET("/", viewContainer(view.Index))
-	E.GET("/about", viewContainer(view.About))
-	E.GET("/blog", func(c echo.Context) error {
+	E.GET("/about/", viewContainer(view.About))
+	E.GET("/blog/", func(c echo.Context) error {
 		return c.Redirect(http.StatusPermanentRedirect, "/blog/dir/0")
 	})
 	E.GET("/blog/dir/:id", viewContainer(view.Dir))

@@ -13,6 +13,6 @@ import (
 func About(c echo.Context) (err error) {
 	return c.Render(http.StatusOK, "about", m2obj.New(m2obj.Group{
 		"Title": bloghelper.MakeTitle("关于"),
-		"Loc":   template.HTML(`<a href="/about">关于</a>`),
+		"Loc":   template.HTML(`<a href="/about/">关于</a>`),
 	}))
 }
