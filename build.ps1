@@ -1,4 +1,3 @@
-chcp 65001
 Write-Debug "build"
 
 $EXIT_ENV_ERR = 1
@@ -143,6 +142,9 @@ Copy-Item stop_inner.ps1 built_ps1/ -ErrorAction SilentlyContinue
 Copy-Item stop.ps1 built_ps1/ -ErrorAction SilentlyContinue
 Copy-Item KillNicely.dll built_ps1/ -ErrorAction SilentlyContinue
 Remove-Item built_ps1/public/resource/* -Force -Recurse -ErrorAction SilentlyContinue
+Remove-Item built_ps1/public/css/iconfont/.git -Force -Recurse -ErrorAction SilentlyContinue
+Remove-Item built_ps1/public/js/lib/.git -Force -Recurse -ErrorAction SilentlyContinue
+Remove-Item built_ps1/public/fonts/.git -Force -Recurse -ErrorAction SilentlyContinue
 
 # Windows GUI Console
 

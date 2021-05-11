@@ -112,6 +112,9 @@ cp config.json built_sh/
 cp start.sh built_sh/
 cp stop.sh built_sh/
 rm -rf built_sh/public/resource/* &>/dev/null
+rm -rf built_sh/public/css/iconfont/.git &>/dev/null
+rm -rf built_sh/public/js/lib/.git &>/dev/null
+rm -rf built_sh/public/fonts/.git &>/dev/null
 
 # Done
 echo "Done! See ./built_sh/"

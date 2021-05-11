@@ -1,4 +1,3 @@
-chcp 65001
 Write-Debug "start"
 
 $code = 1
