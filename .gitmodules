@@ -1,9 +1,9 @@
 [submodule "public/js/lib"]
 	path = public/js/lib
-	url = git@github.com:RickoNoNo3/R-Blog-Public-Library.git
+	url = https://github.com/RickoNoNo3/R-Blog-Public-Library.git
 [submodule "public/css/iconfont"]
 	path = public/css/iconfont
-	url = git@github.com:RickoNoNo3/R-Blog-IconFont.git
+	url = https://github.com/RickoNoNo3/R-Blog-IconFont.git
 [submodule "public/fonts"]
 	path = public/fonts
-	url = git@github.com:RickoNoNo3/R-Blog-MathJax-Fonts.git
+	url = https://github.com/RickoNoNo3/R-Blog-MathJax-Fonts.git
