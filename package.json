@@ -2,9 +2,7 @@
   "name": "r-blog",
   "description": "r-blog",
   "version": "0.5.0",
-  "scripts": {
-    "build": "./build.sh"
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "https://github.com/rickonono3/r-blog.git"

@@ -1,5 +1,7 @@
 node_modules/
-built/
+built*
+built_sh/
+built_ps1/
 logs/
 *.db
 *.db-*
@@ -12,10 +14,9 @@ public/resource/
 *_log.csv
 *.log
 log.*
-*.exe
-*.exe~
-*.dll
-*.so
+blog.run
+blog.exe
+blog.exe~
 .*.swp
 _.swp
 

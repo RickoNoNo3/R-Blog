@@ -15,18 +15,23 @@ import (
 )
 
 var (
-	CommandCycle = true
-	NeedRestart  = false
+	commandCycle = true
+	// exitCode
+	//
+	//  -1 stop unexpectedly
+	//   0 stop normally
+	//   1 stop and need to restart
+	exitCode = 0
 )
 
 // TODO: 当前版本：部署工具
-// TODO: 后续版本：日志、导航、标签、搜索、打印、分享、捐赠、强数据收集
+// TODO: 后续版本：日志、导航、标签、搜索、打印、统计、分享、捐赠、强数据收集、防爆破
 func main() {
 	defer func() {
 		if r := recover(); r != nil {
 			os.Exit(-1)
-		} else if NeedRestart {
-			cmdhelper.RunShell("restart", "5000").Start()
+		} else {
+			os.Exit(exitCode)
 		}
 	}()
 
@@ -88,6 +93,7 @@ func main() {
 	logger.L.Info("[Main]", "启动服务器于", port, "端口")
 	go func() {
 		logger.L.Panic("[Server]", server.E.Start(":"+typehelper.MustItoa(port)))
+		cmdhelper.CloseInput()
 	}()
 	defer func() {
 		ctx := context.Background()
@@ -102,17 +108,17 @@ func main() {
 	// command
 	logger.L.Info("[Main]", "监听控制台...")
 	cmdhelper.InitCmd()
-	for CommandCycle {
+	for commandCycle {
 		str := cmdhelper.GetInput()
 		logger.L.Debug("[Main]", "控制台输入: ", str)
 		switch str {
 		case "clean": // 强制执行文件清理
 			monitor.Manually()
 		case "exit": // 退出程序
-			CommandCycle = false
+			commandCycle = false
 		case "restart": // 重启程序
-			NeedRestart = true
-			CommandCycle = false
+			exitCode = 1
+			commandCycle = false
 		}
 	}
 

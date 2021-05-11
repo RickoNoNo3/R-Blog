@@ -1,7 +1,7 @@
 #!/bin/bash
 
-if [ "$1" == "silent" ]; then
-  nohup env BlogRoot=. ./blog.run >/dev/null 2>&1 &
-else
-  env BlogRoot=. ./blog.run
-fi
+code=1
+while [ $code -eq 1 ]; do
+  ./blog.run
+  code=$?
+done

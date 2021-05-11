@@ -2,9 +2,9 @@ package cleaner
 
 import (
 	"os"
+	"rickonono3/r-blog/helper/errorhelper"
 	"rickonono3/r-blog/logger"
 	"sync"
-	"syscall"
 	"time"
 )
 
@@ -100,10 +100,7 @@ func Run() {
 				go func() {
 					logger.L.Info("[Cleaner]", "正在清理: "+req)
 					err := os.Remove(req)
-					if err == nil ||
-						err == os.ErrNotExist ||
-						err.(*os.PathError).Err == syscall.ERROR_FILE_NOT_FOUND ||
-						err.(*os.PathError).Err == syscall.ERROR_PATH_NOT_FOUND {
+					if err == nil || errorhelper.CheckErrorFileNotFound(err.(*os.PathError).Err) {
 						logger.L.Info("[Cleaner]", "清理成功")
 						queMapMutex.Lock()
 						delete(queMap, req)

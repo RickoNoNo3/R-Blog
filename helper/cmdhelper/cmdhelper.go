@@ -14,10 +14,7 @@ package cmdhelper
 import (
 	"fmt"
 	"os"
-	"os/exec"
 	"os/signal"
-	"rickonono3/r-blog/objects"
-	"runtime"
 	"strings"
 	"syscall"
 )
@@ -25,17 +22,9 @@ import (
 var (
 	sysChan   = make(chan os.Signal, 1)
 	inputChan = make(chan string, 100)
-	shellExt  string
 )
 
 func InitCmd() {
-	// Shell
-	if runtime.GOOS == "windows" {
-		shellExt = ".ps1"
-	} else {
-		shellExt = ".sh"
-	}
-	// Command
 	signal.Notify(sysChan, syscall.SIGINT, syscall.SIGTERM, syscall.SIGKILL)
 	// syscall
 	go func() {
@@ -72,6 +61,6 @@ func GetInput() (str string) {
 	return <-inputChan
 }
 
-func RunShell(cmd string, args ...string) *exec.Cmd {
-	return exec.Command(objects.CWD+cmd+shellExt, args...)
+func CloseInput() {
+	inputChan <- "exit"
 }
