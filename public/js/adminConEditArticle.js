@@ -194,14 +194,14 @@ function refresh() {
       script.addEventListener('load', () => {
         // 添加blogPage依赖
         let script = fDoc.createElement('script');
-        script.src = `${CDN}js/blogPage.${USE_MIN_STR}js`;
+        script.src = `${CDN}js/blogPage${JS_EXT}`;
         script.addEventListener('load', () => {
           // 填充文档, 打造一个可以渲染markdown, 渲染结束后触发信号的页面
           $(fDoc.body).html(`
             <div class="mycontent"></div>
             <script>
-            let CDN = '${CDN}';
-            let USE_MIN_STR = '${USE_MIN_STR}';
+            const CDN = '${CDN}';
+            const JS_EXT = '${JS_EXT}';
             $(window).on('PageCompleted', ()=>{
               $('head>style').attr('category', 'mathjax');
               window.top.refreshDone($('.mycontent').html(), $('head>style[category=mathjax]'));

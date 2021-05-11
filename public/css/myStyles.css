@@ -1,0 +1,1349 @@
+.undisplay {
+  opacity: 0 !important;
+}
+/*
+ *  基础全局样式
+ */
+:root {
+  --corner-size: 60px;
+  --menu-cnt: 4;
+  --theme-color: #959500;
+  --theme-color-gray: #AFAFAF;
+  --theme-color-gray-light: #DCDCDC;
+  --theme-color-gray-dark: #404040;
+  --theme-color-red: #7D4B25;
+  font-family: 'Sarasa UI SC', 'Microsoft YaHei UI', 'Microsoft JhengHei UI', 'Segoe UI', sans-serif;
+}
+@media screen and (max-width: 800px) {
+  :root {
+    --corner-size: 50px;
+  }
+}
+@keyframes menudisplay {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+*,
+::before,
+::after {
+  -webkit-tap-highlight-color: transparent;
+  box-sizing: content-box;
+  outline: none;
+  line-height: 135%;
+  /* Firefox */
+  scrollbar-color: #959500 #404040;
+  scrollbar-width: thin;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #959500;
+}
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  background-color: #404040;
+}
+::selection {
+  background: #FFFFDF29;
+}
+html {
+  margin: 0;
+  padding: 0;
+  background-color: #000;
+}
+html.simple {
+  background-color: transparent;
+}
+html body {
+  position: relative;
+  display: flex;
+  min-height: calc(100vh - 26px);
+  flex-direction: column;
+  margin: 0;
+  padding: 0 0 25px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-color: transparent;
+}
+html body::before {
+  content: "";
+  display: block;
+  height: 60px;
+}
+html body.simple {
+  width: 100vw;
+  height: 100vh;
+  padding: 0;
+}
+html body.simple::before {
+  display: none;
+}
+@media print {
+  html body {
+    padding: 0;
+    min-height: 100vh;
+    overflow: auto;
+    display: block;
+  }
+  html body::before {
+    display: none;
+  }
+  html body > :not(.mybox) {
+    display: none !important;
+  }
+}
+@media screen and (max-width: 800px) {
+  html body::before {
+    display: none;
+  }
+}
+@media print {
+  html {
+    background-color: inherit;
+  }
+}
+div {
+  color: #DCDCDC;
+  font-size: 16px;
+}
+@media screen and (max-width: 800px) {
+  div {
+    font-size: 15px;
+  }
+}
+a {
+  color: #FFF !important;
+  text-decoration: none !important;
+}
+#loclink a,
+.mycontent a {
+  color: #FF0 !important;
+  text-decoration: underline !important;
+}
+a:hover,
+.mycontent a.button,
+a.button,
+.list a {
+  color: #FFF !important;
+  text-decoration: none !important;
+}
+i {
+  font-size: 17px !important;
+}
+.button > i {
+  font-size: 30px !important;
+}
+@media screen and (max-width: 800px) {
+  i {
+    font-size: 16px !important;
+  }
+  .button > i {
+    font-size: 20px !important;
+  }
+}
+input,
+input:focus {
+  outline: none;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #FAFAFA;
+}
+button {
+  background-color: transparent;
+  border: 0;
+  border-radius: 0 !important;
+  outline: 0;
+  color: white;
+  cursor: pointer;
+}
+.button {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  padding: 8px 17px;
+  transition: background-color 100ms ease-in;
+  cursor: pointer;
+}
+.button,
+.button * {
+  line-height: 100%;
+}
+.button.colorful {
+  background-color: #959500;
+}
+.button.colorful[active],
+.button.colorful:not([active], [disabled]):hover {
+  filter: brightness(1.2);
+}
+.button.colorless {
+  background-color: transparent;
+}
+.button.colorless[active] {
+  background-color: #959500;
+}
+.button.colorless:not([active], [disabled]):hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+.button.active {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+.button > i {
+  margin-left: -1px;
+}
+.button > span {
+  margin-left: 10px;
+  word-break: keep-all;
+  white-space: nowrap;
+}
+.list {
+  list-style: none !important;
+  width: 100%;
+  padding: 0;
+  display: table;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+.list > .list-r {
+  transition: background-color ease-in 0.2s;
+  display: table-row;
+  font-weight: 400;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #2D2D28;
+  border-top: 0;
+  color: #DCDCDC;
+  text-decoration: none;
+}
+.list > .list-r:hover {
+  background-color: rgba(255, 255, 255, 0.15) !important;
+  transition: background-color ease-in 0.1s;
+}
+.list > .list-r:nth-child(2n) {
+  background-color: rgba(100, 100, 100, 0.1);
+}
+.list > .list-r > .list-d {
+  display: table-cell;
+  position: relative;
+  vertical-align: middle;
+  line-height: 1;
+}
+.list > .list-r > .list-d i {
+  margin-right: 5px;
+}
+.list > .list-r > .list-d > .list-d-container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  margin: 2px 0;
+  align-items: center;
+}
+@media screen and (max-width: 800px) {
+  .list > .list-r {
+    height: 26px;
+    line-height: 26px;
+  }
+  .list > .list-r > .list-d i {
+    margin-right: 5px;
+  }
+}
+table:not(.no-style) {
+  border-right: 10px solid #959500;
+  border-left: 10px solid #959500;
+  border-spacing: 0;
+  border-collapse: collapse;
+  margin: 5px auto;
+  background: rgba(0, 0, 0, 0.3);
+  clip-path: polygon(0 0, 0 calc(100% - 10px), 10px 100%, 100% 100%, 100% 0);
+  -webkit-clip-path: polygon(0 0, 0 calc(100% - 10px), 10px 100%, 100% 100%, 100% 0);
+}
+table:not(.no-style) th,
+table:not(.no-style) td {
+  padding: 5px calc(5px + 1vw);
+  word-wrap: break-word;
+  font-family: 'Sarasa Term SC', 'Consolas', 'Courier New', monospace !important;
+}
+table:not(.no-style) th > *,
+table:not(.no-style) td > * {
+  display: inline-block;
+}
+table:not(.no-style) th[style~='center'],
+table:not(.no-style) td[style~='center'] {
+  font-weight: bold;
+}
+table:not(.no-style) tr:nth-child(2n) > td {
+  background: rgba(100, 100, 100, 0.1);
+}
+ul.simple {
+  font-weight: 400;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+ul.simple > li {
+  margin: 0;
+}
+#BG {
+  top: 0;
+  left: 0;
+  min-width: 100vw;
+  min-height: 100vh;
+  position: fixed;
+  opacity: 0;
+  z-index: -1;
+  transition: opacity 500ms, top ease-out 2s;
+}
+.flex-blank {
+  flex: 1;
+}
+@media screen and (max-width: 800px) {
+  .flex-blank {
+    display: none;
+  }
+}
+.mynav {
+  position: fixed;
+  top: calc(-1 * var(--corner-size) * var(--menu-cnt));
+  left: 0;
+  width: var(--corner-size);
+  /*600px;*/
+  opacity: 0;
+  transition: top cubic-bezier(0.39, 0.58, 0.46, 1) 0.3s;
+  filter: drop-shadow(0 0 10px #000);
+  z-index: 999;
+}
+.mynav,
+.mynav * {
+  font-size: 16px;
+}
+.mynav .mynavline {
+  display: block;
+  min-height: 180px;
+  width: var(--corner-size);
+  background-color: #959500;
+  height: calc(var(--corner-size) * var(--menu-cnt));
+}
+.mynav .mynavline .mymenubar {
+  opacity: 0;
+  display: none;
+  padding: 0;
+  margin: 0;
+  top: 0;
+}
+.mynav .mynavline .mymenubar > .mymenuli {
+  display: block;
+  height: 59px;
+  border-bottom: 1px solid rgba(220, 220, 220, 0.75);
+  width: 100%;
+  margin: 0 auto;
+  padding: 0;
+  text-align: center;
+  transition: background-color ease-in 0.1s;
+}
+.mynav .mynavline .mymenubar > .mymenuli > a {
+  display: inline-block;
+  height: 59px;
+  line-height: 59px;
+  width: var(--corner-size);
+  margin: 0 auto;
+}
+.mynav .mynavline .mymenubar > .mymenuli:hover,
+.mynav .mynavline .mymenubar > .mymenuli:active {
+  background-color: rgba(45, 45, 40, 0.95);
+}
+.mynav .mynavline .mymenubar > .mymenuli.disabled {
+  display: none;
+}
+.mynav .mynavline .mymenubar,
+.mynav .mynavline .mymenubar > .mymenuli {
+  font-weight: 400;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.mynav .mynavicon {
+  position: relative;
+  border-style: solid;
+  border-width: var(--corner-size) var(--corner-size) 0 0;
+  border-color: #959500 transparent transparent transparent !important;
+}
+.mynav:hover,
+.mynav.preview {
+  top: 0;
+}
+.mynav:hover .mynavline .mymenubar,
+.mynav.preview .mynavline .mymenubar {
+  animation: menudisplay 0.4s;
+  opacity: 1;
+  display: block;
+}
+@media screen and (max-width: 800px) {
+  .mynav {
+    top: calc(-50px * var(--menu-cnt));
+    left: 0;
+    width: 50px;
+    /*500px;*/
+  }
+  .mynav,
+  .mynav * {
+    font-size: 14px;
+  }
+  .mynav:hover {
+    top: 0;
+  }
+  .mynav .mynavline {
+    min-height: 150px;
+    width: 50px;
+    height: calc(50px * var(--menu-cnt));
+  }
+  .mynav .mynavline .mymenubar .mymenuli {
+    height: 49px;
+  }
+  .mynav .mynavline .mymenubar .mymenuli > a {
+    height: 49px;
+    line-height: 49px;
+    width: 50px;
+  }
+  .mynav .mynavicon {
+    border-width: 50px 50px 0 0;
+  }
+}
+.myloc {
+  position: fixed;
+  top: 0;
+  left: -100%;
+  filter: drop-shadow(0 0 10px #000);
+  opacity: 0;
+  transition: left 300ms ease-out, opacity 100ms;
+  z-index: 998;
+}
+.myloc,
+.myloc * {
+  font-size: 13px;
+  padding: 0;
+  margin: 0;
+}
+@media screen and (max-width: 800px) {
+  .myloc,
+  .myloc * {
+    font-size: 12px;
+  }
+}
+.myloc > .mylocbar {
+  position: relative;
+  width: max-content;
+  height: calc(38px - 15px);
+  line-height: calc(38px - 15px);
+  padding: 0 60px 0 80px;
+  border-bottom: 15px solid #959500;
+  background-color: rgba(45, 45, 40, 0.5);
+}
+.myloc > .mylocbar.normal {
+  clip-path: polygon(0 0, 0 100%, calc(100% - 38px) 100%, 100% 0);
+  -webkit-clip-path: polygon(0 0, 0 100%, calc(100% - 38px) 100%, 100% 0);
+}
+.myloc > .mylocbar.normal > .mylocbarEX {
+  display: none;
+}
+.myloc > .mylocbar.edge {
+  padding-right: calc(60px - 38px);
+}
+.myloc > .mylocbar.edge > .mylocbarEX {
+  position: absolute;
+  bottom: -15px;
+  right: -15px;
+  border-style: solid;
+  border-width: 0 0 15px 15px;
+  border-color: transparent transparent transparent #959500;
+}
+.myloc > .mylocbar.edge > .mylocbarEX ::before {
+  content: "";
+  position: absolute;
+  top: calc(15px - 38px);
+  left: -15px;
+  border-style: solid;
+  border-width: 0 0 38px 38px;
+  border-color: transparent transparent transparent rgba(45, 45, 40, 0.5) !important;
+  z-index: -1;
+}
+.myloc > .mylocbar #loclink {
+  text-align: left;
+}
+@media screen and (max-width: 800px) {
+  .myloc .mylocbar {
+    height: calc(35px - 12px);
+    line-height: calc(35px - 12px);
+    padding: 0 30px 0 50px;
+    border-bottom: 12px solid #959500 !important;
+    clip-path: polygon(0 0, 0 100%, calc(100% - 35px) 100%, 100% 0);
+    -webkit-clip-path: polygon(0 0, 0 100%, calc(100% - 35px) 100%, 100% 0);
+  }
+}
+.mybox {
+  position: relative;
+  width: calc(100% - 10% * 2);
+  margin: 0 auto 20px auto;
+  filter: drop-shadow(0 0 10px #000);
+  min-height: var(--corner-size);
+  background-color: rgba(45, 45, 40, 0.5);
+  overflow: hidden;
+}
+.mybox:not(.no-before)::before {
+  content: "";
+  position: absolute;
+  border-style: solid;
+  border-width: var(--corner-size) var(--corner-size) 0 0;
+  border-color: #959500 transparent transparent transparent !important;
+}
+.mybox.simple {
+  /*width: 100%;*/
+  height: 100%;
+  margin: 0;
+}
+.mybox.inclient {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  overflow: auto;
+  background-color: #2D2D28;
+  border: 1px solid #2D2D28;
+}
+.mybox.inclient::before {
+  content: "";
+  position: fixed;
+  border-style: solid;
+  border-width: var(--corner-size) var(--corner-size) 0 0;
+  border-color: #959500 transparent transparent transparent !important;
+}
+@media print {
+  .mybox {
+    margin: 0;
+    width: 100%;
+    height: max-content;
+    background-color: #FFF;
+    box-shadow: none;
+    filter: none;
+  }
+  .mybox ::before {
+    display: none;
+  }
+}
+@media screen and (max-width: 1200px) {
+  .mybox {
+    width: calc(100% - 2.5% * 2);
+  }
+}
+@media screen and (max-width: 800px) {
+  .mybox {
+    width: calc(100% - 20px);
+    margin: 55px 0 20px 20px;
+  }
+}
+.mycontent {
+  display: block;
+  --horizontal-margin: 40px;
+  margin: 40px var(--horizontal-margin);
+  width: calc(100% - 2 * var(--horizontal-margin));
+  word-wrap: break-word;
+  word-break: break-all;
+  overflow: hidden;
+}
+.mybox.inclient > .mycontent {
+  --horizontal-margin: 30px;
+  margin-top: 10px;
+}
+.mycontent hr,
+.mycontent .line {
+  display: block;
+  height: 1px;
+  margin: 15px 5px;
+  border: 0;
+  border-bottom: 1px solid #404040;
+}
+.mycontent h1,
+.mycontent h2,
+.mycontent h3,
+.mycontent h4,
+.mycontent h5,
+.mycontent h6 {
+  padding: 5px 0;
+  margin: 0;
+  font-weight: bold;
+}
+@media screen and (max-width: 800px) {
+  .mycontent h1,
+  .mycontent h2,
+  .mycontent h3,
+  .mycontent h4,
+  .mycontent h5,
+  .mycontent h6 {
+    padding: 0;
+  }
+}
+.mycontent h1 {
+  font-size: 37px;
+  width: 100%;
+  display: block;
+  text-align: center;
+}
+.mycontent h1::after {
+  content: "";
+  display: block;
+  height: 1px;
+  margin: 15px 5px;
+  border: 0;
+  border-bottom: 1px solid #404040;
+}
+@media screen and (max-width: 800px) {
+  .mycontent h1 {
+    font-size: 28px;
+  }
+  .mycontent h1::before {
+    content: "　";
+  }
+  .mycontent h1::after {
+    margin: 5px 2px;
+  }
+}
+.mycontent h2 {
+  font-size: 34px;
+}
+.mycontent h2 a {
+  text-align: center;
+  display: block;
+  width: max-content;
+  margin: 0 auto;
+}
+@media screen and (max-width: 800px) {
+  .mycontent h2 {
+    font-size: 27px;
+  }
+  .mycontent h2 a {
+    margin: 0 auto;
+  }
+}
+.mycontent h3 {
+  font-size: 31px;
+  text-indent: 1em;
+}
+@media screen and (max-width: 800px) {
+  .mycontent h3 {
+    font-size: 24px;
+  }
+}
+.mycontent h4 {
+  font-size: 28px;
+  text-indent: 2em;
+}
+@media screen and (max-width: 800px) {
+  .mycontent h4 {
+    font-size: 20px;
+  }
+}
+.mycontent h5 {
+  font-size: 25px;
+  text-indent: 2em;
+}
+@media screen and (max-width: 800px) {
+  .mycontent h5 {
+    font-size: 18px;
+  }
+}
+.mycontent h6 {
+  font-size: 22px;
+  text-indent: 2em;
+}
+@media screen and (max-width: 800px) {
+  .mycontent h6 {
+    font-size: 15px;
+  }
+}
+.mycontent blockquote {
+  background-color: rgba(0, 0, 0, 0.3);
+  margin: 10px 15px;
+  padding: 8px 10px;
+}
+.mycontent dl {
+  margin: 10px;
+  padding: 10px;
+  color: #000;
+  background-color: rgba(255, 255, 255, 0.75);
+}
+.mycontent dl > dt {
+  font-weight: bold;
+}
+.mycontent dl > dd {
+  margin: 0;
+}
+.mycontent p,
+.mycontent dl,
+.mycontent ul,
+.mycontent ol {
+  font-size: 17px;
+}
+@media screen and (max-width: 800px) {
+  .mycontent p,
+  .mycontent dl,
+  .mycontent ul,
+  .mycontent ol {
+    font-size: 15px;
+    margin-top: 0;
+  }
+}
+.mycontent ul,
+.mycontent ol {
+  padding-left: 25px;
+}
+@media screen and (max-width: 800px) {
+  .mycontent ul,
+  .mycontent ol {
+    padding-left: 16px;
+  }
+}
+.mycontent p {
+  margin: 5px 0;
+  padding: 0;
+  text-indent: 2em;
+}
+.mycontent p > graph:first-child {
+  /*margin-top: -20px;*/
+}
+.mycontent p > latex:first-child {
+  margin-top: -10px;
+}
+.mycontent p > graph,
+.mycontent p > mjx-container[display=true],
+.mycontent p code,
+.mycontent p:before {
+  text-indent: 0 !important;
+}
+.mycontent p img,
+.mycontent video,
+.mycontent audio {
+  display: block;
+  margin: 0 auto;
+  max-width: calc(100% - 4em);
+}
+.mycontent p img[inline],
+.mycontent video[inline],
+.mycontent audio[inline] {
+  display: inline-block;
+  margin: unset;
+}
+.mycontent li {
+  font-weight: 400;
+  font-size: 17px;
+  padding-left: 0;
+  margin-left: 20px;
+}
+@media screen and (max-width: 800px) {
+  .mycontent li {
+    font-size: 14px;
+    margin-left: 10px;
+  }
+}
+.mycontent progress {
+  width: 100%;
+  height: 16px;
+  border: none;
+  background-color: #404040;
+  color: #959500;
+}
+.mycontent progress::-webkit-progress-bar {
+  background-color: #404040;
+}
+.mycontent progress::-webkit-progress-value {
+  background-color: #959500;
+}
+.mycontent progress::-moz-progress-bar {
+  background-color: #959500;
+}
+@media screen and (max-width: 800px) {
+  .mycontent pre {
+    margin: 5px 0;
+  }
+}
+.mycontent code,
+.mycontent code * {
+  tab-size: 2;
+  -moz-tab-size: 2;
+  font-size: 14px !important;
+  display: inline-block;
+  font-family: 'Sarasa Term SC', 'Consolas', 'Courier New', monospace;
+}
+@media screen and (max-width: 800px) {
+  .mycontent code,
+  .mycontent code * {
+    font-size: 14px !important;
+  }
+}
+.mycontent code.hljs {
+  border-left: 10px solid #959500 !important;
+  margin: 5px 20px 5px 20px;
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  background: rgba(0, 0, 0, 0.3);
+  clip-path: polygon(0 0, 0 calc(100% - 10px), 10px 100%, 100% 100%, 100% 0);
+  -webkit-clip-path: polygon(0 0, 0 calc(100% - 10px), 10px 100%, 100% 100%, 100% 0);
+}
+.mycontent code.hljs,
+.mycontent code.hljs * {
+  font-size: 16px;
+}
+@media screen and (max-width: 800px) {
+  .mycontent code.hljs,
+  .mycontent code.hljs * {
+    font-size: 15px !important;
+    margin: 0 !important;
+  }
+}
+.mycontent code.language-text {
+  margin: 10px 50px;
+  color: white;
+  overflow-x: auto;
+  width: calc(100% - 100px);
+  filter: unset;
+}
+@media screen and (max-width: 800px) {
+  .mycontent code.language-text {
+    margin: 20px 24px;
+    width: calc(100% - 48px);
+  }
+}
+.mycontent code:not(.hljs):not(.language-text) {
+  display: inline;
+  margin: 0 2px;
+  padding: 1px 6px;
+  color: #FF0;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+@media screen and (max-width: 800px) {
+  .mycontent code:not(.hljs):not(.language-text) {
+    margin: 0 2px;
+    padding: 1px 2px;
+  }
+}
+.mycontent graph {
+  overflow: visible;
+  display: block;
+  max-width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  filter: invert(100%);
+}
+.mycontent graph svg {
+  max-width: 100%;
+  height: max-content;
+}
+.mycontent graph text {
+  font-family: 'Sarasa Term SC', 'Consolas', 'Courier New', monospace !important;
+}
+.mycontent graph title + polygon[fill~="#ffffff"] {
+  opacity: 0;
+}
+.mycontent .MathJax,
+.mycontent mjx-container {
+  font-size: 100% !important;
+  font-family: unset;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+.mycontent .MathJax mjx-utext,
+.mycontent mjx-container mjx-utext {
+  font-family: unset !important;
+}
+.mycontent .MathJax .CtxtMenu_MenuFrame,
+.mycontent mjx-container .CtxtMenu_MenuFrame {
+  display: none;
+}
+.mycontent .MathJax .MathJax_SVG_Display .MathJax_SVG,
+.mycontent mjx-container .MathJax_SVG_Display .MathJax_SVG,
+.mycontent .MathJax .MathJax_SVG_Display svg,
+.mycontent mjx-container .MathJax_SVG_Display svg {
+  width: 100%;
+}
+@media screen and (max-width: 800px) {
+  .mycontent .MathJax .MathJax_SVG_Display,
+  .mycontent mjx-container .MathJax_SVG_Display {
+    overflow-y: hidden;
+    overflow-x: auto;
+    padding: 10px 0;
+    margin: 0 !important;
+    width: unset !important;
+    border: 5px solid #404040;
+    /*border-right: none;*/
+  }
+  .mycontent .MathJax .MathJax_SVG_Display .MathJax_SVG,
+  .mycontent mjx-container .MathJax_SVG_Display .MathJax_SVG,
+  .mycontent .MathJax .MathJax_SVG_Display svg,
+  .mycontent mjx-container .MathJax_SVG_Display svg {
+    width: unset;
+    min-width: calc(100% - 15px);
+    margin: 0 10px 0 5px;
+  }
+}
+@media screen and (max-width: 800px) and (orientation: portrait) {
+  .mycontent .MathJax .MathJax_SVG_Display,
+  .mycontent mjx-container .MathJax_SVG_Display {
+    border-right: none;
+  }
+}
+.mycontent .notice {
+  display: block;
+  width: max-content;
+  margin: 5px auto;
+}
+@media print {
+  .mycontent {
+    --horizontal-margin: 5px;
+    margin: var(--horizontal-margin);
+    height: 100%;
+    overflow: visible;
+  }
+  .mycontent,
+  .mycontent * {
+    color: black !important;
+  }
+  .mycontent h1 {
+    margin-top: 0;
+  }
+  .mycontent pre {
+    margin: 5px 2em;
+    padding: 5px;
+    white-space: pre-wrap;
+    word-break: break-all;
+    word-wrap: break-word;
+    border-style: double;
+    border-width: 0 0 0 3px;
+    border-color: #2D2D28;
+    background-color: #FAFAFA;
+  }
+  .mycontent table,
+  .mycontent table * {
+    background-color: transparent !important;
+  }
+  .mycontent code.hljs {
+    background-color: transparent;
+    white-space: pre-wrap;
+    padding: 0;
+    border: none !important;
+    /* 支持以下语句的浏览器会忽略以上所有*/
+    display: contents;
+  }
+  .mycontent code.language-text {
+    margin-left: 0;
+    width: calc(100% - 50px);
+  }
+  .mycontent code:not(.hljs):not(.language-text) {
+    padding: 1px 2px 0;
+    font-size: 15px;
+    background-color: transparent;
+    border-bottom: 1px solid black;
+  }
+  .mycontent graph {
+    filter: none;
+  }
+  .mycontent mjx-container:not([display=true]) {
+    width: max-content;
+  }
+}
+@media screen and (max-width: 800px) {
+  .mycontent {
+    margin: 10px 0 10px 4px;
+    width: calc(100% - 4px);
+  }
+}
+.pop-window {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  opacity: 0;
+  z-index: 500;
+}
+.pop-window,
+.pop-window * {
+  font-size: 16px;
+}
+.pop-window > .pop-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(10, 10, 10, 0.5);
+}
+.pop-window > .pop-content {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  width: max-content;
+  height: max-content;
+  min-width: 240px;
+  max-width: 90vw;
+  min-height: 100px;
+  max-height: 90vh;
+  margin: 0;
+  color: #DCDCDC;
+  overflow: auto;
+  z-index: 501;
+}
+.pop-window > .pop-content > * {
+  width: 100%;
+  text-align: center;
+  margin: 10px 0;
+}
+.pop-window > .pop-content .pop-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+.pop-window > .pop-content .pop-html {
+  display: flex;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+.pop-window > .pop-content input {
+  width: 100%;
+  height: 25px;
+  background-color: rgba(255, 255, 255, 0.05);
+  text-align: center;
+  border: 0;
+  resize: none;
+  color: #FFF;
+}
+.pop-window > .pop-content > .btn-bar {
+  display: flex;
+  margin: 10px 0 0 0;
+}
+.pop-window > .pop-content > .btn-bar > .button {
+  display: block;
+  flex: 1;
+  text-align: center;
+}
+@media screen and (max-width: 800px) {
+  .pop-window,
+  .pop-window * {
+    font-size: 14px;
+  }
+  .pop-window .pop-title {
+    font-size: 16px;
+  }
+}
+footer {
+  position: absolute;
+  display: block;
+  bottom: 1px;
+  width: 100%;
+  margin: 0;
+  /*flex: none;*/
+  text-align: center;
+  /* z-index: 999; */
+}
+footer > div {
+  display: inline;
+  padding: 2px 10px;
+  background-color: #959500;
+  color: #FFF !important;
+  filter: drop-shadow(0 0 10px #000);
+}
+footer > div > a {
+  text-decoration: underline;
+}
+@media screen and (max-width: 800px) {
+  footer {
+    display: none;
+  }
+}
+#userlogin {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  border-style: solid;
+  border-width: 0 0 var(--corner-size) var(--corner-size);
+  border-color: transparent transparent #959500 transparent !important;
+  filter: drop-shadow(0 0 10px #000);
+  z-index: 10;
+}
+#indexPage .welcome-title {
+  color: #ffffe6;
+  margin: 60px auto 0;
+  font-size: 30px;
+  height: 40px;
+  text-align: center;
+  filter: drop-shadow(0 0 5px black) drop-shadow(0 0 8px grey);
+  white-space: nowrap;
+  word-break: keep-all;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+#indexPage .mybox.box1 {
+  margin-top: 20px;
+}
+#indexPage .mybox.box2 {
+  margin-top: 0;
+}
+#indexPage .mybox.box2 > .mycontent {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  height: 40px;
+  padding-left: 2em;
+  width: calc(100% - 2em);
+}
+#indexPage .mybox.box2 > .mycontent > input {
+  flex: 1;
+  padding-left: 8px;
+  padding-right: 8px;
+  font-size: 15px;
+  min-width: 0;
+}
+#indexPage .mybox.box2 > .mycontent > input ~ * {
+  flex: none;
+}
+@media screen and (min-width: 800px) {
+  #indexPage .welcome-title {
+    margin: 0 auto;
+  }
+  #indexPage .mybox.box2 > .mycontent {
+    padding-left: 0;
+    width: calc(100% - 2 * var(--horizontal-margin));
+  }
+}
+@media screen and (min-width: 800px) and (min-width: 1200px) {
+  #indexPage .welcome-title {
+    margin-top: 0;
+    font-size: 30px;
+    max-width: 90vw;
+    height: 45px;
+  }
+  #indexPage .mybox.box1,
+  #indexPage .mybox.box2,
+  #indexPage .mybox.box3 {
+    display: inline-block;
+  }
+  #indexPage .mybox.box1 {
+    width: 50%;
+    margin: 20px 0 20px 10%;
+    float: left;
+  }
+  #indexPage .mybox.box2 {
+    width: 25%;
+    margin: 20px 10% 20px 5%;
+  }
+  #indexPage .mybox.box2 > .mycontent {
+    flex-direction: column;
+    height: max-content;
+    align-items: stretch;
+    justify-content: center;
+  }
+  #indexPage .mybox.box2 > .mycontent > * {
+    height: 40px;
+  }
+  #indexPage .mybox.box2 > .mycontent > input {
+    flex: none;
+  }
+  #indexPage .mybox.box2 > .mycontent > a.button {
+    margin: 20px auto 0;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  #indexPage .mybox.box3 {
+    width: 5%;
+    margin: 20px 10% 20px 5%;
+    float: right;
+    text-align: center;
+  }
+}
+#dirPage .list > .list-r {
+  height: 30px;
+  line-height: 30px;
+}
+#dirPage .list > .list-r > .name {
+  text-align: left;
+  padding-left: 1vw;
+}
+#dirPage .list > .list-r > .name > i {
+  display: block;
+  position: absolute;
+  line-height: 33px;
+  left: 1vw;
+}
+#dirPage .list > .list-r > .time {
+  font-family: "Sarasa Term SC", Consolas, monospace;
+  text-align: right;
+  padding-right: 1vw;
+  word-wrap: normal;
+  word-break: keep-all;
+  white-space: nowrap;
+}
+#aboutPage h2.top-margin {
+  margin-top: 20px;
+}
+#aboutPage .mybox.box1 .mycontent .github-corner svg {
+  width: var(--corner-size);
+}
+#aboutPage .mybox.box1 .mycontent #version {
+  margin-left: 5px;
+  font-size: 16px;
+  font-weight: bold;
+}
+#aboutPage .mybox.box2 .mycontent {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 0 10px 10px;
+}
+#aboutPage .mybox.box2 .mycontent #icon {
+  margin: 10px;
+  width: 50%;
+  min-width: 50px;
+  max-width: 150px;
+  height: 50%;
+  min-height: 50px;
+  max-height: 150px;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: calc(3px + 1vw);
+}
+#aboutPage .mybox.box2 .mycontent #icon > img {
+  width: 100%;
+}
+#aboutPage .mybox.box2 .mycontent #introTable {
+  width: max-content;
+}
+#aboutPage .mybox.box2 .mycontent #introTable tr {
+  vertical-align: top;
+}
+#aboutPage .mybox.box2 .mycontent #introTable tr td:first-child {
+  width: 55px;
+}
+#aboutPage .mybox.box3 .mycontent {
+  padding-top: 10px;
+}
+#aboutPage .mybox.box3 .mycontent #contactBtnBar {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+}
+#aboutPage .mybox.box3 .mycontent #contactBtnBar > i {
+  font-size: 7vmax !important;
+  opacity: 0.5;
+  color: #FFF;
+  cursor: default;
+  transition: opacity 50ms ease-in-out;
+}
+#aboutPage .mybox.box3 .mycontent #contactBtnBar > i:hover,
+#aboutPage .mybox.box3 .mycontent #contactBtnBar > i.active {
+  opacity: 1;
+}
+#aboutPage .mybox.box3 .mycontent #contactInfo {
+  margin: 8px;
+  padding: calc(10px + 1vmax) 10px;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+#aboutPage .mybox.box3 .mycontent #contactInfo > div {
+  display: none;
+}
+#aboutPage .mybox.box3 .mycontent #contactInfo > div > .title {
+  font-size: 12px;
+  opacity: 0.75;
+}
+#aboutPage .mybox.box3 .mycontent #contactInfo > div.active {
+  display: block;
+}
+#aboutPage .mybox.box2,
+#aboutPage .mybox.box3 {
+  margin-top: 10px;
+}
+@media screen and (min-width: 800px) {
+  #aboutPage .page-wrapper {
+    display: flex;
+    width: calc(100% - 2 * 2.5%);
+    margin-left: 2.5%;
+  }
+  #aboutPage .box-right-wrapper {
+    width: 270px;
+    flex: none;
+    display: flex;
+    flex-direction: column;
+  }
+  #aboutPage h2.top-margin {
+    margin-top: 50px;
+  }
+  #aboutPage .mybox.box1 {
+    flex: 30;
+    width: inherit;
+  }
+  #aboutPage .mybox.box2 .mycontent {
+    padding: 0;
+  }
+  #aboutPage .mybox.box2 .mycontent #icon {
+    width: 150px;
+  }
+  #aboutPage .mybox.box3 .mycontent {
+    padding: 0;
+  }
+  #aboutPage .mybox.box3 .mycontent #contactBtnBar > i {
+    font-size: 45px !important;
+  }
+  #aboutPage .mybox.box3 .mycontent #contactInfo {
+    margin-top: 10px;
+    padding: 20px 10px;
+  }
+  #aboutPage .mybox.box2,
+  #aboutPage .mybox.box3 {
+    margin-top: 0;
+    width: 100%;
+  }
+}
+@media screen and (min-width: 800px) and (min-width: 1200px) {
+  #aboutPage .page-wrapper {
+    display: flex;
+    width: calc(100% - 2 * 10%);
+    margin-left: 10%;
+  }
+  #aboutPage .box-right-wrapper {
+    width: 350px;
+  }
+}
+#errorPagebody {
+  text-align: center;
+}
+#errorPage #title,
+#errorPage #icon1 {
+  filter: drop-shadow(0 0 5px black);
+}
+#errorPage #icon1 {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 20px;
+}
+#errorPage #title {
+  color: #ffffe6;
+  margin: 0 auto 10px auto;
+  font-size: 30px;
+  height: 40px;
+  text-align: center;
+  flex: 1;
+}
+#errorPage #goHome {
+  color: yellow !important;
+  font-size: 20px;
+}
+@media screen and (max-width: 800px) {
+  #errorPage #icon1 {
+    margin: 60px auto 20px;
+  }
+}

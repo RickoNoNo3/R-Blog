@@ -25,11 +25,19 @@ func (t *Template) Render(w io.Writer, name string, dataI interface{}, c echo.Co
 	data := dataI.(*m2obj.Object)
 	isMobile, isSpecial := userhelper.CheckUA(c.Request().UserAgent())
 	isAdmin := userhelper.CheckAdmin(c)
+	jsExt, cssExt, lessExt, lessRel := ".min.js", ".min.css", ".min.css", "stylesheet"
+	if objects.Config.MustGet("IsInDebug").ValBool() {
+		jsExt, cssExt, lessExt, lessRel = ".js", ".css", ".less", "stylesheet/less"
+	}
 	data.Set("Global", m2obj.Group{
 		"IsMobile":  isMobile,
 		"IsSpecial": !isMobile && isSpecial,
 		"IsAdmin":   isAdmin,
 		"Config":    objects.Config,
+		"JsExt":     jsExt,
+		"CssExt":    cssExt,
+		"LessExt":   lessExt,
+		"LessRel":   lessRel,
 	})
 	return t.templates.ExecuteTemplate(w, name, data.Staticize())
 }

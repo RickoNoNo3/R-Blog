@@ -6,7 +6,7 @@
     <script>
       let DIR_ID = {{.Dir.Entity.Id}};
     </script>
-    <script src="{{.Global.Config.Blog.CDN}}js/adminConEditDir.js"></script>
+    <script src="{{.Global.Config.Blog.CDN}}js/adminConEditDir{{.Global.JsExt}}"></script>
   </head>
   <body class="simple" id="editDirPage">
   {{template "admin_global_body_0" .}}

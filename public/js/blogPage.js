@@ -641,14 +641,14 @@ var BlogPage = {
       return Promise.all([
         BlogPage.Ext.loadJS(
           'conBg',
-          `${CDN}js/conBg.${USE_MIN_STR}js`,
+          `${CDN}js/conBg${JS_EXT}`,
         ),
         BlogPage.Ext.loadJS(
           'conLogin',
-          `${CDN}js/conLogin.${USE_MIN_STR}js`,
+          `${CDN}js/conLogin${JS_EXT}`,
         ).then(() => BlogPage.Ext.loadJS(
           'conNavLoc',
-          `${CDN}js/conNavLoc.${USE_MIN_STR}js`,
+          `${CDN}js/conNavLoc${JS_EXT}`,
         )).catch(reason => {}),
       ]);
     },

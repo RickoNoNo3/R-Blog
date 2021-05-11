@@ -51,7 +51,7 @@
       let PARENT_ID = {{.ParentId}};
       let ARTICLE = '{{if not .IsNew -}} {{.Article.Markdown}} {{- end}}';
     </script>
-    <script src="{{.Global.Config.Blog.CDN}}js/adminConEditArticle.js"></script>
+    <script src="{{.Global.Config.Blog.CDN}}js/adminConEditArticle{{.Global.JsExt}}"></script>
     <style>
     </style>
   </head>

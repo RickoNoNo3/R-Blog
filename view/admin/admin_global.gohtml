@@ -6,32 +6,25 @@
   <meta name="author" content="RickoNoNo3,RickoNoNo3@163.com">
   <meta name="copyright" content="RickoNoNo3">
   <title>{{.Title}}(管理员)</title>
-  {{$useMinStr := "min."}}
-  {{$styleSheetExt := "css"}}
-  {{$styleSheetRel := "stylesheet"}}
-  {{if .Global.Config.IsInDebug}}
-      {{$useMinStr = ""}}
-      {{$styleSheetExt = "less"}}
-      {{$styleSheetRel = "stylesheet/less"}}
-  {{end}}
   <script>
-    var CDN = '{{.Global.Config.Blog.CDN}}';
-    var USE_MIN_STR = '{{$useMinStr}}';
-    var STYLE_SHEET_EXT = '{{$styleSheetExt}}';
-    var STYLE_SHEET_REL = '{{$styleSheetRel}}';
+    const CDN = '{{.Global.Config.Blog.CDN}}';
+    const JS_EXT = '{{.Global.JsExt}}';
+    const CSS_EXT = '{{.Global.CssExt}}';
+    const LESS_EXT = '{{.Global.LessExt}}';
+    const LESS_REL = '{{.Global.LessRel}}';
   </script>
   <script src="{{.Global.Config.Blog.CDN}}js/jquery-3.6.0.min.js"></script>
-  <script src="{{.Global.Config.Blog.CDN}}js/blogPage.{{$useMinStr}}js"></script>
-  <script src="{{.Global.Config.Blog.CDN}}js/adminConPage.{{$useMinStr}}js"></script>
-  <script src="{{.Global.Config.Blog.CDN}}js/input-process.js"></script>
-  <link href="{{.Global.Config.Blog.CDN}}css/iconfont/iconfont.css" rel="stylesheet">
+  <script src="{{.Global.Config.Blog.CDN}}js/blogPage{{.Global.JsExt}}"></script>
+  <script src="{{.Global.Config.Blog.CDN}}js/adminConPage{{.Global.JsExt}}"></script>
+  <script src="{{.Global.Config.Blog.CDN}}js/input-process{{.Global.JsExt}}"></script>
+  <link rel="stylesheet" href="{{.Global.Config.Blog.CDN}}css/iconfont/iconfont{{.Global.CssExt}}">
   <!-- myStyle -->
-  <link rel="{{$styleSheetRel}}" href="{{.Global.Config.Blog.CDN}}css/myStyles.{{$useMinStr}}{{$styleSheetExt}}">
-  <link rel="{{$styleSheetRel}}" href="{{.Global.Config.Blog.CDN}}css/myStyles.highlight.{{$useMinStr}}{{$styleSheetExt}}">
-  <link rel="{{$styleSheetRel}}" href="{{.Global.Config.Blog.CDN}}css/myStyles.cm.{{$useMinStr}}{{$styleSheetExt}}">
-  <link rel="{{$styleSheetRel}}" href="{{.Global.Config.Blog.CDN}}css/myStyles.admin.{{$useMinStr}}{{$styleSheetExt}}">
+  <link rel="{{.Global.LessRel}}" href="{{.Global.Config.Blog.CDN}}css/myStyles{{.Global.LessExt}}">
+  <link rel="{{.Global.LessRel}}" href="{{.Global.Config.Blog.CDN}}css/myStyles.highlight{{.Global.LessExt}}">
+  <link rel="{{.Global.LessRel}}" href="{{.Global.Config.Blog.CDN}}css/myStyles.cm{{.Global.LessExt}}">
+  <link rel="{{.Global.LessRel}}" href="{{.Global.Config.Blog.CDN}}css/myStyles.admin{{.Global.LessExt}}">
   {{if .Global.IsMobile }}
-    <link rel="{{$styleSheetRel}}" href="{{.Global.Config.Blog.CDN}}css/myStyles.admin.mob.{{$useMinStr}}{{$styleSheetExt}}">
+    <link rel="{{.Global.LessRel}}" href="{{.Global.Config.Blog.CDN}}css/myStyles.admin.mob{{.Global.LessExt}}">
   {{end}}
   <script src="{{.Global.Config.Blog.CDN}}js/less.min.js"></script>
 {{end}}
