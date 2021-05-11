@@ -6,6 +6,8 @@ logs/
 *.db
 *.db-*
 public/resource/
+public/css/myStyles*.css
+public/js/*.min.js
 
 # Unused files
 *.pid*
