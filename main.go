@@ -24,7 +24,6 @@ var (
 	exitCode = 0
 )
 
-// TODO: 当前版本：部署工具
 // TODO: 后续版本：日志、导航、标签、搜索、打印、统计、分享、捐赠、强数据收集、防爆破
 func main() {
 	defer func() {

@@ -30,7 +30,7 @@ function save() {
       },
       AdminPSWD: $('input[name=adminPSWD]').val().trim(),
       ServerPort: parseInt($('input[name=serverPort]').val().trim()),
-      IsInDebug: Boolean($('input[name=isInDebug]').val().trim()),
+      IsInDebug: $('input[name=isInDebug]').prop('checked'),
       LogFile: {
         ConsoleLog: $('input[name=logFile-con]').val().trim(),
         WebLog: $('input[name=logFile-web]').val().trim(),

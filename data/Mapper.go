@@ -19,7 +19,7 @@ import (
 // Entity和Dir/Article/File属于两个层次,
 // Entity代表通用的基础信息
 func GetEntityInfo(tx *sqlx.Tx, entityType, entityId int) (entity mytype.Entity, err error) {
-	err = tx.Get(&entity, "select id, type, title, createdT, modifiedT from layer_read where type=? and id=?", entityType, entityId)
+	err = tx.Get(&entity, "SELECT id, type, title, createdT, modifiedT FROM layer_read WHERE type=? AND id=?", entityType, entityId)
 	return
 }
 
@@ -44,7 +44,7 @@ func GetParentDir(tx *sqlx.Tx, entity mytype.Entity) (dirId int, err error) {
 		err = errors.New("get parent dir of {0,0}")
 		return
 	}
-	err = tx.Get(&dirId, "select dirId from layer where id=? and type=?", entity.Id, entity.Type)
+	err = tx.Get(&dirId, "SELECT dirId FROM layer WHERE id=? AND type=?", entity.Id, entity.Type)
 	return
 }
 
@@ -54,7 +54,7 @@ func GetArticle(tx *sqlx.Tx, articleId int) (article mytype.Article, err error) 
 	if err != nil {
 		return
 	}
-	err = tx.Get(&article, "select markdown, tags, voted, visited from article where id=?", articleId)
+	err = tx.Get(&article, "SELECT markdown, tags, voted, visited FROM article WHERE id=?", articleId)
 	return
 }
 
@@ -67,13 +67,19 @@ func GetFile(tx *sqlx.Tx, fileId int) (file mytype.File, err error) {
 // GetContents 通过dirId获取一层contents (使用视图layer_read)
 func GetContents(tx *sqlx.Tx, dirId int) (contents []mytype.Entity, err error) {
 	contents = make([]mytype.Entity, 0)
-	err = tx.Select(&contents, "select id, type, title, createdT, modifiedT from layer_read where dirId=?", dirId)
+	err = tx.Select(&contents, "SELECT id, type, title, createdT, modifiedT FROM layer_read WHERE dirId=?", dirId)
+	return
+}
+
+// GetWelcome 获取“建博客的一些心得”
+func GetWelcome(tx *sqlx.Tx) (welcome string, err error) {
+	err = tx.Get(&welcome, "SELECT markdown FROM article WHERE id=0")
 	return
 }
 
 // CreateDir 创建目录
 func CreateDir(tx *sqlx.Tx, title string, parentDirId int) (dirId int, err error) {
-	res, err := tx.Exec("insert into dir (title) values (?)", title)
+	res, err := tx.Exec("INSERT INTO dir (title) VALUES (?)", title)
 	if err != nil {
 		return
 	}
@@ -91,7 +97,7 @@ func CreateDir(tx *sqlx.Tx, title string, parentDirId int) (dirId int, err error
 
 // CreateArticle 创建文章
 func CreateArticle(tx *sqlx.Tx, title, markdown string, dirId int) (articleId int, err error) {
-	res, err := tx.Exec("insert into article (title, markdown) values (?, ?)", title, markdown)
+	res, err := tx.Exec("INSERT INTO article (title, markdown) VALUES (?, ?)", title, markdown)
 	if err != nil {
 		return
 	}
@@ -109,7 +115,7 @@ func CreateArticle(tx *sqlx.Tx, title, markdown string, dirId int) (articleId in
 
 // CreateFile 创建文件
 func CreateFile(tx *sqlx.Tx, filename string, dirId int) (fileId int, err error) {
-	res, err := tx.Exec("insert into file (title) values (?)", filename)
+	res, err := tx.Exec("INSERT INTO file (title) VALUES (?)", filename)
 	if err != nil {
 		return
 	}
@@ -127,7 +133,7 @@ func CreateFile(tx *sqlx.Tx, filename string, dirId int) (fileId int, err error)
 
 // CreateLayer 创建一层(并更新上层时间)
 func CreateLayer(tx *sqlx.Tx, entity mytype.Entity, dirId int) (err error) {
-	_, err = tx.Exec("insert into layer (id, type, dirId) values (?,?,?)", entity.Id, entity.Type, dirId)
+	_, err = tx.Exec("INSERT INTO layer (id, type, dirId) VALUES (?,?,?)", entity.Id, entity.Type, dirId)
 	if err != nil {
 		return
 	}
@@ -143,7 +149,7 @@ func UpdateLayer(tx *sqlx.Tx, entity mytype.Entity) (err error) {
 	}
 	tEntity := entity
 	for {
-		_, err = tx.Exec("update layer set modifiedT=CURRENT_TIMESTAMP where id=? and type=?", tEntity.Id, tEntity.Type)
+		_, err = tx.Exec("UPDATE layer SET modifiedT=CURRENT_TIMESTAMP WHERE id=? AND type=?", tEntity.Id, tEntity.Type)
 		if err != nil {
 			return
 		}
@@ -208,7 +214,7 @@ func MoveLayer(tx *sqlx.Tx, entity mytype.Entity, dirId int) (err error) {
 		Id:   dirId,
 		Type: 0,
 	})
-	_, err = tx.Exec("update layer set dirId=? where id=? and type=?", dirId, entity.Id, entity.Type)
+	_, err = tx.Exec("UPDATE layer SET dirId=? WHERE id=? AND type=?", dirId, entity.Id, entity.Type)
 	return
 }
 
@@ -244,22 +250,22 @@ func RemoveLayer(tx *sqlx.Tx, entity mytype.Entity) (err error) {
 	}
 	// 删除 removedList 中的每一项的本体数据和层数据
 	for _, v := range removedList {
-		if _, err = tx.Exec("delete from layer where id=? and type=?", v.Id, v.Type); err != nil {
+		if _, err = tx.Exec("DELETE FROM layer WHERE id=? AND type=?", v.Id, v.Type); err != nil {
 			return
 		}
 		switch v.Type {
 		case 0:
-			_, err = tx.Exec("delete from dir where id=?", v.Id)
+			_, err = tx.Exec("DELETE FROM dir WHERE id=?", v.Id)
 			if err != nil {
 				return
 			}
 		case 1:
-			_, err = tx.Exec("delete from article where id=?", v.Id)
+			_, err = tx.Exec("DELETE FROM article WHERE id=?", v.Id)
 			if err != nil {
 				return
 			}
 		case 2:
-			_, err = tx.Exec("delete from file where id=?", v.Id)
+			_, err = tx.Exec("DELETE FROM file WHERE id=?", v.Id)
 			if err != nil {
 				return
 			}
@@ -269,7 +275,7 @@ func RemoveLayer(tx *sqlx.Tx, entity mytype.Entity) (err error) {
 }
 
 func EditDir(tx *sqlx.Tx, id int, title string) (err error) {
-	_, err = tx.Exec("update dir set title=? where id=?", title, id)
+	_, err = tx.Exec("UPDATE dir SET title=? WHERE id=?", title, id)
 	if err != nil {
 		return
 	}
@@ -282,7 +288,7 @@ func EditDir(tx *sqlx.Tx, id int, title string) (err error) {
 }
 
 func EditArticle(tx *sqlx.Tx, id int, title, markdown string) (err error) {
-	_, err = tx.Exec("update article set title=?, markdown=? where id=?", title, markdown, id)
+	_, err = tx.Exec("UPDATE article SET title=?, markdown=? WHERE id=?", title, markdown, id)
 	if err != nil {
 		return
 	}
@@ -295,7 +301,7 @@ func EditArticle(tx *sqlx.Tx, id int, title, markdown string) (err error) {
 }
 
 func EditFile(tx *sqlx.Tx, id int, title string) (err error) {
-	_, err = tx.Exec("update file set title=? where id=?", title, id)
+	_, err = tx.Exec("UPDATE file SET title=? WHERE id=?", title, id)
 	if err != nil {
 		return
 	}
@@ -309,12 +315,12 @@ func EditFile(tx *sqlx.Tx, id int, title string) (err error) {
 
 func GetAllIdByType(tx *sqlx.Tx, entityType int) (list []int, err error) {
 	list = make([]int, 0)
-	err = tx.Select(&list, "select id from layer where type=? order by id", entityType)
+	err = tx.Select(&list, "SELECT id FROM layer WHERE type=? ORDER BY id", entityType)
 	return
 }
 
 func GetAllMarkdownInArticle(tx *sqlx.Tx) (list []string, err error) {
 	list = make([]string, 0)
-	err = tx.Select(&list, "select markdown from article")
+	err = tx.Select(&list, "SELECT markdown FROM article")
 	return
 }

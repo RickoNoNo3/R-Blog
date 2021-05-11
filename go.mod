@@ -14,7 +14,6 @@ require (
 	github.com/mitchellh/copystructure v1.1.2 // indirect
 	github.com/rickonono3/m2obj v0.1.2
 	github.com/stretchr/testify v1.7.0
-	github.com/tdewolff/minify/v2 v2.9.16
 	github.com/tdewolff/parse/v2 v2.5.16 // indirect
 	golang.org/x/crypto v0.0.0-20210421170649-83a5a9bb288b // indirect
 	golang.org/x/net v0.0.0-20210423184538-5f58ad60dda6 // indirect
