@@ -25,7 +25,7 @@ echo 'Installing dependencies'
 if ! go get -v .; then
   exit $EXIT_DEP_ERR
 fi
-if ! npm clean-install; then
+if ! npm ci; then
   exit $EXIT_DEP_ERR
 fi
 

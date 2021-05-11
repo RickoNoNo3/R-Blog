@@ -41,7 +41,7 @@ go get -v .
 if ($LASTEXITCODE -ne 0) {
     exit $EXIT_DEP_ERR
 }
-npm clean-install
+npm ci
 if ($LASTEXITCODE -ne 0) {
     exit $EXIT_DEP_ERR
 }
