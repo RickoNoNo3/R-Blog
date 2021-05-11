@@ -4,3 +4,6 @@
 [submodule "public/css/iconfont"]
 	path = public/css/iconfont
 	url = git@github.com:RickoNoNo3/R-Blog-IconFont.git
+[submodule "public/fonts"]
+	path = public/fonts
+	url = git@github.com:RickoNoNo3/R-Blog-MathJax-Fonts.git
