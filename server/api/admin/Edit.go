@@ -2,10 +2,10 @@ package admin
 
 import (
 	"errors"
-	"net/http"
-
 	"github.com/jmoiron/sqlx"
 	"github.com/labstack/echo/v4"
+	"net/http"
+	"rickonono3/r-blog/logger"
 
 	"rickonono3/r-blog/data"
 	"rickonono3/r-blog/helper/datahelper"
@@ -55,6 +55,15 @@ func Edit(c echo.Context) (err error) {
 	})
 	if res.Res != "ok" {
 		res.Res = "err"
+	}
+	var op = "编辑" + datahelper.GetEntityStr(mytype.EasyEntity{
+		Type: req.Type,
+		Id:   req.Id,
+	}) + ": "
+	if res.Res == "ok" {
+		logger.L.Info("[Server]", op, res.Res)
+	} else {
+		logger.L.Warn("[Server]", op, err)
 	}
 	return c.JSON(http.StatusOK, res)
 }

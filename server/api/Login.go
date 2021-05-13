@@ -2,6 +2,7 @@ package api
 
 import (
 	"net/http"
+	"rickonono3/r-blog/logger"
 	"time"
 
 	"github.com/labstack/echo/v4"
@@ -25,6 +26,7 @@ func Login(c echo.Context) (err error) {
 		return
 	}
 	if req.Pswd == objects.Config.MustGet("AdminPSWD").ValStr() {
+		logger.L.Info("[Server]", "管理员登录: ", c.RealIP())
 		hash := datahelper.MakeHashWithStr(c.RealIP())
 		objects.RuntimeEnv.Set("AdminHash", hash)
 		c.SetCookie(&http.Cookie{

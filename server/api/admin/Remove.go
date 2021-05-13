@@ -5,19 +5,16 @@ import (
 	"github.com/jmoiron/sqlx"
 	"github.com/labstack/echo/v4"
 	"net/http"
+	"rickonono3/r-blog/logger"
+	"strings"
 
 	"rickonono3/r-blog/data"
 	"rickonono3/r-blog/helper/datahelper"
 	"rickonono3/r-blog/mytype"
 )
 
-type removeReqItem struct {
-	Type int `json:"type"`
-	Id   int `json:"id"`
-}
-
 type removeReq struct {
-	List []removeReqItem `json:"list"`
+	List []mytype.EasyEntity `json:"list"`
 }
 
 type removeRes struct {
@@ -55,6 +52,17 @@ func Remove(c echo.Context) (err error) {
 		res.Res = "ok"
 	} else {
 		res.Res = "err"
+	}
+
+	var op = strings.Join([]string{
+		"删除[",
+		strings.Join(datahelper.GetEntityListStr(req.List), ","),
+		"]: ",
+	}, "")
+	if res.Res == "ok" {
+		logger.L.Info("[Server]", op, res.Res)
+	} else {
+		logger.L.Warn("[Server]", op, err)
 	}
 	return c.JSON(http.StatusOK, res)
 }

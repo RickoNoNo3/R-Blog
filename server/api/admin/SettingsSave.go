@@ -4,6 +4,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/rickonono3/m2obj"
 	"net/http"
+	"rickonono3/r-blog/logger"
 	"rickonono3/r-blog/objects"
 )
 
@@ -26,6 +27,13 @@ func SettingsSave(c echo.Context) (err error) {
 		res.Res = "ok"
 	} else {
 		res.Res = "err"
+	}
+
+	var op = "保存配置文件"
+	if res.Res == "ok" {
+		logger.L.Info("[Server]", op, res.Res)
+	} else {
+		logger.L.Warn("[Server]", op, err)
 	}
 	return c.JSON(http.StatusOK, res)
 }

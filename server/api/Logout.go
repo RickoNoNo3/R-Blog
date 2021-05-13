@@ -2,6 +2,7 @@ package api
 
 import (
 	"net/http"
+	"rickonono3/r-blog/logger"
 	"time"
 
 	"github.com/labstack/echo/v4"
@@ -16,6 +17,7 @@ type logoutRes struct {
 
 func Logout(c echo.Context) (err error) {
 	res := logoutRes{}
+	logger.L.Info("[Server]", "管理员注销: ", c.RealIP())
 	hash := datahelper.MakeHashWithStr("")
 	objects.RuntimeEnv.Set("AdminHash", hash)
 	c.SetCookie(&http.Cookie{

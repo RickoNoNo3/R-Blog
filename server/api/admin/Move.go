@@ -2,6 +2,9 @@ package admin
 
 import (
 	"net/http"
+	"rickonono3/r-blog/helper/typehelper"
+	"rickonono3/r-blog/logger"
+	"strings"
 
 	"github.com/jmoiron/sqlx"
 	"github.com/labstack/echo/v4"
@@ -11,14 +14,9 @@ import (
 	"rickonono3/r-blog/mytype"
 )
 
-type moveReqItem struct {
-	Type int `json:"type"`
-	Id   int `json:"id"`
-}
-
 type moveReq struct {
-	List  []moveReqItem `json:"list"`
-	DirId int           `json:"dirId"`
+	List  []mytype.EasyEntity `json:"list"`
+	DirId int                 `json:"dirId"`
 }
 
 type moveRes struct {
@@ -61,6 +59,18 @@ func Move(c echo.Context) (err error) {
 		}
 	} else {
 		res.Res = "err"
+	}
+
+	var op = strings.Join([]string{
+		"移动[",
+		strings.Join(datahelper.GetEntityListStr(req.List), ","),
+		"]到目录" + typehelper.MustItoa(req.DirId),
+		": ",
+	}, "")
+	if res.Res == "ok" {
+		logger.L.Info("[Server]", op, res.Res)
+	} else {
+		logger.L.Warn("[Server]", op, err)
 	}
 	return c.JSON(http.StatusOK, res)
 }

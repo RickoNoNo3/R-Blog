@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"rickonono3/r-blog/logger"
 	"strings"
 
 	"github.com/jmoiron/sqlx"
@@ -33,6 +34,7 @@ type newResourceRes struct {
 func NewResource(c echo.Context) (err error) {
 	req := newResourceReq{}
 	res := newResourceRes{}
+	var filePath string
 	err = data.DoTx(func(tx *sqlx.Tx) (err error) {
 		// 读取二进制body
 		if bodyReader := c.Request().Body; bodyReader != nil && c.Request().ContentLength >= 8 {
@@ -45,9 +47,8 @@ func NewResource(c echo.Context) (err error) {
 				// 读取1字节 IsTmp
 				req.IsTmp = readNBytes(bodyReader, 1)[0]
 				if req.IsTmp == 1 { // 是临时文件, 开始写文件吧
-					// TODO: 清理工具(或清理线程)
 					fileName := datahelper.GetHashFileName(req.FileName)
-					filePath := datahelper.GetResourcePathForServer() + fileName
+					filePath = datahelper.GetResourcePathForServer() + fileName
 					if err = writeToFile(
 						bodyReader,
 						filePath,
@@ -65,7 +66,7 @@ func NewResource(c echo.Context) (err error) {
 					if fileId, err = data.CreateFile(tx, req.FileName, req.DirId); err == nil {
 						// 开始写文件
 						fileName := datahelper.GetFileName(fileId)
-						filePath := datahelper.GetResourcePathForServer() + fileName
+						filePath = datahelper.GetResourcePathForServer() + fileName
 						if err = writeToFile(
 							bodyReader,
 							filePath,
@@ -81,12 +82,26 @@ func NewResource(c echo.Context) (err error) {
 		}
 		return
 	})
+	if res.Res != "ok" {
+		res.Res = "err"
+	}
+
+	var op = strings.Join([]string{
+		"新建",
+		datahelper.GetTypeName(2),
+		"到",
+		filePath,
+		": ",
+	}, "")
+	if res.Res == "ok" {
+		logger.L.Info("[Server]", op, res.Res)
+	} else {
+		logger.L.Warn("[Server]", op, err)
+	}
+
 	if err != nil {
 		return err
 	} else {
-		if res.Res != "ok" {
-			res.Res = "err"
-		}
 		return c.JSON(http.StatusOK, res)
 	}
 }
