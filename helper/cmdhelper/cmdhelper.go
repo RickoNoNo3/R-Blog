@@ -38,11 +38,11 @@ func InitCmd() {
 		var str string
 		for {
 			n, err := fmt.Scanln(&str)
-			if n == 0 {
-				continue
-			}
 			if err != nil {
 				break
+			}
+			if n == 0 {
+				continue
 			}
 			str = strings.TrimSpace(str)
 			if str == "" {
