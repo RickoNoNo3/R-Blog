@@ -2,7 +2,6 @@ package middleware
 
 import (
 	"github.com/labstack/echo/v4"
-	"net/http"
 	"os"
 	"rickonono3/r-blog/helper/loggerhelper"
 	"rickonono3/r-blog/helper/typehelper"
@@ -44,7 +43,7 @@ func MyLogger() echo.MiddlewareFunc {
 			}
 			logStr := strings.Join(logStmt, ",")
 			logFile.Write([]byte(logStr + "\n"))
-			if res.Status != http.StatusOK {
+			if res.Status >= 400 {
 				logger.L.Warn("[Server]", "URL访问异常(", res.Status, "): ", req.RequestURI)
 			}
 			return nil
