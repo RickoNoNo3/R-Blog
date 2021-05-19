@@ -1,6 +1,6 @@
 // 判断初始化过程中页面内容是否渲染完成时使用.
 // 在最后一个影响文档内容的插件加载完毕后的回调函数中, 调用PageComplete()来给此变量赋值为true.
-var PageCompleted = false;
+let PageCompleted = false;
 
 function PageComplete() {
   PageCompleted = true;
@@ -10,7 +10,60 @@ function PageComplete() {
   $(window).trigger('NavMenuPreview');
 }
 
-var BlogPage = {
+
+/** 存放于popWindows中的win信息 */
+class WinInfo {
+  /**
+   * 窗口id
+   * @member {string}
+   */
+  id;
+
+  /**
+   * 窗口节点
+   * @member {jQuery}
+   */
+  node;
+
+  /**
+   * 点击OK按钮时的回调函数
+   * @member {function(jQuery)}
+   */
+  callbackOk;
+
+  /**
+   * 点击Cancel按钮时的回调函数
+   * @member {function()}
+   */
+  callbackCancel;
+
+  /**
+   * @param id {string}
+   * @param node {jQuery}
+   * @param ok {function(jQuery)}
+   * @param cancel {function()}
+   */
+  constructor(id, node, ok, cancel) {
+    this.id = id;
+    this.node = node;
+    this.callbackOk = ok;
+    this.callbackCancel = cancel;
+  };
+
+  ok = () => {
+    if (typeof this.callbackOk === 'function')
+      this.callbackOk(this.node.find('.pop-content'));
+    BlogPage.PopWindow.close(this.id);
+  };
+
+  cancel = () => {
+    if (typeof this.callbackCancel === 'function')
+      this.callbackCancel();
+    BlogPage.PopWindow.close(this.id);
+  };
+}
+
+const BlogPage = {
   Ajax: {
     /**
      * 封装的Ajax函数
@@ -56,57 +109,7 @@ var BlogPage = {
     },
   },
   PopWindow: {
-    /** 存放于popWindows中的win信息 */
-    WinInfo: class {
-      /**
-       * 窗口id
-       * @member {string}
-       */
-      id;
 
-      /**
-       * 窗口节点
-       * @member {jQuery}
-       */
-      node;
-
-      /**
-       * 点击OK按钮时的回调函数
-       * @member {function(jQuery)}
-       */
-      callbackOk;
-
-      /**
-       * 点击Cancel按钮时的回调函数
-       * @member {function()}
-       */
-      callbackCancel;
-
-      /**
-       * @param id {string}
-       * @param node {jQuery}
-       * @param ok {function(jQuery)}
-       * @param cancel {function()}
-       */
-      constructor(id, node, ok, cancel) {
-        this.id = id;
-        this.node = node;
-        this.callbackOk = ok;
-        this.callbackCancel = cancel;
-      };
-
-      ok = () => {
-        if (typeof this.callbackOk === 'function')
-          this.callbackOk(this.node.find('.pop-content'));
-        BlogPage.PopWindow.close(this.id);
-      };
-
-      cancel = () => {
-        if (typeof this.callbackCancel === 'function')
-          this.callbackCancel();
-        BlogPage.PopWindow.close(this.id);
-      };
-    },
     /**
      * 已弹出的窗口列表
      * @type {WinInfo[]}
@@ -127,7 +130,7 @@ var BlogPage = {
       if (BlogPage.PopWindow.find(id) !== -1) {
         return;
       }
-      let win = new BlogPage.PopWindow.WinInfo(id, undefined, ok, cancel);
+      let win = new WinInfo(id, undefined, ok, cancel);
       try {
         let node =
           $('<div class="pop-window"></div>').append(
@@ -649,7 +652,9 @@ var BlogPage = {
         ).then(() => BlogPage.Ext.loadJS(
           'conNavLoc',
           `${CDN}js/conNavLoc${JS_EXT}`,
-        )).catch(reason => {}),
+        )).catch(reason => {
+          BlogPage.PopWindow.openAsNote('loadStaticFilesFailed', '加载脚本失败', reason);
+        }),
       ]);
     },
     /**

@@ -8,9 +8,24 @@
   <meta name="copyright" content="RickoNoNo3">
   <meta name="google-site-verification" content="H8OLMgsMa9HVIHDya6fmpU3aeLh0NH56MTuqc1qKvpM">
   <title>{{.Title}}</title>
-  {{if .Global.IsSpecial}}
-    <script>alert('请换用 Google Chrome, Mozilla Firefox, Microsoft Edge, Apple Safari 等现代浏览器访问本站! \n本站无法在您当前使用的浏览器上保证访问效果! ');</script>
-  {{end}}
+  <script>
+    {
+      var IS_SPECIAL = Boolean({{.Global.IsSpecial}});
+      try {
+        eval('()=>{}');
+        eval('const a = class {a;b=2;c(){};}; const b = `${a}`;');
+        eval('undefined ?? 1');
+        eval('let a; a ??= 1;');
+      } catch (e) {
+        IS_SPECIAL = true;
+      }
+      if (IS_SPECIAL) {
+        alert('请换用 Google Chrome, Mozilla Firefox, Microsoft Edge, Apple Safari 等现代浏览器访问本站! \n本站无法在您当前使用的浏览器上访问! ');
+        try {document.execCommand('Stop');} catch (e) {}
+        try {window.stop();} catch (e) {}
+      }
+    }
+  </script>
   <script>
     const CDN = '{{.Global.Config.Blog.CDN}}';
     const JS_EXT = '{{.Global.JsExt}}';
