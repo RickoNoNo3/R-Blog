@@ -45,17 +45,26 @@ func DoTx(f func(*sqlx.Tx) (err error)) (err error) {
 		return
 	}
 	defer CloseTx(tx)
+	logger.L.Info("[Database]", "数据库事务-开启")
 	err = f(tx)
 	if err != nil {
 		return
 	}
-	_ = tx.Commit()
+	err = tx.Commit()
+	if err == nil {
+		logger.L.Info("[Database]", "数据库事务-提交")
+	}
 	return
 }
 
 // CloseTx close a transaction
-func CloseTx(tx *sqlx.Tx) error {
-	return tx.Rollback()
+func CloseTx(tx *sqlx.Tx) (err error) {
+	err = tx.Rollback()
+	tx.Rollback()
+	if err == nil {
+		logger.L.Info("[Database]", "数据库事务-回滚")
+	}
+	return
 }
 
 // CloseDB close the db conn
