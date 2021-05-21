@@ -28,7 +28,7 @@ func Edit(c echo.Context) (err error) {
 	if err = c.Bind(&req); err != nil {
 		return
 	}
-	data.DoTx(func(tx *sqlx.Tx) (err error) {
+	data.DoTx("编辑文章", func(tx *sqlx.Tx) (err error) {
 		if datahelper.IsExists(tx, mytype.Entity{
 			Type: req.Type,
 			Id:   req.Id,

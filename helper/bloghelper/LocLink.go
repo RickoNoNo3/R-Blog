@@ -30,7 +30,7 @@ var temp = template.Must(template.New("locLink").Parse(
 func MakeLocLink(entityType, entityId int) (html template.HTML) {
 	var tmpId = entityId
 	var locLinkArr = make([]LocLink, 0)
-	data.DoTx(func(tx *sqlx.Tx) (err error) {
+	data.DoTx("构造LocLink", func(tx *sqlx.Tx) (err error) {
 		// 如果不是目录实体, 则需要找到其父目录实体
 		// 如果是目录实体, 那么链接中包含它本身, 因此不需要寻找父目录
 		if entityType != 0 {

@@ -28,7 +28,7 @@ func Edit(c echo.Context) (err error) {
 	entityType := typehelper.MustAtoi(entityTypeStr)
 	entityId := typehelper.MustAtoi(entityIdStr)
 	entityParentId := typehelper.MustAtoi(entityParentIdStr)
-	err = data.DoTx(func(tx *sqlx.Tx) (err error) {
+	err = data.DoTx("获取管理员编辑视图", func(tx *sqlx.Tx) (err error) {
 		switch entityType {
 		case 1:
 			if entityId >= 0 { // 是编辑文章

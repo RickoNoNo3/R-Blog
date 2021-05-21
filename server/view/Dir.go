@@ -20,7 +20,7 @@ import (
 func Dir(c echo.Context) (err error) {
 	dirId := typehelper.MustAtoi(c.Param("id"))
 	var dir mytype.Dir
-	err = data.DoTx(func(tx *sqlx.Tx) (err error) {
+	err = data.DoTx("获取目录实体", func(tx *sqlx.Tx) (err error) {
 		if dir, err = data.GetDir(tx, dirId); err == nil {
 			var contents []mytype.Entity
 			if contents, err = data.GetContents(tx, dirId); err == nil {

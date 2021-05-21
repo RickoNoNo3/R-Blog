@@ -38,7 +38,7 @@ func New(c echo.Context) (err error) {
 	if err = c.Bind(&req); err != nil {
 		return
 	}
-	data.DoTx(func(tx *sqlx.Tx) (err error) {
+	data.DoTx("创建文章或目录实体", func(tx *sqlx.Tx) (err error) {
 		if datahelper.IsExists(tx, mytype.Entity{
 			Type: 0,
 			Id:   req.DirId,

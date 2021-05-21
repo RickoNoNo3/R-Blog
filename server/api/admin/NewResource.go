@@ -35,7 +35,7 @@ func NewResource(c echo.Context) (err error) {
 	req := newResourceReq{}
 	res := newResourceRes{}
 	var filePath string
-	err = data.DoTx(func(tx *sqlx.Tx) (err error) {
+	err = data.DoTx("创建文件实体", func(tx *sqlx.Tx) (err error) {
 		// 读取二进制body
 		if bodyReader := c.Request().Body; bodyReader != nil && c.Request().ContentLength >= 8 {
 			// 读取4字节 FileNameLen

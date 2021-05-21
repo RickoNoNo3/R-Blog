@@ -39,32 +39,35 @@ func NewTx() (tx *sqlx.Tx, err error) {
 }
 
 // DoTx is an easy way to begin and do something in transactions
-func DoTx(f func(*sqlx.Tx) (err error)) (err error) {
+func DoTx(reason string, f func(*sqlx.Tx) (err error)) (err error) {
+	loggerText := "数据库事务-" + reason + "-"
 	tx, err := NewTx()
 	if err != nil {
+		logger.L.Error("[Database]", loggerText+"开启失败")
 		return
 	}
-	defer CloseTx(tx)
-	logger.L.Info("[Database]", "数据库事务-开启")
+
+	defer func() {
+		err := CloseTx(tx)
+		if err == nil {
+			logger.L.Debug("[Database]", loggerText+"回滚")
+		}
+	}()
+	logger.L.Debug("[Database]", loggerText+"开启")
 	err = f(tx)
 	if err != nil {
 		return
 	}
 	err = tx.Commit()
 	if err == nil {
-		logger.L.Info("[Database]", "数据库事务-提交")
+		logger.L.Debug("[Database]", loggerText+"提交")
 	}
 	return
 }
 
 // CloseTx close a transaction
 func CloseTx(tx *sqlx.Tx) (err error) {
-	err = tx.Rollback()
-	tx.Rollback()
-	if err == nil {
-		logger.L.Info("[Database]", "数据库事务-回滚")
-	}
-	return
+	return tx.Rollback()
 }
 
 // CloseDB close the db conn

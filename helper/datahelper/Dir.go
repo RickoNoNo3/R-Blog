@@ -23,7 +23,7 @@ func GetDirInfoList() ([]DirInfo, error) {
 		stk  = make([]stackNode, 0)
 		list = make([]DirInfo, 0)
 	)
-	err := data.DoTx(func(tx *sqlx.Tx) (err error) {
+	err := data.DoTx("递归搜索博客内的目录结构", func(tx *sqlx.Tx) (err error) {
 		var rootContents []mytype.Entity
 		if rootContents, err = data.GetContents(tx, 0); err == nil {
 			rootNode := stackNode{

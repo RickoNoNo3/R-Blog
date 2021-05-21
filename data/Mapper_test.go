@@ -18,9 +18,9 @@ func InitDBTest(clear bool) {
 	logger.InitLogger(os.Stdout)
 	OpenDB("blog_test.db")
 	if clear {
-		DoTx(func(tx *sqlx.Tx) (err error) {
+		DoTx("初始化DBTest", func(tx *sqlx.Tx) (err error) {
 			tableList := make([]string, 0)
-			if err = tx.Select(&tableList, "select name from sqlite_master where type=?", "table"); err != nil {
+			if err = tx.Select(&tableList, "SELECT name FROM sqlite_master WHERE type=?", "table"); err != nil {
 				panic(err)
 			}
 			for _, table := range tableList {
@@ -66,7 +66,7 @@ func TestCreateDir(t *testing.T) {
 			IdExpect:    5,
 		},
 	}
-	DoTx(func(tx *sqlx.Tx) error {
+	DoTx("测试内事务", func(tx *sqlx.Tx) error {
 		for i, data := range testData {
 			testData[i].IdActual, testData[i].Err = CreateDir(tx, data.Title, data.ParentDirId)
 		}
@@ -92,7 +92,7 @@ func TestCreateDir(t *testing.T) {
 		tableInfos,
 		func() (list []TableInfo) {
 			list = make([]TableInfo, 0)
-			err := DoTx(func(tx *sqlx.Tx) (err error) {
+			err := DoTx("测试内事务", func(tx *sqlx.Tx) (err error) {
 				err = tx.Select(&list, "select id, title from dir")
 				return
 			})
@@ -129,7 +129,7 @@ func TestCreateArticle(t *testing.T) {
 			Markdown: "# Title3\n包含各种字符😘",
 		},
 	}
-	DoTx(func(tx *sqlx.Tx) error {
+	DoTx("测试内事务", func(tx *sqlx.Tx) error {
 		for i, data := range testData {
 			testData[i].Id, testData[i].Err = CreateArticle(
 				tx,
@@ -141,7 +141,7 @@ func TestCreateArticle(t *testing.T) {
 		return nil
 	})
 	for i, data := range testData {
-		err := DoTx(func(tx *sqlx.Tx) (err error) {
+		err := DoTx("测试内事务", func(tx *sqlx.Tx) (err error) {
 			return tx.QueryRowx("select title, markdown from article where id=?", data.Id).Scan(&testData[i].TitleActual, &testData[i].MarkdownActual)
 		})
 		assert.NoError(t, err)
@@ -161,7 +161,7 @@ func TestCreateFile(t *testing.T) {
 		id  [2]int
 		err [2]error
 	)
-	DoTx(func(tx *sqlx.Tx) error {
+	DoTx("测试内事务", func(tx *sqlx.Tx) error {
 		id[0], err[0] = CreateFile(tx, "File", 0)
 		id[1], err[1] = CreateFile(tx, "Name", 0)
 		return nil
@@ -178,7 +178,7 @@ func TestCreateFile(t *testing.T) {
 		},
 		func() (titleList []string) {
 			titleList = make([]string, 0)
-			if err := DoTx(func(tx *sqlx.Tx) (err error) {
+			if err := DoTx("测试内事务", func(tx *sqlx.Tx) (err error) {
 				return tx.Select(&titleList, "select title from file")
 			}); err != nil {
 				return []string{}
@@ -192,7 +192,7 @@ func TestGetDir(t *testing.T) {
 	InitDBTest(true)
 	defer CloseDB()
 	dirId := -1
-	err := DoTx(func(tx *sqlx.Tx) (err error) {
+	err := DoTx("测试内事务", func(tx *sqlx.Tx) (err error) {
 		_, _ = CreateDir(tx, "Dir", 0)
 		dirId, err = CreateDir(tx, "Dir", 1)
 		return
@@ -210,7 +210,7 @@ func TestGetDir(t *testing.T) {
 			},
 		},
 		func() (dir mytype.Dir) {
-			DoTx(func(tx *sqlx.Tx) (err error) {
+			DoTx("测试内事务", func(tx *sqlx.Tx) (err error) {
 				dir, err = GetDir(tx, dirId)
 				return
 			})
@@ -226,7 +226,7 @@ func TestGetDir2(t *testing.T) {
 	InitDBTest(true)
 	defer CloseDB()
 	dir := mytype.Dir{}
-	DoTx(func(tx *sqlx.Tx) (err error) {
+	DoTx("测试内事务", func(tx *sqlx.Tx) (err error) {
 		dir, err = GetDir(tx, 0)
 		assert.NoError(t, err)
 		return
@@ -254,7 +254,7 @@ func TestGetArticle(t *testing.T) {
 		"\n" +
 		"See [Help Document](/help.html) to learn more.\n"
 	articleId := -1
-	err := DoTx(func(tx *sqlx.Tx) (err error) {
+	err := DoTx("测试内事务", func(tx *sqlx.Tx) (err error) {
 		articleId, err = CreateArticle(
 			tx,
 			title,
@@ -280,7 +280,7 @@ func TestGetArticle(t *testing.T) {
 			Visited:  0,
 		},
 		func() (article mytype.Article) {
-			DoTx(func(tx *sqlx.Tx) (err error) {
+			DoTx("测试内事务", func(tx *sqlx.Tx) (err error) {
 				article, err = GetArticle(tx, articleId)
 				return
 			})
@@ -299,7 +299,7 @@ func TestGetFile(t *testing.T) {
 	InitDBTest(true)
 	defer CloseDB()
 	fileId := -1
-	err := DoTx(func(tx *sqlx.Tx) (err error) {
+	err := DoTx("测试内事务", func(tx *sqlx.Tx) (err error) {
 		fileId, err = CreateFile(tx, "File", 0)
 		return
 	})
@@ -316,7 +316,7 @@ func TestGetFile(t *testing.T) {
 			},
 		},
 		func() (file mytype.File) {
-			DoTx(func(tx *sqlx.Tx) (err error) {
+			DoTx("测试内事务", func(tx *sqlx.Tx) (err error) {
 				file, err = GetFile(tx, fileId)
 				return
 			})
@@ -352,7 +352,7 @@ func TestGetEntityInfo(t *testing.T) {
 			Type:  2,
 		},
 	}
-	DoTx(func(tx *sqlx.Tx) (err error) {
+	DoTx("测试内事务", func(tx *sqlx.Tx) (err error) {
 		testData[0].Id, err = CreateDir(tx, testData[0].Title, testData[0].DirId)
 		assert.NoError(t, err)
 		testData[1].Id, err = CreateArticle(tx, testData[1].Title, "# "+testData[1].Title, testData[1].DirId)
@@ -363,7 +363,7 @@ func TestGetEntityInfo(t *testing.T) {
 	})
 	for _, data := range testData {
 		entity := mytype.Entity{}
-		DoTx(func(tx *sqlx.Tx) (err error) {
+		DoTx("测试内事务", func(tx *sqlx.Tx) (err error) {
 			entity, err = GetEntityInfo(tx, data.Type, data.Id)
 			assert.NoError(t, err)
 			return
@@ -412,7 +412,7 @@ func TestGetParentDir(t *testing.T) {
 			Type:  2,
 		},
 	}
-	DoTx(func(tx *sqlx.Tx) (err error) {
+	DoTx("测试内事务", func(tx *sqlx.Tx) (err error) {
 		testData[0].Id, err = CreateDir(tx, testData[0].Title, testData[0].DirId)
 		assert.NoError(t, err)
 		testData[1].Id, err = CreateDir(tx, testData[1].Title, testData[1].DirId)
@@ -425,7 +425,7 @@ func TestGetParentDir(t *testing.T) {
 	})
 	for _, data := range testData {
 		dirId := -1
-		DoTx(func(tx *sqlx.Tx) (err error) {
+		DoTx("测试内事务", func(tx *sqlx.Tx) (err error) {
 			dirId, err = GetParentDir(tx, mytype.Entity{
 				Id:    data.Id,
 				Type:  data.Type,
@@ -445,7 +445,7 @@ func TestGetParentDir(t *testing.T) {
 func TestGetParentDir2(t *testing.T) {
 	InitDBTest(true)
 	defer CloseDB()
-	DoTx(func(tx *sqlx.Tx) (err error) {
+	DoTx("测试内事务", func(tx *sqlx.Tx) (err error) {
 		_, err = GetParentDir(tx, mytype.Entity{
 			Id:   0,
 			Type: 0,
@@ -518,7 +518,7 @@ func TestGetContents(t *testing.T) {
 			},
 		}, {},
 	}
-	DoTx(func(tx *sqlx.Tx) (err error) {
+	DoTx("测试内事务", func(tx *sqlx.Tx) (err error) {
 		testData[0].Id, err = CreateDir(tx, testData[0].Title, testData[0].DirId)
 		assert.NoError(t, err)
 		testData[1].Id, err = CreateDir(tx, testData[1].Title, testData[1].DirId)
@@ -533,7 +533,7 @@ func TestGetContents(t *testing.T) {
 	})
 	for i, want := range wants {
 		contents := make([]mytype.Entity, 0)
-		DoTx(func(tx *sqlx.Tx) (err error) {
+		DoTx("测试内事务", func(tx *sqlx.Tx) (err error) {
 			contents, err = GetContents(tx, i)
 			assert.NoError(t, err)
 			return
@@ -644,7 +644,7 @@ func GetLayerTime(t *testing.T, tx *sqlx.Tx, i int) (modifiedT, createdT string,
 func ImmediatelyCreateTestLayer() {
 	InitDBTest(true)
 	defer CloseDB()
-	DoTx(func(tx *sqlx.Tx) (err error) {
+	DoTx("立即创建测试用layer", func(tx *sqlx.Tx) (err error) {
 		for _, data := range layerTestData {
 			switch data.Entity.Type {
 			case 0:
@@ -662,7 +662,7 @@ func ImmediatelyCreateTestLayer() {
 func TestCreateLayer(t *testing.T) {
 	InitDBTest(true)
 	defer CloseDB()
-	DoTx(func(tx *sqlx.Tx) (err error) {
+	DoTx("测试内事务", func(tx *sqlx.Tx) (err error) {
 		for i, data := range layerTestData {
 			// sleep
 			time.Sleep(data.Duration)
@@ -688,7 +688,7 @@ func TestCreateLayer(t *testing.T) {
 	modifiedTs := make([]string, len(layerTestData))
 	createdTs := make([]string, len(layerTestData))
 	for i := range layerTestData {
-		DoTx(func(tx *sqlx.Tx) (err error) {
+		DoTx("测试内事务", func(tx *sqlx.Tx) (err error) {
 			modifiedTs[i], createdTs[i], err = GetLayerTime(t, tx, i)
 			assert.NoError(t, err)
 			return
@@ -723,7 +723,7 @@ func TestRemoveLayer(t *testing.T) {
 	countQuery := "select count(*) from layer where type=? and id=?"
 	countQueryAll := "select count(*) from layer"
 	t.Run("Remove d0", func(t *testing.T) {
-		DoTx(func(tx *sqlx.Tx) (err error) {
+		DoTx("测试内事务", func(tx *sqlx.Tx) (err error) {
 			err = RemoveLayer(tx, mytype.Entity{
 				Id:   0,
 				Type: 0,
@@ -733,7 +733,7 @@ func TestRemoveLayer(t *testing.T) {
 		})
 	})
 	t.Run("Remove d2", func(t *testing.T) {
-		DoTx(func(tx *sqlx.Tx) (err error) {
+		DoTx("测试内事务", func(tx *sqlx.Tx) (err error) {
 			err = RemoveLayer(tx, mytype.Entity{
 				Id:   2,
 				Type: 0,
@@ -753,7 +753,7 @@ func TestRemoveLayer(t *testing.T) {
 		})
 	})
 	t.Run("Remove d1", func(t *testing.T) {
-		DoTx(func(tx *sqlx.Tx) (err error) {
+		DoTx("测试内事务", func(tx *sqlx.Tx) (err error) {
 			err = RemoveLayer(tx, mytype.Entity{
 				Id:   1,
 				Type: 0,
@@ -782,7 +782,7 @@ func TestRemoveLayer(t *testing.T) {
 		})
 	})
 	t.Run("Remove f1", func(t *testing.T) {
-		DoTx(func(tx *sqlx.Tx) (err error) {
+		DoTx("测试内事务", func(tx *sqlx.Tx) (err error) {
 			err = RemoveLayer(tx, mytype.Entity{
 				Id:   1,
 				Type: 2,
@@ -825,7 +825,7 @@ func TestMoveLayer(t *testing.T) {
 	countQueryDir := "select count(*) from layer where dirId=?"
 	dirQuery := "select dirId from layer where type=? and id=?"
 	t.Run("Move d0 to d0", func(t *testing.T) {
-		DoTx(func(tx *sqlx.Tx) (err error) {
+		DoTx("测试内事务", func(tx *sqlx.Tx) (err error) {
 			err = MoveLayer(tx, mytype.Entity{
 				Id:   0,
 				Type: 0,
@@ -856,7 +856,7 @@ func TestMoveLayer(t *testing.T) {
 		})
 	})
 	t.Run("Move d2 to d3", func(t *testing.T) {
-		DoTx(func(tx *sqlx.Tx) (err error) {
+		DoTx("测试内事务", func(tx *sqlx.Tx) (err error) {
 			err = MoveLayer(tx, mytype.Entity{
 				Id:   2,
 				Type: 0,
@@ -895,7 +895,7 @@ func TestMoveLayer(t *testing.T) {
 		})
 	})
 	t.Run("Move d1 to d0", func(t *testing.T) {
-		DoTx(func(tx *sqlx.Tx) (err error) {
+		DoTx("测试内事务", func(tx *sqlx.Tx) (err error) {
 			err = MoveLayer(tx, mytype.Entity{
 				Id:   1,
 				Type: 0,
@@ -930,7 +930,7 @@ func TestMoveLayer(t *testing.T) {
 		})
 	})
 	t.Run("Move d0 to d3", func(t *testing.T) {
-		DoTx(func(tx *sqlx.Tx) (err error) {
+		DoTx("测试内事务", func(tx *sqlx.Tx) (err error) {
 			err = MoveLayer(tx, mytype.Entity{
 				Id:   0,
 				Type: 0,
@@ -940,7 +940,7 @@ func TestMoveLayer(t *testing.T) {
 		})
 	})
 	t.Run("Move a1 to d0", func(t *testing.T) {
-		DoTx(func(tx *sqlx.Tx) (err error) {
+		DoTx("测试内事务", func(tx *sqlx.Tx) (err error) {
 			err = MoveLayer(tx, mytype.Entity{
 				Id:   1,
 				Type: 1,

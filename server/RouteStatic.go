@@ -36,7 +36,7 @@ func RouteStatic() {
 	// 注册博客文件下载的响应
 	E.GET("/blog/file/:id", func(c echo.Context) (err error) {
 		file := mytype.File{}
-		err = data.DoTx(func(tx *sqlx.Tx) (err error) {
+		err = data.DoTx("获取文件实体", func(tx *sqlx.Tx) (err error) {
 			file, err = data.GetFile(tx, typehelper.MustAtoi(c.Param("id")))
 			return
 		})

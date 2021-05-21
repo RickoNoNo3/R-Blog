@@ -94,7 +94,7 @@ func matchFiles(dbFileList []int, dbHashList []string) (matching map[string]bool
 }
 
 func getDbFileList() (list []int) {
-	data.DoTx(func(tx *sqlx.Tx) (err error) {
+	data.DoTx("获取博客内所有文件实体", func(tx *sqlx.Tx) (err error) {
 		list, err = data.GetAllIdByType(tx, 2)
 		return
 	})
@@ -103,7 +103,7 @@ func getDbFileList() (list []int) {
 
 func getDbHashList() (list []string) {
 	var markdownList []string
-	data.DoTx(func(tx *sqlx.Tx) (err error) {
+	data.DoTx("获取博客内所有文章实体的markdown", func(tx *sqlx.Tx) (err error) {
 		markdownList, err = data.GetAllMarkdownInArticle(tx)
 		return
 	})

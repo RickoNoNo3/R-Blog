@@ -30,7 +30,7 @@ func Move(c echo.Context) (err error) {
 		return
 	}
 	dirExists := false
-	data.DoTx(func(tx *sqlx.Tx) (err error) {
+	data.DoTx("判断目录存在", func(tx *sqlx.Tx) (err error) {
 		dirExists = datahelper.IsExists(tx, mytype.Entity{
 			Type: 0,
 			Id:   req.DirId,
@@ -39,7 +39,7 @@ func Move(c echo.Context) (err error) {
 	})
 	if dirExists {
 		for _, item := range req.List {
-			if err = data.DoTx(func(tx *sqlx.Tx) (err error) {
+			if err = data.DoTx("移动实体", func(tx *sqlx.Tx) (err error) {
 				entity := mytype.Entity{
 					Type: item.Type,
 					Id:   item.Id,

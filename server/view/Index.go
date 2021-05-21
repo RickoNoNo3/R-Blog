@@ -14,7 +14,7 @@ import (
 
 func Index(c echo.Context) (err error) {
 	var welcome string
-	err = data.DoTx(func(tx *sqlx.Tx) (err error) {
+	err = data.DoTx("获取主页", func(tx *sqlx.Tx) (err error) {
 		if welcome, err = data.GetWelcome(tx); err == nil {
 			return c.Render(http.StatusOK, "index", m2obj.New(m2obj.Group{
 				"Title": bloghelper.MakeTitle(""),

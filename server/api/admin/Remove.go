@@ -28,7 +28,7 @@ func Remove(c echo.Context) (err error) {
 		return
 	}
 	for _, item := range req.List {
-		if err = data.DoTx(func(tx *sqlx.Tx) (err error) {
+		if err = data.DoTx("删除实体", func(tx *sqlx.Tx) (err error) {
 			entity := mytype.Entity{
 				Type: item.Type,
 				Id:   item.Id,

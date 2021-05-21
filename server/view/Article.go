@@ -16,7 +16,7 @@ import (
 func Article(c echo.Context) (err error) {
 	var article mytype.Article
 	articleId := typehelper.MustAtoi(c.Param("id"))
-	err = data.DoTx(func(tx *sqlx.Tx) (err error) {
+	err = data.DoTx("获取文章实体", func(tx *sqlx.Tx) (err error) {
 		if article, err = data.GetArticle(tx, articleId); err == nil {
 			return c.Render(http.StatusOK, "article", m2obj.New(m2obj.Group{
 				"Title":   bloghelper.MakeTitle(article.Entity.Title),
