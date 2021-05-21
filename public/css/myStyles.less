@@ -219,7 +219,9 @@ button {
   width: 100%;
   padding: 0;
   display: table;
-  background-color: fade(@content-bg-color, 20);
+  @media not print {
+    background-color: fade(@content-bg-color, 20);
+  }
 
   > .list-r {
     transition: background-color ease-in 0.2s;
