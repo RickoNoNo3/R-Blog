@@ -901,6 +901,9 @@ ul.simple {
     }
   }
 
+  // TODO: 当前MJ是CHTML, 在网页端没有问题,
+  //       但打印时会overflow 并且宽度无法css正确设置.
+  //       因此考虑换用SVG, 在打印时强制宽度. 注意回归网页端.
   .MathJax, mjx-container {
     font-size: 100% !important;
     font-family: unset;
