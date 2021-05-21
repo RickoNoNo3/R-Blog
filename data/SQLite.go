@@ -23,7 +23,7 @@ func OpenDB(dbLoc string) {
 		"sqlite3",
 		file,
 	)
-	sqldb.MustExec("PRAGMA journal_mode = WAL")
+	sqldb.MustExec("PRAGMA journal_mode = DELETE")
 	sqldb.MustExec("PRAGMA recursive_triggers = TRUE")
 }
 
